@@ -1,6 +1,7 @@
 # AlgoLogic 🧠
 
 **Master algorithms from first principles.** 
+👉 **Live Demo:** [https://algologic.vercel.app/](https://algologic.vercel.app/)
 
 AlgoLogic is a beautifully designed, interactive, and lightweight single-page web application for exploring essential computer science algorithms and data structures. It provides clear explanations, real-world use cases, interactive visual animations, and runnable implementations in multiple programming languages to help software engineers master algorithmic concepts.
 
