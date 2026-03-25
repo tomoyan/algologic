@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlgoLogic — Algorithm Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* LIGHT MODE */
+    --bg: #f9f9fb;
+    --surface: #f0f0f5;
+    --card: #ffffff;
+    --border: #e2e2ec;
+    --accent: #6b5aed;
+    --accent-rgb: 107, 90, 237;
+    --accent2: #ec5a8c;
+    --accent2-rgb: 236, 90, 140;
+    --accent3: #00bf99;
+    --accent3-rgb: 0, 191, 153;
+    --text: #2c2c35;
+    --muted: #6b6b80;
+    --highlight: #11111a;
+
+    --header-bg: rgba(249, 249, 251, 0.85);
+
+    --cat-tree: #d98c00;
+    --cat-tree-rgb: 217, 140, 0;
+    --cat-dynamic: #0088cc;
+    --cat-dynamic-rgb: 0, 136, 204;
+    --cat-greedy: #e64545;
+    --cat-greedy-rgb: 230, 69, 69;
+
+    --detail-text: #4a4a5e;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a38;
+    --accent: #7c6bff;
+    --accent-rgb: 124, 107, 255;
+    --accent2: #ff6b9d;
+    --accent2-rgb: 255, 107, 157;
+    --accent3: #00d4aa;
+    --accent3-rgb: 0, 212, 170;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --highlight: #f5f5ff;
+
+    --header-bg: rgba(10, 10, 15, 0.85);
+
+    --cat-tree: #ffb447;
+    --cat-tree-rgb: 255, 178, 71;
+    --cat-dynamic: #64d2ff;
+    --cat-dynamic-rgb: 100, 210, 255;
+    --cat-greedy: #ff9f9f;
+    --cat-greedy-rgb: 255, 107, 107;
+
+    --detail-text: #b0b0c0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ─── GLOW ORBS ─── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(var(--accent-rgb), 0.15); top: -200px; left: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(var(--accent2-rgb), 0.1); bottom: -100px; right: -100px; }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    background: var(--header-bg);
+  }
+
+  .logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .nav-pill {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    font-family: 'Syne', sans-serif;
+  }
+  .nav-pill:hover { color: var(--text); }
+  .nav-pill.active { background: var(--accent); color: white; }
+
+  /* ─── MAIN CONTAINER ─── */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  /* ─── HOME VIEW ─── */
+  #home-view { display: block; }
+  #detail-view { display: none; }
+
+  .hero {
+    padding: 64px 0 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--highlight);
+  }
+  h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    margin-top: 16px;
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .stats-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: right;
+  }
+  .stat-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--highlight);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ─── FILTERS ─── */
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* ─── TABLE ─── */
+  .table-wrapper {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--card);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 14px 24px;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+    animation: rowFadeIn 0.4s ease both;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(var(--accent-rgb), 0.06); }
+
+  @keyframes rowFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  td { padding: 18px 24px; vertical-align: middle; }
+
+  .algo-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--highlight);
+    letter-spacing: -0.02em;
+  }
+  .algo-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .explanation {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  .usecase {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 220px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+
+  .complexity-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(var(--accent3-rgb), 0.08);
+    color: var(--accent3);
+    border: 1px solid rgba(var(--accent3-rgb), 0.2);
+    white-space: nowrap;
+  }
+
+  .arrow-btn {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+  tr:hover .arrow-btn {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.1);
+  }
+
+  /* ─── CATEGORY COLORS ─── */
+  .cat-search { background: rgba(var(--accent-rgb), 0.12); color: var(--accent); }
+  .cat-sort { background: rgba(var(--accent2-rgb), 0.12); color: var(--accent2); }
+  .cat-graph { background: rgba(var(--accent3-rgb), 0.12); color: var(--accent3); }
+  .cat-tree { background: rgba(var(--cat-tree-rgb), 0.12); color: var(--cat-tree); }
+  .cat-dynamic { background: rgba(var(--cat-dynamic-rgb), 0.12); color: var(--cat-dynamic); }
+  .cat-greedy { background: rgba(var(--cat-greedy-rgb), 0.12); color: var(--cat-greedy); }
+
+  .icon-search { background: rgba(var(--accent-rgb), 0.15); }
+  .icon-sort { background: rgba(var(--accent2-rgb), 0.15); }
+  .icon-graph { background: rgba(var(--accent3-rgb), 0.15); }
+  .icon-tree { background: rgba(var(--cat-tree-rgb), 0.15); }
+  .icon-dynamic { background: rgba(var(--cat-dynamic-rgb), 0.15); }
+  .icon-greedy { background: rgba(var(--cat-greedy-rgb), 0.15); }
+
+  /* ─── DETAIL VIEW ─── */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 32px 0 0;
+    transition: color 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .back-btn:hover { color: var(--text); }
+  .back-btn svg { transition: transform 0.2s; }
+  .back-btn:hover svg { transform: translateX(-3px); }
+
+  .detail-hero {
+    padding: 32px 0 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .detail-category { margin-bottom: 16px; }
+
+  .detail-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--highlight);
+    line-height: 1.05;
+  }
+
+  .detail-subtitle {
+    margin-top: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .complexity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .complexity-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .complexity-card .label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .complexity-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--accent3);
+  }
+  .complexity-card.space .value { color: var(--accent); }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .detail-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .detail-card h3 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .detail-card h3::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  .detail-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--detail-text);
+  }
+
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .steps-list li {
+    display: flex;
+    gap: 14px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--detail-text);
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 24px; height: 24px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ─── CODE BLOCK ─── */
+  .code-section {
+    margin-bottom: 32px;
+  }
+
+  .code-section h3 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .code-section h3::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent2);
+    border-radius: 2px;
+  }
+
+  .code-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0;
+    background: var(--surface);
+    padding: 4px;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+  .code-tab {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    border: none;
+    background: none;
+  }
+  .code-tab:hover { color: var(--text); }
+  .code-tab.active { background: var(--accent2); color: white; }
+
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-radius: 0 12px 12px 12px;
+    padding: 28px;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #c8c8e0;
+    white-space: pre;
+  }
+
+  /* Syntax highlighting */
+  .kw { color: #c792ea; font-weight: 500; }
+  .fn { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm { color: #546e7a; font-style: italic; }
+  .var { color: #eefff5; }
+  .op { color: #89ddff; }
+  .ret { color: #ff6b9d; }
+
+  /* ─── VISUALIZATION ─── */
+  .viz-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .viz-section h3 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .viz-section h3::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent3);
+    border-radius: 2px;
+  }
+
+  .viz-array {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    min-height: 80px;
+    margin-bottom: 16px;
+  }
+
+  .viz-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .viz-bar .bar-body {
+    width: 40px;
+    background: rgba(var(--accent-rgb), 0.3);
+    border: 1px solid rgba(var(--accent-rgb), 0.4);
+    border-radius: 4px 4px 0 0;
+    transition: all 0.3s ease;
+  }
+
+  .viz-bar.active .bar-body { background: var(--accent); border-color: var(--accent); }
+  .viz-bar.found .bar-body { background: var(--accent3); border-color: var(--accent3); }
+  .viz-bar.sorted .bar-body { background: rgba(var(--accent3-rgb), 0.3); border-color: rgba(var(--accent3-rgb), 0.4); }
+  .viz-bar.comparing .bar-body { background: rgba(var(--accent2-rgb), 0.6); border-color: var(--accent2); }
+
+  .viz-bar .bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .viz-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .viz-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .viz-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .viz-btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .viz-btn.primary:hover { opacity: 0.85; }
+
+  .viz-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  /* ─── FOOTER ─── */
+  .detail-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .similar-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .similar-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .similar-chip {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.2s;
+    background: var(--card);
+  }
+  .similar-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in { animation: fadeIn 0.4s ease both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SEARCH BAR ─── */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-bottom: 24px;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .search-bar input::placeholder { color: var(--muted); }
+  .search-icon { color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<header>
+  <div class="logo" onclick="showHome()">
+    <div class="logo-icon">Σ</div>
+    AlgoLogic
+  </div>
+  <nav class="nav-pills">
+    <button class="nav-pill active" onclick="filterByCategory('All')">All</button>
+    <button class="nav-pill" onclick="filterByCategory('Search')">Search</button>
+    <button class="nav-pill" onclick="filterByCategory('Sort')">Sort</button>
+    <button class="nav-pill" onclick="filterByCategory('Graph')">Graph</button>
+    <button class="nav-pill" onclick="filterByCategory('Dynamic Programming')">DP</button>
+      <button class="nav-pill theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" style="margin-left:8px; display:flex; align-items:center; justify-content:center; padding: 6px 12px; font-size: 1.1rem; border: 1px solid var(--border);">
+      ☀️
+    </button>
+  </nav>
+</header>
+
+<main>
+  <!-- ══════════════ HOME VIEW ══════════════ -->
+  <div id="home-view">
+    <section class="hero">
+      <div>
+        <p class="hero-tag">Algorithm Reference</p>
+        <h1>Master <em>algorithms</em><br>from first principles</h1>
+        <p class="hero-sub">Explore clear explanations, real-world use cases, and runnable implementations of essential computer science algorithms.</p>
+      </div>
+      <div class="stats-block">
+        <div>
+          <div class="stat-num" id="algo-count">12</div>
+          <div class="stat-label">Algorithms</div>
+        </div>
+        <div>
+          <div class="stat-num">6</div>
+          <div class="stat-label">Categories</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="search-bar">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Search algorithms..." id="search-input" oninput="filterTable()">
+    </div>
+
+    <div class="filters">
+      <span class="filter-label">Category</span>
+      <button class="filter-btn active" onclick="filterByCategoryBtn(this,'All')">All</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Search')">Search</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Sort')">Sort</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Graph')">Graph</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Tree')">Tree</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Dynamic Programming')">Dynamic Programming</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Greedy')">Greedy</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Algorithm</th>
+            <th>Category</th>
+            <th>Simple Explanation</th>
+            <th>Real-Life Use Case</th>
+            <th>Time Complexity</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="algo-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════ DETAIL VIEW ══════════════ -->
+  <div id="detail-view">
+    <button class="back-btn" onclick="showHome()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to algorithms
+    </button>
+
+    <div class="detail-hero">
+      <div>
+        <div class="detail-category" id="d-category"></div>
+        <h2 class="detail-title" id="d-title"></h2>
+        <p class="detail-subtitle" id="d-subtitle"></p>
+      </div>
+      <div class="complexity-grid" id="d-complexity"></div>
+    </div>
+
+    <div class="detail-grid" id="d-info-grid"></div>
+
+    <div class="viz-section" id="d-viz-section">
+      <h3>Interactive Visualization</h3>
+      <div class="viz-array" id="viz-array"></div>
+      <div class="viz-controls">
+        <button class="viz-btn primary" id="viz-run-btn" onclick="runViz()">▶ Run</button>
+        <button class="viz-btn" onclick="resetViz()">↺ Reset</button>
+        <span class="viz-status" id="viz-status">Press Run to see the algorithm in action</span>
+      </div>
+    </div>
+
+    <div class="code-section">
+      <h3>Implementation</h3>
+      <div class="code-tabs" id="code-tabs"></div>
+      <div class="code-block">
+        <pre id="code-display"></pre>
+      </div>
+    </div>
+
+    <div class="detail-footer" id="d-footer"></div>
+  </div>
+</main>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════
+const algorithms = [
+  {
+    id: 'binary-search',
+    name: 'Binary Search',
+    category: 'Search',
+    explanation: 'Repeatedly halves a sorted list to find a target, eliminating half the remaining items each step.',
+    usecase: 'Finding a word in a dictionary; looking up a user in a sorted database.',
+    complexity: { best: 'O(1)', avg: 'O(log n)', worst: 'O(log n)', space: 'O(1)' },
+    subtitle: 'Divide and conquer your way to the answer — cut the search space in half with every comparison.',
+    description: 'Binary Search is a fast search algorithm that works on sorted arrays. Instead of scanning every element, it targets the middle, determines which half contains the target, and repeats — achieving logarithmic time complexity.',
+    steps: [
+      'Set left = 0, right = array.length - 1',
+      'While left ≤ right, calculate mid = ⌊(left + right) / 2⌋',
+      'If array[mid] equals the target, return mid',
+      'If target < array[mid], set right = mid - 1 (search left half)',
+      'If target > array[mid], set left = mid + 1 (search right half)',
+      'Return -1 if not found'
+    ],
+    pros: 'Extremely fast on sorted data — O(log n) vs O(n) for linear search. On 1 billion elements, takes only ~30 comparisons.',
+    cons: 'Requires data to be sorted first. Not suitable for linked lists (no random access).',
+    similar: ['Linear Search', 'Jump Search', 'Interpolation Search'],
+    viz: 'binary-search',
+    code: {
+      Python: `<span class="cm"># Binary Search — O(log n)</span>
+<span class="kw">def</span> <span class="fn">binary_search</span>(<span class="var">arr</span>, <span class="var">target</span>):
+    <span class="var">left</span>, <span class="var">right</span> <span class="op">=</span> <span class="num">0</span>, <span class="fn">len</span>(<span class="var">arr</span>) <span class="op">-</span> <span class="num">1</span>
+
+    <span class="kw">while</span> <span class="var">left</span> <span class="op">&lt;=</span> <span class="var">right</span>:
+        <span class="var">mid</span> <span class="op">=</span> (<span class="var">left</span> <span class="op">+</span> <span class="var">right</span>) <span class="op">//</span> <span class="num">2</span>
+
+        <span class="kw">if</span> <span class="var">arr</span>[<span class="var">mid</span>] <span class="op">==</span> <span class="var">target</span>:
+            <span class="kw">return</span> <span class="var">mid</span>
+        <span class="kw">elif</span> <span class="var">arr</span>[<span class="var">mid</span>] <span class="op">&lt;</span> <span class="var">target</span>:
+            <span class="var">left</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">+</span> <span class="num">1</span>
+        <span class="kw">else</span>:
+            <span class="var">right</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">-</span> <span class="num">1</span>
+
+    <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>  <span class="cm"># Not found</span>
+
+<span class="cm"># Example</span>
+<span class="var">data</span> <span class="op">=</span> [<span class="num">2</span>, <span class="num">5</span>, <span class="num">8</span>, <span class="num">12</span>, <span class="num">16</span>, <span class="num">23</span>, <span class="num">38</span>, <span class="num">56</span>]
+<span class="fn">print</span>(<span class="fn">binary_search</span>(<span class="var">data</span>, <span class="num">23</span>))  <span class="cm"># → 5</span>`,
+      JavaScript: `<span class="cm">// Binary Search — O(log n)</span>
+<span class="kw">function</span> <span class="fn">binarySearch</span>(<span class="var">arr</span>, <span class="var">target</span>) {
+  <span class="kw">let</span> <span class="var">left</span> <span class="op">=</span> <span class="num">0</span>, <span class="var">right</span> <span class="op">=</span> <span class="var">arr</span>.<span class="var">length</span> <span class="op">-</span> <span class="num">1</span>;
+
+  <span class="kw">while</span> (<span class="var">left</span> <span class="op">&lt;=</span> <span class="var">right</span>) {
+    <span class="kw">const</span> <span class="var">mid</span> <span class="op">=</span> Math.<span class="fn">floor</span>((<span class="var">left</span> <span class="op">+</span> <span class="var">right</span>) <span class="op">/</span> <span class="num">2</span>);
+
+    <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">mid</span>] <span class="op">===</span> <span class="var">target</span>) <span class="kw">return</span> <span class="var">mid</span>;
+    <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">mid</span>] <span class="op">&lt;</span> <span class="var">target</span>) <span class="var">left</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">+</span> <span class="num">1</span>;
+    <span class="kw">else</span> <span class="var">right</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">-</span> <span class="num">1</span>;
+  }
+
+  <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>; <span class="cm">// Not found</span>
+}
+
+<span class="cm">// Example</span>
+<span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> [<span class="num">2</span>, <span class="num">5</span>, <span class="num">8</span>, <span class="num">12</span>, <span class="num">16</span>, <span class="num">23</span>, <span class="num">38</span>, <span class="num">56</span>];
+console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span class="var">data</span>, <span class="num">23</span>)); <span class="cm">// → 5</span>`,
+      Java: `<span class="cm">// Binary Search — O(log n)</span>
+<span class="kw">public static int</span> <span class="fn">binarySearch</span>(<span class="kw">int</span>[] <span class="var">arr</span>, <span class="kw">int</span> <span class="var">target</span>) {
+    <span class="kw">int</span> <span class="var">left</span> <span class="op">=</span> <span class="num">0</span>, <span class="var">right</span> <span class="op">=</span> <span class="var">arr</span>.length <span class="op">-</span> <span class="num">1</span>;
+
+    <span class="kw">while</span> (<span class="var">left</span> <span class="op">&lt;=</span> <span class="var">right</span>) {
+        <span class="kw">int</span> <span class="var">mid</span> <span class="op">=</span> <span class="var">left</span> <span class="op">+</span> (<span class="var">right</span> <span class="op">-</span> <span class="var">left</span>) <span class="op">/</span> <span class="num">2</span>;
+
+        <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">mid</span>] <span class="op">==</span> <span class="var">target</span>) <span class="kw">return</span> <span class="var">mid</span>;
+        <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">mid</span>] <span class="op">&lt;</span> <span class="var">target</span>) <span class="var">left</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">+</span> <span class="num">1</span>;
+        <span class="kw">else</span> <span class="var">right</span> <span class="op">=</span> <span class="var">mid</span> <span class="op">-</span> <span class="num">1</span>;
+    }
+
+    <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>; <span class="cm">// Not found</span>
+}`
+    }
+  },
+  {
+    id: 'bubble-sort',
+    name: 'Bubble Sort',
+    category: 'Sort',
+    explanation: 'Repeatedly steps through the list, comparing adjacent elements and swapping them if out of order.',
+    usecase: 'Educational purposes; sorting small nearly-sorted datasets.',
+    complexity: { best: 'O(n)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)' },
+    subtitle: 'The simplest sort — heavy values bubble to the top like air rising through water.',
+    description: 'Bubble Sort repeatedly walks through an array, comparing neighbors and swapping them when needed. While intuitive and in-place, it is inefficient on large data due to O(n²) comparisons.',
+    steps: [
+      'Outer loop: repeat n-1 passes over the array',
+      'Inner loop: for each adjacent pair (i, i+1)',
+      'If arr[i] > arr[i+1], swap the two elements',
+      'After each pass, the largest unsorted element is in its final position',
+      'Optimization: if no swaps in a pass, array is sorted — break early'
+    ],
+    pros: 'Simple to understand and implement. In-place (O(1) space). Detects already-sorted arrays in O(n) with the early-stop optimization.',
+    cons: 'O(n²) makes it impractical for large datasets. Far slower than Merge Sort or Quick Sort in practice.',
+    similar: ['Selection Sort', 'Insertion Sort', 'Merge Sort'],
+    viz: 'bubble-sort',
+    code: {
+      Python: `<span class="cm"># Bubble Sort — O(n²)</span>
+<span class="kw">def</span> <span class="fn">bubble_sort</span>(<span class="var">arr</span>):
+    <span class="var">n</span> <span class="op">=</span> <span class="fn">len</span>(<span class="var">arr</span>)
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span>):
+        <span class="var">swapped</span> <span class="op">=</span> <span class="kw">False</span>
+        <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="var">n</span> <span class="op">-</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>):
+            <span class="kw">if</span> <span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">arr</span>[<span class="var">j</span> <span class="op">+</span> <span class="num">1</span>]:
+                <span class="var">arr</span>[<span class="var">j</span>], <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>], <span class="var">arr</span>[<span class="var">j</span>]
+                <span class="var">swapped</span> <span class="op">=</span> <span class="kw">True</span>
+        <span class="kw">if not</span> <span class="var">swapped</span>:
+            <span class="kw">break</span>  <span class="cm"># Already sorted</span>
+    <span class="kw">return</span> <span class="var">arr</span>`,
+      JavaScript: `<span class="cm">// Bubble Sort — O(n²)</span>
+<span class="kw">function</span> <span class="fn">bubbleSort</span>(<span class="var">arr</span>) {
+  <span class="kw">const</span> <span class="var">n</span> <span class="op">=</span> <span class="var">arr</span>.<span class="var">length</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="kw">let</span> <span class="var">swapped</span> <span class="op">=</span> <span class="kw">false</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> <span class="var">j</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">j</span> <span class="op">&lt;</span> <span class="var">n</span> <span class="op">-</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>; <span class="var">j</span><span class="op">++</span>) {
+      <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>]) {
+        [<span class="var">arr</span>[<span class="var">j</span>], <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>]] <span class="op">=</span> [<span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>], <span class="var">arr</span>[<span class="var">j</span>]];
+        <span class="var">swapped</span> <span class="op">=</span> <span class="kw">true</span>;
+      }
+    }
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">swapped</span>) <span class="kw">break</span>; <span class="cm">// Already sorted</span>
+  }
+  <span class="kw">return</span> <span class="var">arr</span>;
+}`,
+      Java: `<span class="cm">// Bubble Sort — O(n²)</span>
+<span class="kw">public static void</span> <span class="fn">bubbleSort</span>(<span class="kw">int</span>[] <span class="var">arr</span>) {
+    <span class="kw">int</span> <span class="var">n</span> <span class="op">=</span> <span class="var">arr</span>.length;
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">boolean</span> <span class="var">swapped</span> <span class="op">=</span> <span class="kw">false</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> <span class="var">j</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">j</span> <span class="op">&lt;</span> <span class="var">n</span> <span class="op">-</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>; <span class="var">j</span><span class="op">++</span>) {
+            <span class="kw">if</span> (<span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>]) {
+                <span class="kw">int</span> <span class="var">tmp</span> <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span>];
+                <span class="var">arr</span>[<span class="var">j</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>];
+                <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>] <span class="op">=</span> <span class="var">tmp</span>;
+                <span class="var">swapped</span> <span class="op">=</span> <span class="kw">true</span>;
+            }
+        }
+        <span class="kw">if</span> (<span class="op">!</span><span class="var">swapped</span>) <span class="kw">break</span>;
+    }
+}`
+    }
+  },
+  {
+    id: 'merge-sort',
+    name: 'Merge Sort',
+    category: 'Sort',
+    explanation: 'Recursively splits an array in half, sorts each half, then merges them back together.',
+    usecase: 'Sorting linked lists; external sorting of large files that do not fit in memory.',
+    complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n log n)', space: 'O(n)' },
+    subtitle: 'Divide, conquer, and merge — guaranteed O(n log n) regardless of input.',
+    description: 'Merge Sort is a classic divide-and-conquer algorithm. It splits the array recursively until single elements remain, then merges pairs in sorted order. Guaranteed O(n log n) makes it reliable for production use.',
+    steps: [
+      'If the array has 0 or 1 elements, it is already sorted — return',
+      'Split the array into left and right halves at the midpoint',
+      'Recursively merge_sort the left half',
+      'Recursively merge_sort the right half',
+      'Merge the two sorted halves: compare front elements, pick the smaller',
+      'Append remaining elements from whichever half has leftovers'
+    ],
+    pros: 'Stable sort. Guaranteed O(n log n) in all cases. Excellent for linked lists and external storage.',
+    cons: 'Requires O(n) auxiliary space. Slightly slower in practice than Quick Sort due to memory allocation.',
+    similar: ['Quick Sort', 'Heap Sort', 'Tim Sort'],
+    viz: 'bubble-sort',
+    code: {
+      Python: `<span class="cm"># Merge Sort — O(n log n)</span>
+<span class="kw">def</span> <span class="fn">merge_sort</span>(<span class="var">arr</span>):
+    <span class="kw">if</span> <span class="fn">len</span>(<span class="var">arr</span>) <span class="op">&lt;=</span> <span class="num">1</span>:
+        <span class="kw">return</span> <span class="var">arr</span>
+
+    <span class="var">mid</span> <span class="op">=</span> <span class="fn">len</span>(<span class="var">arr</span>) <span class="op">//</span> <span class="num">2</span>
+    <span class="var">left</span> <span class="op">=</span> <span class="fn">merge_sort</span>(<span class="var">arr</span>[:<span class="var">mid</span>])
+    <span class="var">right</span> <span class="op">=</span> <span class="fn">merge_sort</span>(<span class="var">arr</span>[<span class="var">mid</span>:])
+    <span class="kw">return</span> <span class="fn">merge</span>(<span class="var">left</span>, <span class="var">right</span>)
+
+<span class="kw">def</span> <span class="fn">merge</span>(<span class="var">left</span>, <span class="var">right</span>):
+    <span class="var">result</span> <span class="op">=</span> []
+    <span class="var">i</span> <span class="op">=</span> <span class="var">j</span> <span class="op">=</span> <span class="num">0</span>
+    <span class="kw">while</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="fn">len</span>(<span class="var">left</span>) <span class="kw">and</span> <span class="var">j</span> <span class="op">&lt;</span> <span class="fn">len</span>(<span class="var">right</span>):
+        <span class="kw">if</span> <span class="var">left</span>[<span class="var">i</span>] <span class="op">&lt;=</span> <span class="var">right</span>[<span class="var">j</span>]:
+            <span class="var">result</span>.<span class="fn">append</span>(<span class="var">left</span>[<span class="var">i</span>]); <span class="var">i</span> <span class="op">+=</span> <span class="num">1</span>
+        <span class="kw">else</span>:
+            <span class="var">result</span>.<span class="fn">append</span>(<span class="var">right</span>[<span class="var">j</span>]); <span class="var">j</span> <span class="op">+=</span> <span class="num">1</span>
+    <span class="kw">return</span> <span class="var">result</span> <span class="op">+</span> <span class="var">left</span>[<span class="var">i</span>:] <span class="op">+</span> <span class="var">right</span>[<span class="var">j</span>:]`,
+      JavaScript: `<span class="cm">// Merge Sort — O(n log n)</span>
+<span class="kw">function</span> <span class="fn">mergeSort</span>(<span class="var">arr</span>) {
+  <span class="kw">if</span> (<span class="var">arr</span>.<span class="var">length</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="var">arr</span>;
+
+  <span class="kw">const</span> <span class="var">mid</span> <span class="op">=</span> Math.<span class="fn">floor</span>(<span class="var">arr</span>.<span class="var">length</span> <span class="op">/</span> <span class="num">2</span>);
+  <span class="kw">const</span> <span class="var">left</span> <span class="op">=</span> <span class="fn">mergeSort</span>(<span class="var">arr</span>.<span class="fn">slice</span>(<span class="num">0</span>, <span class="var">mid</span>));
+  <span class="kw">const</span> <span class="var">right</span> <span class="op">=</span> <span class="fn">mergeSort</span>(<span class="var">arr</span>.<span class="fn">slice</span>(<span class="var">mid</span>));
+  <span class="kw">return</span> <span class="fn">merge</span>(<span class="var">left</span>, <span class="var">right</span>);
+}
+
+<span class="kw">function</span> <span class="fn">merge</span>(<span class="var">left</span>, <span class="var">right</span>) {
+  <span class="kw">const</span> <span class="var">result</span> <span class="op">=</span> [];
+  <span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>, <span class="var">j</span> <span class="op">=</span> <span class="num">0</span>;
+  <span class="kw">while</span> (<span class="var">i</span> <span class="op">&lt;</span> <span class="var">left</span>.<span class="var">length</span> <span class="op">&&</span> <span class="var">j</span> <span class="op">&lt;</span> <span class="var">right</span>.<span class="var">length</span>)
+    <span class="var">result</span>.<span class="fn">push</span>(<span class="var">left</span>[<span class="var">i</span>] <span class="op">&lt;=</span> <span class="var">right</span>[<span class="var">j</span>] ? <span class="var">left</span>[<span class="var">i</span><span class="op">++</span>] : <span class="var">right</span>[<span class="var">j</span><span class="op">++</span>]);
+  <span class="kw">return</span> [<span class="op">...</span><span class="var">result</span>, <span class="op">...</span><span class="var">left</span>.<span class="fn">slice</span>(<span class="var">i</span>), <span class="op">...</span><span class="var">right</span>.<span class="fn">slice</span>(<span class="var">j</span>)];
+}`,
+      Java: `<span class="cm">// Merge Sort — O(n log n)</span>
+<span class="kw">public static void</span> <span class="fn">mergeSort</span>(<span class="kw">int</span>[] <span class="var">arr</span>, <span class="kw">int</span> <span class="var">l</span>, <span class="kw">int</span> <span class="var">r</span>) {
+    <span class="kw">if</span> (<span class="var">l</span> <span class="op">&gt;=</span> <span class="var">r</span>) <span class="kw">return</span>;
+    <span class="kw">int</span> <span class="var">mid</span> <span class="op">=</span> (<span class="var">l</span> <span class="op">+</span> <span class="var">r</span>) <span class="op">/</span> <span class="num">2</span>;
+    <span class="fn">mergeSort</span>(<span class="var">arr</span>, <span class="var">l</span>, <span class="var">mid</span>);
+    <span class="fn">mergeSort</span>(<span class="var">arr</span>, <span class="var">mid</span> <span class="op">+</span> <span class="num">1</span>, <span class="var">r</span>);
+    <span class="fn">merge</span>(<span class="var">arr</span>, <span class="var">l</span>, <span class="var">mid</span>, <span class="var">r</span>);
+}`
+    }
+  },
+  {
+    id: 'quick-sort',
+    name: 'Quick Sort',
+    category: 'Sort',
+    explanation: 'Picks a pivot element, partitions the array around it, then recursively sorts each partition.',
+    usecase: 'Default sorting in most standard libraries (e.g., Java, C++); in-memory sorting of large datasets.',
+    complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n²)', space: 'O(log n)' },
+    subtitle: 'The workhorse of sorting — fast in practice, lightning-quick with good pivot selection.',
+    description: 'Quick Sort selects a pivot and partitions data so elements smaller than the pivot come before it and larger ones after. Recursion on each partition yields superb average-case performance, making it the real-world king of sorting.',
+    steps: [
+      'Choose a pivot (e.g., last element, random, or median-of-three)',
+      'Partition: move all elements < pivot to the left, > pivot to the right',
+      'Place the pivot in its correct final position',
+      'Recursively quick sort the left partition',
+      'Recursively quick sort the right partition',
+      'Base case: array of size 0 or 1 is already sorted'
+    ],
+    pros: 'Very fast in practice — small constant factor. In-place (O(log n) stack). Cache-friendly access pattern.',
+    cons: 'O(n²) worst case with bad pivot (e.g., already sorted array + last-element pivot). Not stable.',
+    similar: ['Merge Sort', 'Heap Sort', 'Intro Sort'],
+    viz: 'bubble-sort',
+    code: {
+      Python: `<span class="cm"># Quick Sort — avg O(n log n)</span>
+<span class="kw">def</span> <span class="fn">quick_sort</span>(<span class="var">arr</span>, <span class="var">low</span><span class="op">=</span><span class="num">0</span>, <span class="var">high</span><span class="op">=</span><span class="kw">None</span>):
+    <span class="kw">if</span> <span class="var">high</span> <span class="kw">is</span> <span class="kw">None</span>: <span class="var">high</span> <span class="op">=</span> <span class="fn">len</span>(<span class="var">arr</span>) <span class="op">-</span> <span class="num">1</span>
+    <span class="kw">if</span> <span class="var">low</span> <span class="op">&lt;</span> <span class="var">high</span>:
+        <span class="var">pi</span> <span class="op">=</span> <span class="fn">partition</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">high</span>)
+        <span class="fn">quick_sort</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">pi</span> <span class="op">-</span> <span class="num">1</span>)
+        <span class="fn">quick_sort</span>(<span class="var">arr</span>, <span class="var">pi</span> <span class="op">+</span> <span class="num">1</span>, <span class="var">high</span>)
+
+<span class="kw">def</span> <span class="fn">partition</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">high</span>):
+    <span class="var">pivot</span> <span class="op">=</span> <span class="var">arr</span>[<span class="var">high</span>]
+    <span class="var">i</span> <span class="op">=</span> <span class="var">low</span> <span class="op">-</span> <span class="num">1</span>
+    <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">low</span>, <span class="var">high</span>):
+        <span class="kw">if</span> <span class="var">arr</span>[<span class="var">j</span>] <span class="op">&lt;=</span> <span class="var">pivot</span>:
+            <span class="var">i</span> <span class="op">+=</span> <span class="num">1</span>
+            <span class="var">arr</span>[<span class="var">i</span>], <span class="var">arr</span>[<span class="var">j</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span>], <span class="var">arr</span>[<span class="var">i</span>]
+    <span class="var">arr</span>[<span class="var">i</span><span class="op">+</span><span class="num">1</span>], <span class="var">arr</span>[<span class="var">high</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">high</span>], <span class="var">arr</span>[<span class="var">i</span><span class="op">+</span><span class="num">1</span>]
+    <span class="kw">return</span> <span class="var">i</span> <span class="op">+</span> <span class="num">1</span>`,
+      JavaScript: `<span class="cm">// Quick Sort — avg O(n log n)</span>
+<span class="kw">function</span> <span class="fn">quickSort</span>(<span class="var">arr</span>, <span class="var">low</span> <span class="op">=</span> <span class="num">0</span>, <span class="var">high</span> <span class="op">=</span> <span class="var">arr</span>.<span class="var">length</span> <span class="op">-</span> <span class="num">1</span>) {
+  <span class="kw">if</span> (<span class="var">low</span> <span class="op">&lt;</span> <span class="var">high</span>) {
+    <span class="kw">const</span> <span class="var">pi</span> <span class="op">=</span> <span class="fn">partition</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">high</span>);
+    <span class="fn">quickSort</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">pi</span> <span class="op">-</span> <span class="num">1</span>);
+    <span class="fn">quickSort</span>(<span class="var">arr</span>, <span class="var">pi</span> <span class="op">+</span> <span class="num">1</span>, <span class="var">high</span>);
+  }
+  <span class="kw">return</span> <span class="var">arr</span>;
+}`,
+      Java: `<span class="cm">// Quick Sort — avg O(n log n)</span>
+<span class="kw">public static void</span> <span class="fn">quickSort</span>(<span class="kw">int</span>[] <span class="var">arr</span>, <span class="kw">int</span> <span class="var">low</span>, <span class="kw">int</span> <span class="var">high</span>) {
+    <span class="kw">if</span> (<span class="var">low</span> <span class="op">&lt;</span> <span class="var">high</span>) {
+        <span class="kw">int</span> <span class="var">pi</span> <span class="op">=</span> <span class="fn">partition</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">high</span>);
+        <span class="fn">quickSort</span>(<span class="var">arr</span>, <span class="var">low</span>, <span class="var">pi</span> <span class="op">-</span> <span class="num">1</span>);
+        <span class="fn">quickSort</span>(<span class="var">arr</span>, <span class="var">pi</span> <span class="op">+</span> <span class="num">1</span>, <span class="var">high</span>);
+    }
+}`
+    }
+  },
+  {
+    id: 'bfs',
+    name: 'Breadth-First Search',
+    category: 'Graph',
+    explanation: 'Explores a graph layer by layer, visiting all neighbors of a node before moving deeper.',
+    usecase: 'Finding shortest path in GPS/maps; social network "friends of friends"; web crawlers.',
+    complexity: { best: 'O(V+E)', avg: 'O(V+E)', worst: 'O(V+E)', space: 'O(V)' },
+    subtitle: 'Explore wide before deep — guarantees shortest path in unweighted graphs.',
+    description: 'BFS visits all nodes at the current depth before exploring nodes at the next depth level, using a queue. It is the go-to algorithm for shortest-path problems in unweighted graphs.',
+    steps: [
+      'Start at the source node; add it to a queue and mark as visited',
+      'Dequeue the front node; process it',
+      'Enqueue all unvisited neighbors of the current node; mark them visited',
+      'Repeat until the queue is empty',
+      'All nodes reachable from the source will have been visited'
+    ],
+    pros: 'Guarantees shortest path in unweighted graphs. Complete — will always find a solution if one exists.',
+    cons: 'Memory-intensive: stores all nodes at the current level in the queue — O(V) space.',
+    similar: ['Depth-First Search', "Dijkstra's Algorithm", 'A* Search'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Breadth-First Search — O(V + E)</span>
+<span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="var">deque</span>
+
+<span class="kw">def</span> <span class="fn">bfs</span>(<span class="var">graph</span>, <span class="var">start</span>):
+    <span class="var">visited</span> <span class="op">=</span> {<span class="var">start</span>}
+    <span class="var">queue</span> <span class="op">=</span> <span class="fn">deque</span>([<span class="var">start</span>])
+    <span class="var">order</span> <span class="op">=</span> []
+
+    <span class="kw">while</span> <span class="var">queue</span>:
+        <span class="var">node</span> <span class="op">=</span> <span class="var">queue</span>.<span class="fn">popleft</span>()
+        <span class="var">order</span>.<span class="fn">append</span>(<span class="var">node</span>)
+
+        <span class="kw">for</span> <span class="var">neighbor</span> <span class="kw">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+            <span class="kw">if</span> <span class="var">neighbor</span> <span class="kw">not in</span> <span class="var">visited</span>:
+                <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">neighbor</span>)
+                <span class="var">queue</span>.<span class="fn">append</span>(<span class="var">neighbor</span>)
+
+    <span class="kw">return</span> <span class="var">order</span>`,
+      JavaScript: `<span class="cm">// Breadth-First Search — O(V + E)</span>
+<span class="kw">function</span> <span class="fn">bfs</span>(<span class="var">graph</span>, <span class="var">start</span>) {
+  <span class="kw">const</span> <span class="var">visited</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>([<span class="var">start</span>]);
+  <span class="kw">const</span> <span class="var">queue</span> <span class="op">=</span> [<span class="var">start</span>];
+  <span class="kw">const</span> <span class="var">order</span> <span class="op">=</span> [];
+
+  <span class="kw">while</span> (<span class="var">queue</span>.<span class="var">length</span>) {
+    <span class="kw">const</span> <span class="var">node</span> <span class="op">=</span> <span class="var">queue</span>.<span class="fn">shift</span>();
+    <span class="var">order</span>.<span class="fn">push</span>(<span class="var">node</span>);
+
+    <span class="kw">for</span> (<span class="kw">const</span> <span class="var">neighbor</span> <span class="kw">of</span> <span class="var">graph</span>[<span class="var">node</span>] <span class="op">||</span> []) {
+      <span class="kw">if</span> (<span class="op">!</span><span class="var">visited</span>.<span class="fn">has</span>(<span class="var">neighbor</span>)) {
+        <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">neighbor</span>);
+        <span class="var">queue</span>.<span class="fn">push</span>(<span class="var">neighbor</span>);
+      }
+    }
+  }
+  <span class="kw">return</span> <span class="var">order</span>;
+}`,
+      Java: `<span class="cm">// Breadth-First Search — O(V + E)</span>
+<span class="kw">public static</span> List&lt;Integer&gt; <span class="fn">bfs</span>(Map&lt;Integer, List&lt;Integer&gt;&gt; <span class="var">graph</span>, <span class="kw">int</span> <span class="var">start</span>) {
+    Set&lt;Integer&gt; <span class="var">visited</span> <span class="op">=</span> <span class="kw">new</span> HashSet&lt;&gt;();
+    Queue&lt;Integer&gt; <span class="var">queue</span> <span class="op">=</span> <span class="kw">new</span> LinkedList&lt;&gt;();
+    List&lt;Integer&gt; <span class="var">order</span> <span class="op">=</span> <span class="kw">new</span> ArrayList&lt;&gt;();
+
+    <span class="var">queue</span>.<span class="fn">add</span>(<span class="var">start</span>); <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">start</span>);
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">queue</span>.<span class="fn">isEmpty</span>()) {
+        <span class="kw">int</span> <span class="var">node</span> <span class="op">=</span> <span class="var">queue</span>.<span class="fn">poll</span>();
+        <span class="var">order</span>.<span class="fn">add</span>(<span class="var">node</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> <span class="var">nb</span> : <span class="var">graph</span>.<span class="fn">getOrDefault</span>(<span class="var">node</span>, Collections.<span class="fn">emptyList</span>()))
+            <span class="kw">if</span> (<span class="var">visited</span>.<span class="fn">add</span>(<span class="var">nb</span>)) <span class="var">queue</span>.<span class="fn">add</span>(<span class="var">nb</span>);
+    }
+    <span class="kw">return</span> <span class="var">order</span>;
+}`
+    }
+  },
+  {
+    id: 'dfs',
+    name: 'Depth-First Search',
+    category: 'Graph',
+    explanation: 'Explores as far as possible along each branch before backtracking.',
+    usecase: 'Maze solving; topological sorting; cycle detection; parsing expression trees.',
+    complexity: { best: 'O(V+E)', avg: 'O(V+E)', worst: 'O(V+E)', space: 'O(V)' },
+    subtitle: 'Go deep before going wide — the algorithm that dives headfirst into every path.',
+    description: 'DFS explores as far as possible along each branch before backtracking. It uses a stack (or recursion) and naturally models problems with hierarchical or tree-like structure.',
+    steps: [
+      'Start at the source; mark as visited',
+      'For each unvisited neighbor of the current node',
+      'Recursively call DFS on that neighbor',
+      'After all neighbors are visited, backtrack',
+      'Continue until all reachable nodes are visited'
+    ],
+    pros: 'Memory efficient — uses O(depth) stack space. Natural fit for tree traversal, topological sort, cycle detection.',
+    cons: 'Does not guarantee shortest path. Can hit stack overflow on very deep graphs without iterative version.',
+    similar: ['Breadth-First Search', 'Topological Sort', 'Tarjan\'s SCC'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Depth-First Search — O(V + E)</span>
+<span class="kw">def</span> <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">node</span>, <span class="var">visited</span><span class="op">=</span><span class="kw">None</span>):
+    <span class="kw">if</span> <span class="var">visited</span> <span class="kw">is</span> <span class="kw">None</span>:
+        <span class="var">visited</span> <span class="op">=</span> <span class="fn">set</span>()
+
+    <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">node</span>)
+    <span class="fn">print</span>(<span class="var">node</span>, <span class="var">end</span><span class="op">=</span><span class="str">' '</span>)
+
+    <span class="kw">for</span> <span class="var">neighbor</span> <span class="kw">in</span> <span class="var">graph</span>.<span class="fn">get</span>(<span class="var">node</span>, []):
+        <span class="kw">if</span> <span class="var">neighbor</span> <span class="kw">not in</span> <span class="var">visited</span>:
+            <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">neighbor</span>, <span class="var">visited</span>)
+
+    <span class="kw">return</span> <span class="var">visited</span>`,
+      JavaScript: `<span class="cm">// Depth-First Search — O(V + E)</span>
+<span class="kw">function</span> <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">node</span>, <span class="var">visited</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Set</span>()) {
+  <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">node</span>);
+  console.<span class="fn">log</span>(<span class="var">node</span>);
+
+  <span class="kw">for</span> (<span class="kw">const</span> <span class="var">neighbor</span> <span class="kw">of</span> <span class="var">graph</span>[<span class="var">node</span>] <span class="op">||</span> []) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">visited</span>.<span class="fn">has</span>(<span class="var">neighbor</span>))
+      <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">neighbor</span>, <span class="var">visited</span>);
+  }
+  <span class="kw">return</span> <span class="var">visited</span>;
+}`,
+      Java: `<span class="cm">// Depth-First Search — O(V + E)</span>
+<span class="kw">public static void</span> <span class="fn">dfs</span>(Map&lt;Integer, List&lt;Integer&gt;&gt; <span class="var">g</span>, <span class="kw">int</span> <span class="var">node</span>, Set&lt;Integer&gt; <span class="var">vis</span>) {
+    <span class="var">vis</span>.<span class="fn">add</span>(<span class="var">node</span>);
+    System.out.<span class="fn">print</span>(<span class="var">node</span> <span class="op">+</span> <span class="str">" "</span>);
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">nb</span> : <span class="var">g</span>.<span class="fn">getOrDefault</span>(<span class="var">node</span>, Collections.<span class="fn">emptyList</span>()))
+        <span class="kw">if</span> (<span class="op">!</span><span class="var">vis</span>.<span class="fn">contains</span>(<span class="var">nb</span>)) <span class="fn">dfs</span>(<span class="var">g</span>, <span class="var">nb</span>, <span class="var">vis</span>);
+}`
+    }
+  },
+  {
+    id: 'dijkstra',
+    name: "Dijkstra's Algorithm",
+    category: 'Graph',
+    explanation: 'Finds the shortest path from a source to all other nodes in a weighted graph using a priority queue.',
+    usecase: 'GPS navigation; network routing protocols (OSPF); flight path optimization.',
+    complexity: { best: 'O(E log V)', avg: 'O(E log V)', worst: 'O(E log V)', space: 'O(V)' },
+    subtitle: "The gold standard for shortest paths — Edsger's gift to every navigation app.",
+    description: "Dijkstra's algorithm greedily selects the unvisited node with the smallest known distance, updates its neighbors, and repeats. With a min-heap, it runs in O(E log V) and correctly handles all non-negative edge weights.",
+    steps: [
+      'Initialize dist[source] = 0, dist[all others] = ∞',
+      'Add all nodes to a min-priority queue keyed by distance',
+      'Extract the node u with minimum distance from the queue',
+      'For each neighbor v of u: if dist[u] + weight(u,v) < dist[v], update dist[v]',
+      'Re-insert v with updated priority',
+      'Repeat until the queue is empty or the target is reached'
+    ],
+    pros: 'Optimal for non-negative weights. Very efficient with a min-heap: O(E log V).',
+    cons: 'Does not handle negative edge weights (use Bellman-Ford instead).',
+    similar: ['Bellman-Ford', 'A* Search', 'Floyd-Warshall'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Dijkstra's Algorithm — O(E log V)</span>
+<span class="kw">import</span> <span class="var">heapq</span>
+
+<span class="kw">def</span> <span class="fn">dijkstra</span>(<span class="var">graph</span>, <span class="var">src</span>):
+    <span class="var">dist</span> <span class="op">=</span> {<span class="var">node</span>: <span class="fn">float</span>(<span class="str">'inf'</span>) <span class="kw">for</span> <span class="var">node</span> <span class="kw">in</span> <span class="var">graph</span>}
+    <span class="var">dist</span>[<span class="var">src</span>] <span class="op">=</span> <span class="num">0</span>
+    <span class="var">heap</span> <span class="op">=</span> [(<span class="num">0</span>, <span class="var">src</span>)]
+
+    <span class="kw">while</span> <span class="var">heap</span>:
+        <span class="var">d</span>, <span class="var">u</span> <span class="op">=</span> <span class="var">heapq</span>.<span class="fn">heappop</span>(<span class="var">heap</span>)
+        <span class="kw">if</span> <span class="var">d</span> <span class="op">&gt;</span> <span class="var">dist</span>[<span class="var">u</span>]: <span class="kw">continue</span>
+        <span class="kw">for</span> <span class="var">v</span>, <span class="var">w</span> <span class="kw">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="kw">if</span> <span class="var">dist</span>[<span class="var">u</span>] <span class="op">+</span> <span class="var">w</span> <span class="op">&lt;</span> <span class="var">dist</span>[<span class="var">v</span>]:
+                <span class="var">dist</span>[<span class="var">v</span>] <span class="op">=</span> <span class="var">dist</span>[<span class="var">u</span>] <span class="op">+</span> <span class="var">w</span>
+                <span class="var">heapq</span>.<span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">dist</span>[<span class="var">v</span>], <span class="var">v</span>))
+    <span class="kw">return</span> <span class="var">dist</span>`,
+      JavaScript: `<span class="cm">// Dijkstra's Algorithm — O(E log V)</span>
+<span class="kw">function</span> <span class="fn">dijkstra</span>(<span class="var">graph</span>, <span class="var">src</span>) {
+  <span class="kw">const</span> <span class="var">dist</span> <span class="op">=</span> {};
+  <span class="kw">for</span> (<span class="kw">const</span> <span class="var">n</span> <span class="kw">of</span> Object.<span class="fn">keys</span>(<span class="var">graph</span>)) <span class="var">dist</span>[<span class="var">n</span>] <span class="op">=</span> Infinity;
+  <span class="var">dist</span>[<span class="var">src</span>] <span class="op">=</span> <span class="num">0</span>;
+  <span class="cm">// Use a min-heap (simplified with array sort here)</span>
+  <span class="kw">const</span> <span class="var">pq</span> <span class="op">=</span> [[<span class="num">0</span>, <span class="var">src</span>]];
+  <span class="kw">while</span> (<span class="var">pq</span>.<span class="var">length</span>) {
+    <span class="var">pq</span>.<span class="fn">sort</span>((<span class="var">a</span>, <span class="var">b</span>) <span class="op">=></span> <span class="var">a</span>[<span class="num">0</span>] <span class="op">-</span> <span class="var">b</span>[<span class="num">0</span>]);
+    <span class="kw">const</span> [<span class="var">d</span>, <span class="var">u</span>] <span class="op">=</span> <span class="var">pq</span>.<span class="fn">shift</span>();
+    <span class="kw">if</span> (<span class="var">d</span> <span class="op">></span> <span class="var">dist</span>[<span class="var">u</span>]) <span class="kw">continue</span>;
+    <span class="kw">for</span> (<span class="kw">const</span> [<span class="var">v</span>, <span class="var">w</span>] <span class="kw">of</span> <span class="var">graph</span>[<span class="var">u</span>] <span class="op">||</span> [])
+      <span class="kw">if</span> (<span class="var">dist</span>[<span class="var">u</span>] <span class="op">+</span> <span class="var">w</span> <span class="op">&lt;</span> <span class="var">dist</span>[<span class="var">v</span>]) { <span class="var">dist</span>[<span class="var">v</span>] <span class="op">=</span> <span class="var">dist</span>[<span class="var">u</span>] <span class="op">+</span> <span class="var">w</span>; <span class="var">pq</span>.<span class="fn">push</span>([<span class="var">dist</span>[<span class="var">v</span>], <span class="var">v</span>]); }
+  }
+  <span class="kw">return</span> <span class="var">dist</span>;
+}`,
+      Java: `<span class="cm">// Dijkstra's Algorithm — O(E log V)</span>
+<span class="kw">public static</span> <span class="kw">int</span>[] <span class="fn">dijkstra</span>(List&lt;int[]&gt;[] <span class="var">graph</span>, <span class="kw">int</span> <span class="var">src</span>) {
+    <span class="kw">int</span> <span class="var">n</span> <span class="op">=</span> <span class="var">graph</span>.length;
+    <span class="kw">int</span>[] <span class="var">dist</span> <span class="op">=</span> <span class="kw">new int</span>[<span class="var">n</span>];
+    Arrays.<span class="fn">fill</span>(<span class="var">dist</span>, Integer.MAX_VALUE);
+    <span class="var">dist</span>[<span class="var">src</span>] <span class="op">=</span> <span class="num">0</span>;
+    PriorityQueue&lt;int[]&gt; <span class="var">pq</span> <span class="op">=</span> <span class="kw">new</span> PriorityQueue&lt;&gt;(Comparator.<span class="fn">comparingInt</span>(<span class="var">a</span> <span class="op">-></span> <span class="var">a</span>[<span class="num">0</span>]));
+    <span class="var">pq</span>.<span class="fn">offer</span>(<span class="kw">new int</span>[]{<span class="num">0</span>, <span class="var">src</span>});
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">pq</span>.<span class="fn">isEmpty</span>()) {
+        <span class="kw">int</span>[] <span class="var">cur</span> <span class="op">=</span> <span class="var">pq</span>.<span class="fn">poll</span>();
+        <span class="kw">if</span> (<span class="var">cur</span>[<span class="num">0</span>] <span class="op">></span> <span class="var">dist</span>[<span class="var">cur</span>[<span class="num">1</span>]]) <span class="kw">continue</span>;
+        <span class="kw">for</span> (<span class="kw">int</span>[] <span class="var">nb</span> : <span class="var">graph</span>[<span class="var">cur</span>[<span class="num">1</span>]])
+            <span class="kw">if</span> (<span class="var">dist</span>[<span class="var">cur</span>[<span class="num">1</span>]] <span class="op">+</span> <span class="var">nb</span>[<span class="num">1</span>] <span class="op">&lt;</span> <span class="var">dist</span>[<span class="var">nb</span>[<span class="num">0</span>]]) { <span class="var">dist</span>[<span class="var">nb</span>[<span class="num">0</span>]] <span class="op">=</span> <span class="var">dist</span>[<span class="var">cur</span>[<span class="num">1</span>]] <span class="op">+</span> <span class="var">nb</span>[<span class="num">1</span>]; <span class="var">pq</span>.<span class="fn">offer</span>(<span class="kw">new int</span>[]{<span class="var">dist</span>[<span class="var">nb</span>[<span class="num">0</span>]], <span class="var">nb</span>[<span class="num">0</span>]}); }
+    }
+    <span class="kw">return</span> <span class="var">dist</span>;
+}`
+    }
+  },
+  {
+    id: 'fibonacci-dp',
+    name: 'Fibonacci (DP)',
+    category: 'Dynamic Programming',
+    explanation: 'Stores previously computed Fibonacci values to avoid redundant recursion.',
+    usecase: 'Intro to memoization; financial modeling; tiling problems; optimal substructure demos.',
+    complexity: { best: 'O(n)', avg: 'O(n)', worst: 'O(n)', space: 'O(n)' },
+    subtitle: 'Trade memory for speed — compute each subproblem once and never again.',
+    description: 'The naive recursive Fibonacci runs in O(2ⁿ). Dynamic programming eliminates overlapping subproblems by caching results (memoization) or building up from small cases (tabulation), achieving O(n) time.',
+    steps: [
+      'Create a table dp where dp[0]=0, dp[1]=1',
+      'For each i from 2 to n: dp[i] = dp[i-1] + dp[i-2]',
+      'Return dp[n]',
+      'Optimization: use two variables instead of a table for O(1) space'
+    ],
+    pros: 'O(n) time vs O(2ⁿ) for naive recursion. Demonstrates the core DP technique applicable to harder problems.',
+    cons: 'O(n) space for the table (reducible to O(1) with rolling variables). Overkill for small n.',
+    similar: ['Knapsack Problem', 'Longest Common Subsequence', 'Coin Change'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Fibonacci — Dynamic Programming O(n)</span>
+<span class="kw">def</span> <span class="fn">fibonacci</span>(<span class="var">n</span>):
+    <span class="kw">if</span> <span class="var">n</span> <span class="op">&lt;=</span> <span class="num">1</span>: <span class="kw">return</span> <span class="var">n</span>
+    <span class="var">dp</span> <span class="op">=</span> [<span class="num">0</span>] <span class="op">*</span> (<span class="var">n</span> <span class="op">+</span> <span class="num">1</span>)
+    <span class="var">dp</span>[<span class="num">1</span>] <span class="op">=</span> <span class="num">1</span>
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="var">n</span> <span class="op">+</span> <span class="num">1</span>):
+        <span class="var">dp</span>[<span class="var">i</span>] <span class="op">=</span> <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>] <span class="op">+</span> <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">2</span>]
+    <span class="kw">return</span> <span class="var">dp</span>[<span class="var">n</span>]
+
+<span class="cm"># O(1) space version</span>
+<span class="kw">def</span> <span class="fn">fib_optimized</span>(<span class="var">n</span>):
+    <span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="num">0</span>, <span class="num">1</span>
+    <span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span>):
+        <span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="var">b</span>, <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>
+    <span class="kw">return</span> <span class="var">a</span>`,
+      JavaScript: `<span class="cm">// Fibonacci — Dynamic Programming O(n)</span>
+<span class="kw">function</span> <span class="fn">fibonacci</span>(<span class="var">n</span>) {
+  <span class="kw">if</span> (<span class="var">n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="var">n</span>;
+  <span class="kw">const</span> <span class="var">dp</span> <span class="op">=</span> [<span class="num">0</span>, <span class="num">1</span>];
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">2</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>)
+    <span class="var">dp</span>[<span class="var">i</span>] <span class="op">=</span> <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>] <span class="op">+</span> <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">2</span>];
+  <span class="kw">return</span> <span class="var">dp</span>[<span class="var">n</span>];
+}
+
+<span class="cm">// O(1) space version</span>
+<span class="kw">const</span> <span class="fn">fibOptimized</span> <span class="op">=</span> <span class="var">n</span> <span class="op">=></span> {
+  <span class="kw">let</span> [<span class="var">a</span>, <span class="var">b</span>] <span class="op">=</span> [<span class="num">0</span>, <span class="num">1</span>];
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>) [<span class="var">a</span>, <span class="var">b</span>] <span class="op">=</span> [<span class="var">b</span>, <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>];
+  <span class="kw">return</span> <span class="var">a</span>;
+};`,
+      Java: `<span class="cm">// Fibonacci — Dynamic Programming O(n)</span>
+<span class="kw">public static long</span> <span class="fn">fibonacci</span>(<span class="kw">int</span> <span class="var">n</span>) {
+    <span class="kw">if</span> (<span class="var">n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="var">n</span>;
+    <span class="kw">long</span> <span class="var">a</span> <span class="op">=</span> <span class="num">0</span>, <span class="var">b</span> <span class="op">=</span> <span class="num">1</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">2</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">long</span> <span class="var">tmp</span> <span class="op">=</span> <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>;
+        <span class="var">a</span> <span class="op">=</span> <span class="var">b</span>; <span class="var">b</span> <span class="op">=</span> <span class="var">tmp</span>;
+    }
+    <span class="kw">return</span> <span class="var">b</span>;
+}`
+    }
+  },
+  {
+    id: 'knapsack',
+    name: '0/1 Knapsack',
+    category: 'Dynamic Programming',
+    explanation: 'Find the maximum value of items that fit in a weight-limited bag, each item used at most once.',
+    usecase: 'Resource allocation; financial portfolio optimization; cargo loading problems.',
+    complexity: { best: 'O(nW)', avg: 'O(nW)', worst: 'O(nW)', space: 'O(nW)' },
+    subtitle: 'Pack smarter, not harder — dynamic programming maximizes value under constraint.',
+    description: 'The 0/1 Knapsack problem asks: given items with weights and values, and a capacity W, what is the maximum value achievable without exceeding the weight limit? DP builds a 2D table where dp[i][w] = max value using first i items with capacity w.',
+    steps: [
+      'Create dp table of size (n+1) × (W+1) initialized to 0',
+      'For each item i (1 to n):',
+      '  For each capacity w (0 to W):',
+      '    If item i weight > w: dp[i][w] = dp[i-1][w] (skip item)',
+      '    Else: dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])',
+      'Answer is dp[n][W]'
+    ],
+    pros: 'Exact optimal solution. Naturally handles integer weights and values.',
+    cons: 'Pseudo-polynomial O(nW) — can be slow for large W. Not suitable for fractional weights (use Greedy instead).',
+    similar: ['Fractional Knapsack', 'Coin Change', 'Subset Sum'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># 0/1 Knapsack — O(n × W)</span>
+<span class="kw">def</span> <span class="fn">knapsack</span>(<span class="var">weights</span>, <span class="var">values</span>, <span class="var">capacity</span>):
+    <span class="var">n</span> <span class="op">=</span> <span class="fn">len</span>(<span class="var">weights</span>)
+    <span class="var">dp</span> <span class="op">=</span> [[<span class="num">0</span>] <span class="op">*</span> (<span class="var">capacity</span> <span class="op">+</span> <span class="num">1</span>) <span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span> <span class="op">+</span> <span class="num">1</span>)]
+
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="var">n</span> <span class="op">+</span> <span class="num">1</span>):
+        <span class="kw">for</span> <span class="var">w</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">capacity</span> <span class="op">+</span> <span class="num">1</span>):
+            <span class="kw">if</span> <span class="var">weights</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>] <span class="op">&gt;</span> <span class="var">w</span>:
+                <span class="var">dp</span>[<span class="var">i</span>][<span class="var">w</span>] <span class="op">=</span> <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span>]
+            <span class="kw">else</span>:
+                <span class="var">dp</span>[<span class="var">i</span>][<span class="var">w</span>] <span class="op">=</span> <span class="fn">max</span>(
+                    <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span>],
+                    <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span> <span class="op">-</span> <span class="var">weights</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]] <span class="op">+</span> <span class="var">values</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]
+                )
+    <span class="kw">return</span> <span class="var">dp</span>[<span class="var">n</span>][<span class="var">capacity</span>]`,
+      JavaScript: `<span class="cm">// 0/1 Knapsack — O(n × W)</span>
+<span class="kw">function</span> <span class="fn">knapsack</span>(<span class="var">weights</span>, <span class="var">values</span>, <span class="var">capacity</span>) {
+  <span class="kw">const</span> <span class="var">n</span> <span class="op">=</span> <span class="var">weights</span>.<span class="var">length</span>;
+  <span class="kw">const</span> <span class="var">dp</span> <span class="op">=</span> Array.<span class="fn">from</span>({length: <span class="var">n</span><span class="op">+</span><span class="num">1</span>}, () <span class="op">=></span> <span class="kw">new</span> <span class="fn">Array</span>(<span class="var">capacity</span><span class="op">+</span><span class="num">1</span>).<span class="fn">fill</span>(<span class="num">0</span>));
+
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>)
+    <span class="kw">for</span> (<span class="kw">let</span> <span class="var">w</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">w</span> <span class="op">&lt;=</span> <span class="var">capacity</span>; <span class="var">w</span><span class="op">++</span>)
+      <span class="var">dp</span>[<span class="var">i</span>][<span class="var">w</span>] <span class="op">=</span> <span class="var">weights</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>] <span class="op">&gt;</span> <span class="var">w</span>
+        ? <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span>]
+        : Math.<span class="fn">max</span>(<span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span>], <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">w</span><span class="op">-</span><span class="var">weights</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]] <span class="op">+</span> <span class="var">values</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]);
+
+  <span class="kw">return</span> <span class="var">dp</span>[<span class="var">n</span>][<span class="var">capacity</span>];
+}`,
+      Java: `<span class="cm">// 0/1 Knapsack — O(n × W)</span>
+<span class="kw">public static int</span> <span class="fn">knapsack</span>(<span class="kw">int</span>[] <span class="var">w</span>, <span class="kw">int</span>[] <span class="var">v</span>, <span class="kw">int</span> <span class="var">C</span>) {
+    <span class="kw">int</span> <span class="var">n</span> <span class="op">=</span> <span class="var">w</span>.length;
+    <span class="kw">int</span>[][] <span class="var">dp</span> <span class="op">=</span> <span class="kw">new int</span>[<span class="var">n</span><span class="op">+</span><span class="num">1</span>][<span class="var">C</span><span class="op">+</span><span class="num">1</span>];
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="var">n</span>; <span class="var">i</span><span class="op">++</span>)
+        <span class="kw">for</span> (<span class="kw">int</span> <span class="var">j</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">j</span> <span class="op">&lt;=</span> <span class="var">C</span>; <span class="var">j</span><span class="op">++</span>)
+            <span class="var">dp</span>[<span class="var">i</span>][<span class="var">j</span>] <span class="op">=</span> <span class="var">w</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>] <span class="op">&gt;</span> <span class="var">j</span> ? <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">j</span>] : Math.<span class="fn">max</span>(<span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">j</span>], <span class="var">dp</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>][<span class="var">j</span><span class="op">-</span><span class="var">w</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]] <span class="op">+</span> <span class="var">v</span>[<span class="var">i</span><span class="op">-</span><span class="num">1</span>]);
+    <span class="kw">return</span> <span class="var">dp</span>[<span class="var">n</span>][<span class="var">C</span>];
+}`
+    }
+  },
+  {
+    id: 'bst',
+    name: 'Binary Search Tree',
+    category: 'Tree',
+    explanation: 'A tree where each node has at most two children, with left < node < right.',
+    usecase: 'Database indexing; autocomplete systems; maintaining a sorted dynamic set.',
+    complexity: { best: 'O(log n)', avg: 'O(log n)', worst: 'O(n)', space: 'O(n)' },
+    subtitle: 'Order in the branches — every comparison eliminates half the remaining tree.',
+    description: 'A BST is a binary tree where for each node, all left descendants are smaller and all right descendants are larger. This ordering enables efficient search, insertion, and deletion in O(log n) average time.',
+    steps: [
+      'To insert: compare value with root; go left if smaller, right if larger',
+      'Repeat until an empty spot is found; insert the new node there',
+      'To search: same comparison logic — return true if found, false if null',
+      'To delete: handle 3 cases — leaf node, one child, two children (successor)',
+      'Balanced BSTs (AVL, Red-Black) guarantee O(log n) worst case'
+    ],
+    pros: 'Fast average-case operations. Ordered traversal in O(n). Foundation for balanced trees and databases.',
+    cons: 'Degenerates to O(n) on sorted input (becomes a linked list). Balance not guaranteed without AVL/RB trees.',
+    similar: ['AVL Tree', 'Red-Black Tree', 'B-Tree'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Binary Search Tree</span>
+<span class="kw">class</span> <span class="fn">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">val</span>):
+        <span class="var">self</span>.<span class="var">val</span> <span class="op">=</span> <span class="var">val</span>
+        <span class="var">self</span>.<span class="var">left</span> <span class="op">=</span> <span class="var">self</span>.<span class="var">right</span> <span class="op">=</span> <span class="kw">None</span>
+
+<span class="kw">class</span> <span class="fn">BST</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.<span class="var">root</span> <span class="op">=</span> <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="fn">insert</span>(<span class="var">self</span>, <span class="var">val</span>):
+        <span class="var">self</span>.<span class="var">root</span> <span class="op">=</span> <span class="var">self</span>.<span class="fn">_insert</span>(<span class="var">self</span>.<span class="var">root</span>, <span class="var">val</span>)
+
+    <span class="kw">def</span> <span class="fn">_insert</span>(<span class="var">self</span>, <span class="var">node</span>, <span class="var">val</span>):
+        <span class="kw">if not</span> <span class="var">node</span>: <span class="kw">return</span> <span class="fn">Node</span>(<span class="var">val</span>)
+        <span class="kw">if</span> <span class="var">val</span> <span class="op">&lt;</span> <span class="var">node</span>.<span class="var">val</span>:
+            <span class="var">node</span>.<span class="var">left</span> <span class="op">=</span> <span class="var">self</span>.<span class="fn">_insert</span>(<span class="var">node</span>.<span class="var">left</span>, <span class="var">val</span>)
+        <span class="kw">elif</span> <span class="var">val</span> <span class="op">&gt;</span> <span class="var">node</span>.<span class="var">val</span>:
+            <span class="var">node</span>.<span class="var">right</span> <span class="op">=</span> <span class="var">self</span>.<span class="fn">_insert</span>(<span class="var">node</span>.<span class="var">right</span>, <span class="var">val</span>)
+        <span class="kw">return</span> <span class="var">node</span>
+
+    <span class="kw">def</span> <span class="fn">search</span>(<span class="var">self</span>, <span class="var">val</span>):
+        <span class="var">node</span> <span class="op">=</span> <span class="var">self</span>.<span class="var">root</span>
+        <span class="kw">while</span> <span class="var">node</span>:
+            <span class="kw">if</span> <span class="var">val</span> <span class="op">==</span> <span class="var">node</span>.<span class="var">val</span>: <span class="kw">return</span> <span class="kw">True</span>
+            <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">left</span> <span class="kw">if</span> <span class="var">val</span> <span class="op">&lt;</span> <span class="var">node</span>.<span class="var">val</span> <span class="kw">else</span> <span class="var">node</span>.<span class="var">right</span>
+        <span class="kw">return</span> <span class="kw">False</span>`,
+      JavaScript: `<span class="cm">// Binary Search Tree</span>
+<span class="kw">class</span> <span class="fn">Node</span> {
+  <span class="fn">constructor</span>(<span class="var">val</span>) {
+    <span class="kw">this</span>.<span class="var">val</span> <span class="op">=</span> <span class="var">val</span>;
+    <span class="kw">this</span>.<span class="var">left</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">right</span> <span class="op">=</span> <span class="kw">null</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="fn">BST</span> {
+  <span class="fn">constructor</span>() { <span class="kw">this</span>.<span class="var">root</span> <span class="op">=</span> <span class="kw">null</span>; }
+
+  <span class="fn">insert</span>(<span class="var">val</span>, <span class="var">node</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">root</span>) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">node</span>) { <span class="kw">this</span>.<span class="var">root</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Node</span>(<span class="var">val</span>); <span class="kw">return</span>; }
+    <span class="var">val</span> <span class="op">&lt;</span> <span class="var">node</span>.<span class="var">val</span>
+      ? (<span class="var">node</span>.<span class="var">left</span> ? <span class="kw">this</span>.<span class="fn">insert</span>(<span class="var">val</span>, <span class="var">node</span>.<span class="var">left</span>) : (<span class="var">node</span>.<span class="var">left</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Node</span>(<span class="var">val</span>)))
+      : (<span class="var">node</span>.<span class="var">right</span> ? <span class="kw">this</span>.<span class="fn">insert</span>(<span class="var">val</span>, <span class="var">node</span>.<span class="var">right</span>) : (<span class="var">node</span>.<span class="var">right</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Node</span>(<span class="var">val</span>)));
+  }
+
+  <span class="fn">search</span>(<span class="var">val</span>) {
+    <span class="kw">let</span> <span class="var">n</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">root</span>;
+    <span class="kw">while</span> (<span class="var">n</span>) {
+      <span class="kw">if</span> (<span class="var">val</span> <span class="op">===</span> <span class="var">n</span>.<span class="var">val</span>) <span class="kw">return true</span>;
+      <span class="var">n</span> <span class="op">=</span> <span class="var">val</span> <span class="op">&lt;</span> <span class="var">n</span>.<span class="var">val</span> ? <span class="var">n</span>.<span class="var">left</span> : <span class="var">n</span>.<span class="var">right</span>;
+    }
+    <span class="kw">return false</span>;
+  }
+}`,
+      Java: `<span class="cm">// Binary Search Tree</span>
+<span class="kw">class</span> <span class="fn">BST</span> {
+    <span class="kw">private</span> Node <span class="var">root</span>;
+
+    <span class="kw">static class</span> <span class="fn">Node</span> {
+        <span class="kw">int</span> <span class="var">val</span>; Node <span class="var">left</span>, <span class="var">right</span>;
+        <span class="fn">Node</span>(<span class="kw">int</span> <span class="var">v</span>) { <span class="var">val</span> <span class="op">=</span> <span class="var">v</span>; }
+    }
+
+    <span class="kw">public void</span> <span class="fn">insert</span>(<span class="kw">int</span> <span class="var">val</span>) { <span class="var">root</span> <span class="op">=</span> <span class="fn">insert</span>(<span class="var">root</span>, <span class="var">val</span>); }
+
+    <span class="kw">private</span> Node <span class="fn">insert</span>(Node <span class="var">n</span>, <span class="kw">int</span> <span class="var">v</span>) {
+        <span class="kw">if</span> (<span class="var">n</span> <span class="op">==</span> <span class="kw">null</span>) <span class="kw">return new</span> <span class="fn">Node</span>(<span class="var">v</span>);
+        <span class="kw">if</span> (<span class="var">v</span> <span class="op">&lt;</span> <span class="var">n</span>.<span class="var">val</span>) <span class="var">n</span>.<span class="var">left</span> <span class="op">=</span> <span class="fn">insert</span>(<span class="var">n</span>.<span class="var">left</span>, <span class="var">v</span>);
+        <span class="kw">else if</span> (<span class="var">v</span> <span class="op">></span> <span class="var">n</span>.<span class="var">val</span>) <span class="var">n</span>.<span class="var">right</span> <span class="op">=</span> <span class="fn">insert</span>(<span class="var">n</span>.<span class="var">right</span>, <span class="var">v</span>);
+        <span class="kw">return</span> <span class="var">n</span>;
+    }
+}`
+    }
+  },
+  {
+    id: 'greedy-activity',
+    name: 'Activity Selection',
+    category: 'Greedy',
+    explanation: 'Select the maximum number of non-overlapping activities by always picking the one that ends earliest.',
+    usecase: 'Meeting room scheduling; CPU job scheduling; event management systems.',
+    complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n log n)', space: 'O(1)' },
+    subtitle: 'Greedy and globally optimal — the earliest finish always leads to the best solution.',
+    description: 'Activity Selection is a classic greedy problem. By sorting activities by finish time and always selecting the next activity that starts after the current one ends, we achieve the maximum number of compatible activities — and greedy is provably optimal here.',
+    steps: [
+      'Sort all activities by their finish time',
+      'Select the first activity (earliest finish)',
+      'For each remaining activity:',
+      '  If its start time ≥ finish time of last selected activity',
+      '  Select it and update last finish time',
+      'Return all selected activities'
+    ],
+    pros: 'Optimal solution in O(n log n) — significantly faster than DP or brute force. Greedy choice is provably correct.',
+    cons: 'Only works for this specific problem structure. Greedy is not always correct — must prove optimality per problem.',
+    similar: ['Interval Scheduling', 'Fractional Knapsack', "Huffman Coding"],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Activity Selection — O(n log n)</span>
+<span class="kw">def</span> <span class="fn">activity_selection</span>(<span class="var">activities</span>):
+    <span class="cm"># Sort by finish time</span>
+    <span class="var">activities</span>.<span class="fn">sort</span>(<span class="var">key</span><span class="op">=</span><span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span>[<span class="num">1</span>])
+
+    <span class="var">selected</span> <span class="op">=</span> [<span class="var">activities</span>[<span class="num">0</span>]]
+    <span class="var">last_end</span> <span class="op">=</span> <span class="var">activities</span>[<span class="num">0</span>][<span class="num">1</span>]
+
+    <span class="kw">for</span> <span class="var">start</span>, <span class="var">end</span> <span class="kw">in</span> <span class="var">activities</span>[<span class="num">1</span>:]:
+        <span class="kw">if</span> <span class="var">start</span> <span class="op">&gt;=</span> <span class="var">last_end</span>:
+            <span class="var">selected</span>.<span class="fn">append</span>((<span class="var">start</span>, <span class="var">end</span>))
+            <span class="var">last_end</span> <span class="op">=</span> <span class="var">end</span>
+
+    <span class="kw">return</span> <span class="var">selected</span>
+
+<span class="cm"># Example: [(start, end), ...]</span>
+<span class="var">acts</span> <span class="op">=</span> [(<span class="num">1</span>,<span class="num">4</span>), (<span class="num">3</span>,<span class="num">5</span>), (<span class="num">0</span>,<span class="num">6</span>), (<span class="num">5</span>,<span class="num">7</span>), (<span class="num">8</span>,<span class="num">9</span>), (<span class="num">5</span>,<span class="num">9</span>)]
+<span class="fn">print</span>(<span class="fn">activity_selection</span>(<span class="var">acts</span>))
+<span class="cm"># → [(1,4), (5,7), (8,9)]</span>`,
+      JavaScript: `<span class="cm">// Activity Selection — O(n log n)</span>
+<span class="kw">function</span> <span class="fn">activitySelection</span>(<span class="var">activities</span>) {
+  <span class="var">activities</span>.<span class="fn">sort</span>((<span class="var">a</span>, <span class="var">b</span>) <span class="op">=></span> <span class="var">a</span>[<span class="num">1</span>] <span class="op">-</span> <span class="var">b</span>[<span class="num">1</span>]);
+
+  <span class="kw">const</span> <span class="var">selected</span> <span class="op">=</span> [<span class="var">activities</span>[<span class="num">0</span>]];
+  <span class="kw">let</span> <span class="var">lastEnd</span> <span class="op">=</span> <span class="var">activities</span>[<span class="num">0</span>][<span class="num">1</span>];
+
+  <span class="kw">for</span> (<span class="kw">const</span> [<span class="var">start</span>, <span class="var">end</span>] <span class="kw">of</span> <span class="var">activities</span>.<span class="fn">slice</span>(<span class="num">1</span>)) {
+    <span class="kw">if</span> (<span class="var">start</span> <span class="op">&gt;=</span> <span class="var">lastEnd</span>) {
+      <span class="var">selected</span>.<span class="fn">push</span>([<span class="var">start</span>, <span class="var">end</span>]);
+      <span class="var">lastEnd</span> <span class="op">=</span> <span class="var">end</span>;
+    }
+  }
+  <span class="kw">return</span> <span class="var">selected</span>;
+}`,
+      Java: `<span class="cm">// Activity Selection — O(n log n)</span>
+<span class="kw">public static</span> List&lt;int[]&gt; <span class="fn">activitySelection</span>(<span class="kw">int</span>[][] <span class="var">acts</span>) {
+    Arrays.<span class="fn">sort</span>(<span class="var">acts</span>, Comparator.<span class="fn">comparingInt</span>(<span class="var">a</span> <span class="op">-></span> <span class="var">a</span>[<span class="num">1</span>]));
+    List&lt;int[]&gt; <span class="var">selected</span> <span class="op">=</span> <span class="kw">new</span> ArrayList&lt;&gt;();
+    <span class="var">selected</span>.<span class="fn">add</span>(<span class="var">acts</span>[<span class="num">0</span>]);
+    <span class="kw">int</span> <span class="var">lastEnd</span> <span class="op">=</span> <span class="var">acts</span>[<span class="num">0</span>][<span class="num">1</span>];
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">acts</span>.length; <span class="var">i</span><span class="op">++</span>)
+        <span class="kw">if</span> (<span class="var">acts</span>[<span class="var">i</span>][<span class="num">0</span>] <span class="op">&gt;=</span> <span class="var">lastEnd</span>) {
+            <span class="var">selected</span>.<span class="fn">add</span>(<span class="var">acts</span>[<span class="var">i</span>]);
+            <span class="var">lastEnd</span> <span class="op">=</span> <span class="var">acts</span>[<span class="var">i</span>][<span class="num">1</span>];
+        }
+    <span class="kw">return</span> <span class="var">selected</span>;
+}`
+    }
+  },
+  {
+    id: 'insertion-sort',
+    name: 'Insertion Sort',
+    category: 'Sort',
+    explanation: 'Builds the sorted array one element at a time by inserting each into its correct position.',
+    usecase: 'Sorting small arrays; nearly-sorted data; used as the base case in Timsort and Introsort.',
+    complexity: { best: 'O(n)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)' },
+    subtitle: 'Sort like you would a hand of cards — pick each element and slide it into place.',
+    description: 'Insertion Sort iterates through the array, takes each element, and inserts it into its correct position among the already-sorted portion to its left. Very efficient on small or nearly-sorted data.',
+    steps: [
+      'Start with the second element (index 1)',
+      'Store it as the "key"',
+      'Compare with elements to its left; shift them right if they are larger',
+      'Insert the key into its correct position',
+      'Repeat for each subsequent element'
+    ],
+    pros: 'O(n) on nearly-sorted data. In-place and stable. No extra memory. Simple and cache-friendly.',
+    cons: 'O(n²) on random data. Not suitable for large unsorted arrays.',
+    similar: ['Bubble Sort', 'Shell Sort', 'Tim Sort'],
+    viz: 'bubble-sort',
+    code: {
+      Python: `<span class="cm"># Insertion Sort — O(n²)</span>
+<span class="kw">def</span> <span class="fn">insertion_sort</span>(<span class="var">arr</span>):
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="fn">len</span>(<span class="var">arr</span>)):
+        <span class="var">key</span> <span class="op">=</span> <span class="var">arr</span>[<span class="var">i</span>]
+        <span class="var">j</span> <span class="op">=</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>
+        <span class="kw">while</span> <span class="var">j</span> <span class="op">&gt;=</span> <span class="num">0</span> <span class="kw">and</span> <span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">key</span>:
+            <span class="var">arr</span>[<span class="var">j</span> <span class="op">+</span> <span class="num">1</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span>]
+            <span class="var">j</span> <span class="op">-=</span> <span class="num">1</span>
+        <span class="var">arr</span>[<span class="var">j</span> <span class="op">+</span> <span class="num">1</span>] <span class="op">=</span> <span class="var">key</span>
+    <span class="kw">return</span> <span class="var">arr</span>`,
+      JavaScript: `<span class="cm">// Insertion Sort — O(n²)</span>
+<span class="kw">function</span> <span class="fn">insertionSort</span>(<span class="var">arr</span>) {
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">arr</span>.<span class="var">length</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="kw">const</span> <span class="var">key</span> <span class="op">=</span> <span class="var">arr</span>[<span class="var">i</span>];
+    <span class="kw">let</span> <span class="var">j</span> <span class="op">=</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>;
+    <span class="kw">while</span> (<span class="var">j</span> <span class="op">&gt;=</span> <span class="num">0</span> <span class="op">&&</span> <span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">key</span>)
+      <span class="var">arr</span>[<span class="var">j</span> <span class="op">+</span> <span class="num">1</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">--</span>];
+    <span class="var">arr</span>[<span class="var">j</span> <span class="op">+</span> <span class="num">1</span>] <span class="op">=</span> <span class="var">key</span>;
+  }
+  <span class="kw">return</span> <span class="var">arr</span>;
+}`,
+      Java: `<span class="cm">// Insertion Sort — O(n²)</span>
+<span class="kw">public static void</span> <span class="fn">insertionSort</span>(<span class="kw">int</span>[] <span class="var">arr</span>) {
+    <span class="kw">for</span> (<span class="kw">int</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">arr</span>.length; <span class="var">i</span><span class="op">++</span>) {
+        <span class="kw">int</span> <span class="var">key</span> <span class="op">=</span> <span class="var">arr</span>[<span class="var">i</span>], <span class="var">j</span> <span class="op">=</span> <span class="var">i</span> <span class="op">-</span> <span class="num">1</span>;
+        <span class="kw">while</span> (<span class="var">j</span> <span class="op">&gt;=</span> <span class="num">0</span> <span class="op">&&</span> <span class="var">arr</span>[<span class="var">j</span>] <span class="op">&gt;</span> <span class="var">key</span>) <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>] <span class="op">=</span> <span class="var">arr</span>[<span class="var">j</span><span class="op">--</span>];
+        <span class="var">arr</span>[<span class="var">j</span><span class="op">+</span><span class="num">1</span>] <span class="op">=</span> <span class="var">key</span>;
+    }
+}`
+    }
+  },
+  {
+    id: 'hash-table',
+    name: 'Hash Table',
+    category: 'Search',
+    explanation: 'Maps keys to values using a hash function, enabling near-instant lookup.',
+    usecase: 'Database indexing; caches (Redis); symbol tables in compilers; counting frequencies.',
+    complexity: { best: 'O(1)', avg: 'O(1)', worst: 'O(n)', space: 'O(n)' },
+    subtitle: 'The key to instant lookup — hash it, slot it, find it in O(1).',
+    description: 'A Hash Table uses a hash function to map keys to bucket indices in an array. Good hash functions distribute keys uniformly, giving O(1) average-case for get, set, and delete. Collisions are handled via chaining or open addressing.',
+    steps: [
+      'Compute hash(key) → index in the underlying array',
+      'To insert: place (key, value) at that index (handle collisions)',
+      'To get: compute hash, go to that index, return value',
+      'To delete: compute hash, find entry, remove it',
+      'Resize and rehash when load factor exceeds threshold (~0.75)'
+    ],
+    pros: 'O(1) average for all operations. Incredibly versatile. Foundation of most dictionaries and caches.',
+    cons: 'O(n) worst case with many collisions. No ordering. Hash function quality is critical.',
+    similar: ['Binary Search', 'Trie', 'Skip List'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Hash Table — Python dict is a hash table!</span>
+<span class="kw">class</span> <span class="fn">HashTable</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">size</span><span class="op">=</span><span class="num">16</span>):
+        <span class="var">self</span>.<span class="var">size</span> <span class="op">=</span> <span class="var">size</span>
+        <span class="var">self</span>.<span class="var">buckets</span> <span class="op">=</span> [[] <span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">self</span>.<span class="var">size</span>)]
+
+    <span class="kw">def</span> <span class="fn">_hash</span>(<span class="var">self</span>, <span class="var">key</span>):
+        <span class="kw">return</span> <span class="fn">hash</span>(<span class="var">key</span>) <span class="op">%</span> <span class="var">self</span>.<span class="var">size</span>
+
+    <span class="kw">def</span> <span class="fn">set</span>(<span class="var">self</span>, <span class="var">key</span>, <span class="var">value</span>):
+        <span class="var">idx</span> <span class="op">=</span> <span class="var">self</span>.<span class="fn">_hash</span>(<span class="var">key</span>)
+        <span class="kw">for</span> <span class="var">pair</span> <span class="kw">in</span> <span class="var">self</span>.<span class="var">buckets</span>[<span class="var">idx</span>]:
+            <span class="kw">if</span> <span class="var">pair</span>[<span class="num">0</span>] <span class="op">==</span> <span class="var">key</span>:
+                <span class="var">pair</span>[<span class="num">1</span>] <span class="op">=</span> <span class="var">value</span>; <span class="kw">return</span>
+        <span class="var">self</span>.<span class="var">buckets</span>[<span class="var">idx</span>].<span class="fn">append</span>([<span class="var">key</span>, <span class="var">value</span>])
+
+    <span class="kw">def</span> <span class="fn">get</span>(<span class="var">self</span>, <span class="var">key</span>):
+        <span class="var">idx</span> <span class="op">=</span> <span class="var">self</span>.<span class="fn">_hash</span>(<span class="var">key</span>)
+        <span class="kw">for</span> <span class="var">k</span>, <span class="var">v</span> <span class="kw">in</span> <span class="var">self</span>.<span class="var">buckets</span>[<span class="var">idx</span>]:
+            <span class="kw">if</span> <span class="var">k</span> <span class="op">==</span> <span class="var">key</span>: <span class="kw">return</span> <span class="var">v</span>
+        <span class="kw">return</span> <span class="kw">None</span>`,
+      JavaScript: `<span class="cm">// Hash Table — JS Map is a hash table!</span>
+<span class="kw">class</span> <span class="fn">HashTable</span> {
+  <span class="fn">constructor</span>(<span class="var">size</span> <span class="op">=</span> <span class="num">16</span>) {
+    <span class="kw">this</span>.<span class="var">buckets</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Array</span>(<span class="var">size</span>).<span class="fn">fill</span>(<span class="kw">null</span>).<span class="fn">map</span>(() <span class="op">=></span> []);
+    <span class="kw">this</span>.<span class="var">size</span> <span class="op">=</span> <span class="var">size</span>;
+  }
+
+  <span class="fn">_hash</span>(<span class="var">key</span>) {
+    <span class="kw">return</span> [...<span class="var">key</span>].<span class="fn">reduce</span>((<span class="var">h</span>, <span class="var">c</span>) <span class="op">=></span> (<span class="var">h</span> <span class="op">*</span> <span class="num">31</span> <span class="op">+</span> <span class="var">c</span>.<span class="fn">charCodeAt</span>(<span class="num">0</span>)) <span class="op">%</span> <span class="kw">this</span>.<span class="var">size</span>, <span class="num">0</span>);
+  }
+
+  <span class="fn">set</span>(<span class="var">key</span>, <span class="var">val</span>) {
+    <span class="kw">const</span> <span class="var">b</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">buckets</span>[<span class="kw">this</span>.<span class="fn">_hash</span>(<span class="var">key</span>)];
+    <span class="kw">const</span> <span class="var">pair</span> <span class="op">=</span> <span class="var">b</span>.<span class="fn">find</span>(<span class="var">p</span> <span class="op">=></span> <span class="var">p</span>[<span class="num">0</span>] <span class="op">===</span> <span class="var">key</span>);
+    <span class="var">pair</span> ? (<span class="var">pair</span>[<span class="num">1</span>] <span class="op">=</span> <span class="var">val</span>) : <span class="var">b</span>.<span class="fn">push</span>([<span class="var">key</span>, <span class="var">val</span>]);
+  }
+
+  <span class="fn">get</span>(<span class="var">key</span>) {
+    <span class="kw">const</span> <span class="var">pair</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">buckets</span>[<span class="kw">this</span>.<span class="fn">_hash</span>(<span class="var">key</span>)].<span class="fn">find</span>(<span class="var">p</span> <span class="op">=></span> <span class="var">p</span>[<span class="num">0</span>] <span class="op">===</span> <span class="var">key</span>);
+    <span class="kw">return</span> <span class="var">pair</span> ? <span class="var">pair</span>[<span class="num">1</span>] : <span class="kw">undefined</span>;
+  }
+}`,
+      Java: `<span class="cm">// Java HashMap is a hash table</span>
+Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span> <span class="kw">new</span> HashMap&lt;&gt;();
+<span class="var">map</span>.<span class="fn">put</span>(<span class="str">"alice"</span>, <span class="num">42</span>);     <span class="cm">// O(1) avg</span>
+<span class="var">map</span>.<span class="fn">get</span>(<span class="str">"alice"</span>);          <span class="cm">// O(1) avg → 42</span>
+<span class="var">map</span>.<span class="fn">containsKey</span>(<span class="str">"bob"</span>);   <span class="cm">// O(1) avg → false</span>
+<span class="var">map</span>.<span class="fn">remove</span>(<span class="str">"alice"</span>);      <span class="cm">// O(1) avg</span>`
+    }
+  }
+];
+
+// ══════════════════════════════════════════
+//  CATEGORY METADATA
+// ══════════════════════════════════════════
+const catMeta = {
+  'Search':  { cls: 'cat-search', icon: '🔍', iconCls: 'icon-search' },
+  'Sort':    { cls: 'cat-sort',   icon: '↕️', iconCls: 'icon-sort' },
+  'Graph':   { cls: 'cat-graph',  icon: '🕸️', iconCls: 'icon-graph' },
+  'Tree':    { cls: 'cat-tree',   icon: '🌲', iconCls: 'icon-tree' },
+  'Dynamic Programming': { cls: 'cat-dynamic', icon: '♻️', iconCls: 'icon-dynamic' },
+  'Greedy':  { cls: 'cat-greedy', icon: '⚡', iconCls: 'icon-greedy' },
+};
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let currentFilter = 'All';
+let currentAlgo = null;
+let currentLang = 'Python';
+let vizTimer = null;
+
+// ══════════════════════════════════════════
+//  HOME
+// ══════════════════════════════════════════
+function renderTable(filter = 'All', search = '') {
+  const tbody = document.getElementById('algo-table-body');
+  const filtered = algorithms.filter(a => {
+    const matchCat = filter === 'All' || a.category === filter;
+    const q = search.toLowerCase();
+    const matchSearch = !q || a.name.toLowerCase().includes(q) ||
+      a.category.toLowerCase().includes(q) || a.explanation.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  document.getElementById('algo-count').textContent = filtered.length;
+
+  tbody.innerHTML = filtered.map((a, i) => {
+    const m = catMeta[a.category] || catMeta['Search'];
+    return `<tr onclick="showDetail('${a.id}')" style="animation-delay:${i * 40}ms">
+      <td><div class="algo-name">
+        <div class="algo-icon ${m.iconCls}">${m.icon}</div>
+        ${a.name}
+      </div></td>
+      <td><span class="category-badge ${m.cls}">${a.category}</span></td>
+      <td><div class="explanation">${a.explanation}</div></td>
+      <td><div class="usecase">${a.usecase}</div></td>
+      <td><span class="complexity-badge">${a.complexity.avg}</span></td>
+      <td><button class="arrow-btn">→</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterByCategory(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.nav-pill').forEach(b => {
+    b.classList.toggle('active', b.textContent === cat || (cat === 'All' && b.textContent === 'All') || (cat === 'Dynamic Programming' && b.textContent === 'DP'));
+  });
+  renderTable(currentFilter, document.getElementById('search-input').value);
+}
+
+function filterByCategoryBtn(btn, cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(currentFilter, document.getElementById('search-input').value);
+}
+
+function filterTable() {
+  renderTable(currentFilter, document.getElementById('search-input').value);
+}
+
+// ══════════════════════════════════════════
+//  DETAIL
+// ══════════════════════════════════════════
+function showDetail(id) {
+  currentAlgo = algorithms.find(a => a.id === id);
+  if (!currentAlgo) return;
+
+  const a = currentAlgo;
+  const m = catMeta[a.category] || catMeta['Search'];
+
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  document.getElementById('detail-view').classList.add('fade-in');
+
+  // Category badge
+  document.getElementById('d-category').innerHTML = `<span class="category-badge ${m.cls}">${m.icon} ${a.category}</span>`;
+  document.getElementById('d-title').textContent = a.name;
+  document.getElementById('d-subtitle').textContent = a.subtitle;
+
+  // Complexity cards
+  document.getElementById('d-complexity').innerHTML = `
+    <div class="complexity-card"><div class="label">Best</div><div class="value">${a.complexity.best}</div></div>
+    <div class="complexity-card"><div class="label">Average</div><div class="value">${a.complexity.avg}</div></div>
+    <div class="complexity-card"><div class="label">Worst</div><div class="value">${a.complexity.worst}</div></div>
+    <div class="complexity-card space"><div class="label">Space</div><div class="value">${a.complexity.space}</div></div>
+  `;
+
+  // Info grid
+  document.getElementById('d-info-grid').innerHTML = `
+    <div class="detail-card">
+      <h3>How It Works</h3>
+      <p>${a.description}</p>
+      <br>
+      <ul class="steps-list">
+        ${a.steps.map((s,i) => `<li><span class="step-num">${i+1}</span>${s}</li>`).join('')}
+      </ul>
+    </div>
+    <div class="detail-card">
+      <h3>Advantages</h3>
+      <p>${a.pros}</p>
+      <br>
+      <h3>Trade-offs</h3>
+      <p>${a.cons}</p>
+    </div>
+  `;
+
+  // Viz section
+  const vizSection = document.getElementById('d-viz-section');
+  if (a.viz) {
+    vizSection.style.display = 'block';
+    resetViz();
+  } else {
+    vizSection.style.display = 'none';
+  }
+
+  // Code tabs
+  currentLang = 'Python';
+  const langs = Object.keys(a.code);
+  document.getElementById('code-tabs').innerHTML = langs.map(l =>
+    `<button class="code-tab ${l === currentLang ? 'active' : ''}" onclick="setLang('${l}', this)">${l}</button>`
+  ).join('');
+  document.getElementById('code-display').innerHTML = a.code[currentLang];
+
+  // Similar
+  document.getElementById('d-footer').innerHTML = `
+    <div>
+      <div class="similar-label">Related Algorithms</div>
+      <div class="similar-chips">
+        ${a.similar.map(s => {
+          const found = algorithms.find(x => x.name === s);
+          return `<span class="similar-chip" onclick="${found ? `showDetail('${found.id}')` : ''}">${s}</span>`;
+        }).join('')}
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div class="similar-label">Complexity</div>
+      <span class="complexity-badge" style="font-size:0.85rem">${a.complexity.avg}</span>
+    </div>
+  `;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.code-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('code-display').innerHTML = currentAlgo.code[lang];
+}
+
+function showHome() {
+  if (vizTimer) { clearTimeout(vizTimer); vizTimer = null; }
+  document.getElementById('home-view').style.display = 'block';
+  document.getElementById('detail-view').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════
+//  VISUALIZATION
+// ══════════════════════════════════════════
+let vizData = [];
+let vizSteps = [];
+let vizStepIdx = 0;
+
+function buildBubbleSortSteps(arr) {
+  const a = [...arr];
+  const steps = [{ arr: [...a], active: [], sorted: new Set(), status: 'Starting bubble sort...' }];
+  const n = a.length;
+  for (let i = 0; i < n; i++) {
+    let swapped = false;
+    for (let j = 0; j < n - i - 1; j++) {
+      steps.push({ arr: [...a], active: [j, j+1], sorted: new Set([...Array(i)].map((_,x)=>n-1-x)), status: `Comparing ${a[j]} and ${a[j+1]}` });
+      if (a[j] > a[j+1]) {
+        [a[j], a[j+1]] = [a[j+1], a[j]];
+        steps.push({ arr: [...a], active: [j, j+1], sorted: new Set([...Array(i)].map((_,x)=>n-1-x)), status: `Swapped ${a[j+1]} and ${a[j]}` });
+        swapped = true;
+      }
+    }
+    const sortedSet = new Set([...Array(i+1)].map((_,x)=>n-1-x));
+    steps.push({ arr: [...a], active: [], sorted: sortedSet, status: `Pass ${i+1} complete` });
+    if (!swapped) break;
+  }
+  steps.push({ arr: [...a], active: [], sorted: new Set([...Array(n)].map((_,x)=>x)), status: '✓ Array sorted!' });
+  return steps;
+}
+
+function buildBinarySearchSteps(arr, target) {
+  const steps = [];
+  let left = 0, right = arr.length - 1;
+  steps.push({ left, right, mid: -1, found: -1, status: `Searching for ${target}...` });
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    steps.push({ left, right, mid, found: -1, status: `mid=${mid}, arr[mid]=${arr[mid]}, target=${target}` });
+    if (arr[mid] === target) {
+      steps.push({ left, right, mid, found: mid, status: `✓ Found ${target} at index ${mid}!` });
+      return steps;
+    } else if (arr[mid] < target) {
+      steps.push({ left: mid+1, right, mid, found: -1, status: `${arr[mid]} < ${target}, search right half` });
+      left = mid + 1;
+    } else {
+      steps.push({ left, right: mid-1, mid, found: -1, status: `${arr[mid]} > ${target}, search left half` });
+      right = mid - 1;
+    }
+  }
+  steps.push({ left, right, mid: -1, found: -1, status: `Target ${target} not found` });
+  return steps;
+}
+
+function resetViz() {
+  if (vizTimer) { clearTimeout(vizTimer); vizTimer = null; }
+  vizStepIdx = 0;
+  document.getElementById('viz-run-btn').textContent = '▶ Run';
+
+  if (!currentAlgo) return;
+
+  if (currentAlgo.viz === 'bubble-sort') {
+    vizData = [38, 27, 43, 3, 9, 82, 10];
+    vizSteps = buildBubbleSortSteps(vizData);
+    renderBars(vizData, [], new Set());
+  } else if (currentAlgo.viz === 'binary-search') {
+    vizData = [2, 5, 8, 12, 16, 23, 38, 56];
+    vizSteps = buildBinarySearchSteps(vizData, 23);
+    renderBinaryBars(vizData, -1, 0, vizData.length-1, -1);
+  }
+  document.getElementById('viz-status').textContent = 'Press Run to see the algorithm in action';
+}
+
+function renderBars(arr, active, sorted) {
+  const max = Math.max(...arr);
+  document.getElementById('viz-array').innerHTML = arr.map((v, i) => `
+    <div class="viz-bar ${active.includes(i) ? 'comparing' : sorted.has(i) ? 'sorted' : ''}">
+      <div class="bar-body" style="height:${Math.max(20, (v/max)*100)}px"></div>
+      <div class="bar-label">${v}</div>
+    </div>
+  `).join('');
+}
+
+function renderBinaryBars(arr, mid, left, right, found) {
+  const max = Math.max(...arr);
+  document.getElementById('viz-array').innerHTML = arr.map((v, i) => {
+    let cls = '';
+    if (found === i) cls = 'found';
+    else if (mid === i) cls = 'active';
+    else if (i < left || i > right) cls = 'sorted';
+    return `<div class="viz-bar ${cls}">
+      <div class="bar-body" style="height:${Math.max(20, (v/max)*100)}px"></div>
+      <div class="bar-label">${v}</div>
+    </div>`;
+  }).join('');
+}
+
+function runViz() {
+  if (!currentAlgo || !vizSteps.length) return;
+  const btn = document.getElementById('viz-run-btn');
+  if (vizStepIdx >= vizSteps.length) { resetViz(); return; }
+  btn.textContent = '⏸ Running...';
+
+  function step() {
+    if (vizStepIdx >= vizSteps.length) {
+      btn.textContent = '↺ Replay';
+      return;
+    }
+    const s = vizSteps[vizStepIdx++];
+    document.getElementById('viz-status').textContent = s.status;
+
+    if (currentAlgo.viz === 'bubble-sort') {
+      renderBars(s.arr, s.active || [], s.sorted || new Set());
+    } else if (currentAlgo.viz === 'binary-search') {
+      renderBinaryBars(vizData, s.mid, s.left, s.right, s.found);
+    }
+
+    vizTimer = setTimeout(step, 600);
+  }
+  step();
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+renderTable();
+</script>
+<script>
+  // Theme Toggle Logic
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('theme-toggle').textContent = '☀️'; // Show sun to toggle to light
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.getElementById('theme-toggle').textContent = '🌙'; // Show moon to toggle to dark
+    }
+    localStorage.setItem('algologic-theme', theme);
+  }
+
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    setTheme(isDark ? 'light' : 'dark');
+  }
+
+  // Initialize Theme
+  const savedTheme = localStorage.getItem('algologic-theme');
+  if (savedTheme) {
+    setTheme(savedTheme);
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+  }
+</script>
+</body>
+</html>
