@@ -28,13 +28,13 @@ Because AlgoLogic is a zero-dependency architecture, getting started is practica
    ```bash
    git clone https://github.com/tomoyan/algologic.git
    ```
-2. Navigate into the directory and open `algologic.html` directly in any modern web browser!
+2. Navigate into the directory and open `index.html` directly in any modern web browser!
    ```bash
    cd algologic
    # On Mac:
-   open algologic.html
+   open index.html
    # On Windows:
-   start algologic.html
+   start index.html
    # Or simply double-click the file in your file explorer!
    ```
 
