@@ -32,6 +32,9 @@
     --cat-greedy-rgb: 230, 69, 69;
 
     --detail-text: #4a4a5e;
+
+  --cat-datastructure: #9b51e0;
+  --cat-datastructure-rgb: 155, 81, 224;
   }
 
   [data-theme="dark"] {
@@ -59,6 +62,9 @@
     --cat-greedy-rgb: 255, 107, 107;
 
     --detail-text: #b0b0c0;
+
+  --cat-datastructure: #b57eed;
+  --cat-datastructure-rgb: 181, 126, 237;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -387,6 +393,7 @@
   .cat-tree { background: rgba(var(--cat-tree-rgb), 0.12); color: var(--cat-tree); }
   .cat-dynamic { background: rgba(var(--cat-dynamic-rgb), 0.12); color: var(--cat-dynamic); }
   .cat-greedy { background: rgba(var(--cat-greedy-rgb), 0.12); color: var(--cat-greedy); }
+  .cat-datastructure { background: rgba(var(--cat-datastructure-rgb), 0.12); color: var(--cat-datastructure); }
 
   .icon-search { background: rgba(var(--accent-rgb), 0.15); }
   .icon-sort { background: rgba(var(--accent2-rgb), 0.15); }
@@ -394,6 +401,7 @@
   .icon-tree { background: rgba(var(--cat-tree-rgb), 0.15); }
   .icon-dynamic { background: rgba(var(--cat-dynamic-rgb), 0.15); }
   .icon-greedy { background: rgba(var(--cat-greedy-rgb), 0.15); }
+  .icon-datastructure { background: rgba(var(--cat-datastructure-rgb), 0.15); }
 
   /* ─── DETAIL VIEW ─── */
   .back-btn {
@@ -793,6 +801,7 @@
     <button class="nav-pill" onclick="filterByCategory('Sort')">Sort</button>
     <button class="nav-pill" onclick="filterByCategory('Graph')">Graph</button>
     <button class="nav-pill" onclick="filterByCategory('Dynamic Programming')">DP</button>
+    <button class="nav-pill" onclick="filterByCategory('Data Structure')">Data Structure</button>
       <button class="nav-pill theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" style="margin-left:8px; display:flex; align-items:center; justify-content:center; padding: 6px 12px; font-size: 1.1rem; border: 1px solid var(--border);">
       ☀️
     </button>
@@ -810,11 +819,11 @@
       </div>
       <div class="stats-block">
         <div>
-          <div class="stat-num" id="algo-count">12</div>
+          <div class="stat-num" id="algo-count">15</div>
           <div class="stat-label">Algorithms</div>
         </div>
         <div>
-          <div class="stat-num">6</div>
+          <div class="stat-num">7</div>
           <div class="stat-label">Categories</div>
         </div>
       </div>
@@ -834,6 +843,7 @@
       <button class="filter-btn" onclick="filterByCategoryBtn(this,'Tree')">Tree</button>
       <button class="filter-btn" onclick="filterByCategoryBtn(this,'Dynamic Programming')">Dynamic Programming</button>
       <button class="filter-btn" onclick="filterByCategoryBtn(this,'Greedy')">Greedy</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Data Structure')">Data Structure</button>
     </div>
 
     <div class="table-wrapper">
@@ -1780,6 +1790,296 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
 <span class="var">map</span>.<span class="fn">containsKey</span>(<span class="str">"bob"</span>);   <span class="cm">// O(1) avg → false</span>
 <span class="var">map</span>.<span class="fn">remove</span>(<span class="str">"alice"</span>);      <span class="cm">// O(1) avg</span>`
     }
+  },
+  {
+    id: 'a-star',
+    name: 'A* Search',
+    category: 'Graph',
+    explanation: 'Uses a heuristic to find the shortest path efficiently, guiding the search directly toward the goal.',
+    usecase: 'GPS routing, game AI pathfinding, robotics navigation.',
+    complexity: { best: 'O(E)', avg: 'O(E)', worst: 'O(b^d)', space: 'O(V)' },
+    subtitle: 'The gold standard of pathfinding — intelligent routing using heuristics.',
+    description: 'A* (A-Star) is an informed search algorithm used in pathfinding. It combines the benefits of Dijkstra\'s Algorithm (finding shortest path) and Greedy Best-First-Search (moving quickly toward the goal) by evaluating nodes based on known distance plus an estimated distance to the target (heuristic).',
+    steps: [
+      'Initialize an open set (priority queue) and closed set (visited).',
+      'Add the start node to the open set with an f-score = g-score (0) + h-score (heuristic distance to target).',
+      'While the open set is not empty, pop the node with the lowest f-score.',
+      'If the node is the target, reconstruct and return the path.',
+      'Mark the node as closed. For each neighbor, calculate its tentative g-score.',
+      'If the path to the neighbor is shorter than previously known, update its scores and add it to the open set.'
+    ],
+    pros: 'Extremely efficient compared to Dijkstra due to the heuristic, massively reducing the search space.',
+    cons: 'Memory intensive, and requires a well-designed admissible heuristic to guarantee optimal results.',
+    similar: ['Breadth-First Search', 'Dijkstra\'s Algorithm'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># A* Search — Graph Pathfinding</span>
+<span class="kw">import</span> <span class="var">heapq</span>
+
+<span class="kw">def</span> <span class="fn">a_star</span>(<span class="var">start</span>, <span class="var">goal</span>, <span class="var">graph</span>, <span class="var">heuristic</span>):
+    <span class="var">open_set</span> <span class="op">=</span> [(<span class="num">0</span>, <span class="var">start</span>)]
+    <span class="var">came_from</span> <span class="op">=</span> {}
+    <span class="var">g_score</span> <span class="op">=</span> {<span class="var">node</span>: <span class="var">float</span>(<span class="str">'inf'</span>) <span class="kw">for</span> <span class="var">node</span> <span class="kw">in</span> <span class="var">graph</span>}
+    <span class="var">g_score</span>[<span class="var">start</span>] <span class="op">=</span> <span class="num">0</span>
+    
+    <span class="kw">while</span> <span class="var">open_set</span>:
+        <span class="var">_</span>, <span class="var">current</span> <span class="op">=</span> <span class="var">heapq</span>.<span class="fn">heappop</span>(<span class="var">open_set</span>)
+        <span class="kw">if</span> <span class="var">current</span> <span class="op">==</span> <span class="var">goal</span>: <span class="kw">return</span> <span class="fn">reconstruct_path</span>(<span class="var">came_from</span>, <span class="var">current</span>)
+        
+        <span class="kw">for</span> <span class="var">neighbor</span>, <span class="var">cost</span> <span class="kw">in</span> <span class="var">graph</span>[<span class="var">current</span>].<span class="fn">items</span>():
+            <span class="var">tentative_g</span> <span class="op">=</span> <span class="var">g_score</span>[<span class="var">current</span>] <span class="op">+</span> <span class="var">cost</span>
+            <span class="kw">if</span> <span class="var">tentative_g</span> <span class="op">&lt;</span> <span class="var">g_score</span>[<span class="var">neighbor</span>]:
+                <span class="var">came_from</span>[<span class="var">neighbor</span>] <span class="op">=</span> <span class="var">current</span>
+                <span class="var">g_score</span>[<span class="var">neighbor</span>] <span class="op">=</span> <span class="var">tentative_g</span>
+                <span class="var">f_score</span> <span class="op">=</span> <span class="var">tentative_g</span> <span class="op">+</span> <span class="fn">heuristic</span>(<span class="var">neighbor</span>, <span class="var">goal</span>)
+                <span class="var">heapq</span>.<span class="fn">heappush</span>(<span class="var">open_set</span>, (<span class="var">f_score</span>, <span class="var">neighbor</span>))
+    <span class="kw">return</span> <span class="kw">None</span>`,
+      JavaScript: `<span class="cm">// A* Search requires a Priority Queue implementation in JS</span>
+<span class="kw">function</span> <span class="fn">aStar</span>(<span class="var">start</span>, <span class="var">goal</span>, <span class="var">graph</span>, <span class="var">heuristic</span>) {
+  <span class="kw">const</span> <span class="var">openSet</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PriorityQueue</span>(); <span class="cm">// Custom class</span>
+  <span class="var">openSet</span>.<span class="fn">enqueue</span>(<span class="var">start</span>, <span class="num">0</span>);
+  <span class="kw">const</span> <span class="var">cameFrom</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();
+  <span class="kw">const</span> <span class="var">gScore</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();
+  <span class="var">gScore</span>.<span class="fn">set</span>(<span class="var">start</span>, <span class="num">0</span>);
+
+  <span class="kw">while</span> (<span class="var">openSet</span>.<span class="var">length</span> <span class="op">&gt;</span> <span class="num">0</span>) {
+    <span class="kw">const</span> <span class="var">current</span> <span class="op">=</span> <span class="var">openSet</span>.<span class="fn">dequeue</span>();
+    <span class="kw">if</span> (<span class="var">current</span> <span class="op">===</span> <span class="var">goal</span>) <span class="kw">return</span> <span class="fn">reconstructPath</span>(<span class="var">cameFrom</span>, <span class="var">current</span>);
+
+    <span class="kw">for</span> (<span class="kw">const</span> [<span class="var">neighbor</span>, <span class="var">cost</span>] <span class="kw">of</span> Object.<span class="fn">entries</span>(<span class="var">graph</span>[<span class="var">current</span>])) {
+      <span class="kw">const</span> <span class="var">tentativeG</span> <span class="op">=</span> <span class="var">gScore</span>.<span class="fn">get</span>(<span class="var">current</span>) <span class="op">+</span> <span class="var">cost</span>;
+      <span class="kw">if</span> (<span class="var">tentativeG</span> <span class="op">&lt;</span> (<span class="var">gScore</span>.<span class="fn">get</span>(<span class="var">neighbor</span>) <span class="op">||</span> <span class="var">Infinity</span>)) {
+        <span class="var">cameFrom</span>.<span class="fn">set</span>(<span class="var">neighbor</span>, <span class="var">current</span>);
+        <span class="var">gScore</span>.<span class="fn">set</span>(<span class="var">neighbor</span>, <span class="var">tentativeG</span>);
+        <span class="kw">const</span> <span class="var">fScore</span> <span class="op">=</span> <span class="var">tentativeG</span> <span class="op">+</span> <span class="fn">heuristic</span>(<span class="var">neighbor</span>, <span class="var">goal</span>);
+        <span class="var">openSet</span>.<span class="fn">enqueue</span>(<span class="var">neighbor</span>, <span class="var">fScore</span>);
+      }
+    }
+  }
+  <span class="kw">return</span> <span class="kw">null</span>;
+}`,
+      Java: `<span class="cm">// A* requires custom node classes and PriorityQueue</span>
+<span class="kw">public</span> List&lt;Node&gt; <span class="fn">aStar</span>(<span class="var">Node</span> <span class="var">start</span>, <span class="var">Node</span> <span class="var">goal</span>) {
+    PriorityQueue&lt;Node&gt; <span class="var">openSet</span> <span class="op">=</span> <span class="kw">new</span> PriorityQueue&lt;&gt;(Comparator.comparingDouble(n -&gt; n.fScore));
+    <span class="var">start</span>.gScore <span class="op">=</span> <span class="num">0</span>;
+    <span class="var">start</span>.fScore <span class="op">=</span> <span class="fn">heuristic</span>(<span class="var">start</span>, <span class="var">goal</span>);
+    <span class="var">openSet</span>.<span class="fn">add</span>(<span class="var">start</span>);
+    
+    <span class="kw">while</span> (<span class="op">!</span><span class="var">openSet</span>.<span class="fn">isEmpty</span>()) {
+        <span class="var">Node</span> <span class="var">current</span> <span class="op">=</span> <span class="var">openSet</span>.<span class="fn">poll</span>();
+        <span class="kw">if</span> (<span class="var">current</span>.<span class="fn">equals</span>(<span class="var">goal</span>)) <span class="kw">return</span> <span class="fn">reconstructPath</span>(<span class="var">current</span>);
+        
+        <span class="kw">for</span> (<span class="var">Edge</span> <span class="var">edge</span> : <span class="var">current</span>.neighbors) {
+            <span class="var">Node</span> <span class="var">neighbor</span> <span class="op">=</span> <span class="var">edge</span>.target;
+            <span class="kw">double</span> <span class="var">tentativeG</span> <span class="op">=</span> <span class="var">current</span>.gScore <span class="op">+</span> <span class="var">edge</span>.cost;
+            <span class="kw">if</span> (<span class="var">tentativeG</span> <span class="op">&lt;</span> <span class="var">neighbor</span>.gScore) {
+                <span class="var">neighbor</span>.cameFrom <span class="op">=</span> <span class="var">current</span>;
+                <span class="var">neighbor</span>.gScore <span class="op">=</span> <span class="var">tentativeG</span>;
+                <span class="var">neighbor</span>.fScore <span class="op">=</span> <span class="var">tentativeG</span> <span class="op">+</span> <span class="fn">heuristic</span>(<span class="var">neighbor</span>, <span class="var">goal</span>);
+                <span class="kw">if</span> (<span class="op">!</span><span class="var">openSet</span>.<span class="fn">contains</span>(<span class="var">neighbor</span>)) <span class="var">openSet</span>.<span class="fn">add</span>(<span class="var">neighbor</span>);
+            }
+        }
+    }
+    <span class="kw">return null</span>;
+}`
+    }
+  },
+  {
+    id: 'lru-cache',
+    name: 'LRU Cache',
+    category: 'Data Structure',
+    explanation: 'A memory cache that removes the least recently used elements when it reaches capacity.',
+    usecase: 'Browser history, database caching, Redis implementations.',
+    complexity: { best: 'O(1)', avg: 'O(1)', worst: 'O(1)', space: 'O(N)' },
+    subtitle: 'The ultimate performance booster — remembering what matters most.',
+    description: 'An LRU (Least Recently Used) Cache is an advanced data structure that efficiently caches elements until it reaches a fixed capacity. Once full, the oldest unaccessed item is evicted. To achieve O(1) performance for both reads and writes, it combines a Hash Map with a Doubly Linked List.',
+    steps: [
+      'Initialize a Doubly Linked List (to track access history) and a Hash Map (for fast lookups).',
+      'GET: If the key exists in Hash Map, move the corresponding Linked List node to the HEAD and return the value.',
+      'PUT: If the key exists, update the value and move the node to the HEAD.',
+      'PUT: If the key is new, add it to the Hash Map and insert a new node at the HEAD.',
+      'If inserting a new node exceeds capacity, remove the TAIL node from the Linked List and delete it from the Hash Map.'
+    ],
+    pros: 'Extremely fast O(1) data retrieval and updates. Perfect for real-world memory management scenarios.',
+    cons: 'Requires additional O(N) memory overhead for storing the hash map and doubly linked list pointers.',
+    similar: ['Hash Table'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># LRU Cache using Python's OrderedDict</span>
+<span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="var">OrderedDict</span>
+
+<span class="kw">class</span> <span class="fn">LRUCache</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">capacity</span>):
+        <span class="var">self</span>.<span class="var">cache</span> <span class="op">=</span> <span class="fn">OrderedDict</span>()
+        <span class="var">self</span>.<span class="var">capacity</span> <span class="op">=</span> <span class="var">capacity</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(<span class="var">self</span>, <span class="var">key</span>):
+        <span class="kw">if</span> <span class="var">key</span> <span class="kw">not in</span> <span class="var">self</span>.<span class="var">cache</span>:
+            <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>
+        <span class="cm"># Move to end to indicate it was recently used</span>
+        <span class="var">self</span>.<span class="var">cache</span>.<span class="fn">move_to_end</span>(<span class="var">key</span>)
+        <span class="kw">return</span> <span class="var">self</span>.<span class="var">cache</span>[<span class="var">key</span>]
+
+    <span class="kw">def</span> <span class="fn">put</span>(<span class="var">self</span>, <span class="var">key</span>, <span class="var">value</span>):
+        <span class="kw">if</span> <span class="var">key</span> <span class="kw">in</span> <span class="var">self</span>.<span class="var">cache</span>:
+            <span class="var">self</span>.<span class="var">cache</span>.<span class="fn">move_to_end</span>(<span class="var">key</span>)
+        <span class="var">self</span>.<span class="var">cache</span>[<span class="var">key</span>] <span class="op">=</span> <span class="var">value</span>
+        <span class="kw">if</span> <span class="fn">len</span>(<span class="var">self</span>.<span class="var">cache</span>) <span class="op">&gt;</span> <span class="var">self</span>.<span class="var">capacity</span>:
+            <span class="cm"># Pop the oldest item (FIFO order)</span>
+            <span class="var">self</span>.<span class="var">cache</span>.<span class="fn">popitem</span>(<span class="var">last</span><span class="op">=</span><span class="kw">False</span>)`,
+      JavaScript: `<span class="cm">// LRU Cache exploiting JS Map insertion order</span>
+<span class="kw">class</span> <span class="fn">LRUCache</span> {
+  <span class="fn">constructor</span>(<span class="var">capacity</span>) {
+    <span class="kw">this</span>.<span class="var">capacity</span> <span class="op">=</span> <span class="var">capacity</span>;
+    <span class="kw">this</span>.<span class="var">cache</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span>();
+  }
+
+  <span class="fn">get</span>(<span class="var">key</span>) {
+    <span class="kw">if</span> (<span class="op">!</span><span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">has</span>(<span class="var">key</span>)) <span class="kw">return</span> <span class="op">-</span><span class="num">1</span>;
+    <span class="kw">const</span> <span class="var">val</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">get</span>(<span class="var">key</span>);
+    <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">delete</span>(<span class="var">key</span>);
+    <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">set</span>(<span class="var">key</span>, <span class="var">val</span>);
+    <span class="kw">return</span> <span class="var">val</span>;
+  }
+
+  <span class="fn">put</span>(<span class="var">key</span>, <span class="var">value</span>) {
+    <span class="kw">if</span> (<span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">has</span>(<span class="var">key</span>)) {
+      <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">delete</span>(<span class="var">key</span>);
+    }
+    <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">set</span>(<span class="var">key</span>, <span class="var">value</span>);
+    <span class="kw">if</span> (<span class="kw">this</span>.<span class="var">cache</span>.<span class="var">size</span> <span class="op">&gt;</span> <span class="kw">this</span>.<span class="var">capacity</span>) {
+      <span class="kw">const</span> <span class="var">oldestKey</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">keys</span>().<span class="fn">next</span>().<span class="var">value</span>;
+      <span class="kw">this</span>.<span class="var">cache</span>.<span class="fn">delete</span>(<span class="var">oldestKey</span>);
+    }
+  }
+}`,
+      Java: `<span class="cm">// LRU Cache using Java LinkedHashMap structure</span>
+<span class="kw">class</span> <span class="fn">LRUCache</span> {
+    <span class="kw">private</span> LinkedHashMap&lt;Integer, Integer&gt; <span class="var">map</span>;
+    <span class="kw">private final int</span> <span class="var">CAPACITY</span>;
+    
+    <span class="kw">public</span> <span class="fn">LRUCache</span>(<span class="kw">int</span> <span class="var">capacity</span>) {
+        <span class="var">CAPACITY</span> <span class="op">=</span> <span class="var">capacity</span>;
+        <span class="var">map</span> <span class="op">=</span> <span class="kw">new</span> LinkedHashMap&lt;Integer, Integer&gt;(<span class="var">capacity</span>, <span class="num">0.75f</span>, <span class="kw">true</span>) {
+            <span class="kw">protected boolean</span> <span class="fn">removeEldestEntry</span>(<span class="var">Map</span>.<span class="var">Entry</span> <span class="var">eldest</span>) {
+                <span class="kw">return</span> <span class="fn">size</span>() <span class="op">&gt;</span> <span class="var">CAPACITY</span>;
+            }
+        };
+    }
+    
+    <span class="kw">public int</span> <span class="fn">get</span>(<span class="kw">int</span> <span class="var">key</span>) {
+        <span class="kw">return</span> <span class="var">map</span>.<span class="fn">getOrDefault</span>(<span class="var">key</span>, <span class="op">-</span><span class="num">1</span>);
+    }
+    
+    <span class="kw">public void</span> <span class="fn">put</span>(<span class="kw">int</span> <span class="var">key</span>, <span class="kw">int</span> <span class="var">value</span>) {
+        <span class="var">map</span>.<span class="fn">put</span>(<span class="var">key</span>, <span class="var">value</span>);
+    }
+}`
+    }
+  },
+  {
+    id: 'trie',
+    name: 'Trie (Prefix Tree)',
+    category: 'Tree',
+    explanation: 'A tree where each node represents a character, used for incredibly fast multi-string searching.',
+    usecase: 'Autocomplete forms, spell checkers, IP routing protocols.',
+    complexity: { best: 'O(M)', avg: 'O(M)', worst: 'O(M)', space: 'O(W*M)' },
+    subtitle: 'The autocomplete enabler — fast, character-by-character storage.',
+    description: 'A Trie is an efficient information retrieval data structure used to store a massive number of strings. The traversal matches the prefix of a string character by character. If memory allows, it is much faster than hash maps for partial matching.',
+    steps: [
+      'Initialize an empty root node holding a dictionary (hash map) of children.',
+      'INSERT: Start at root. For each character in the string, traverse down.',
+      'If the character node does not exist, create it.',
+      'Mark the final character node with a boolean (e.g., isEnd = true).',
+      'SEARCH: Traverse the tree matching each character.',
+      'Return true if the full string matches and ends on a valid isEnd node.'
+    ],
+    pros: 'Extremely fast O(M) lookup times where M is the word length. Perfectly solves prefix-based matches.',
+    cons: 'Highly memory intensive. Storing lots of similar strings can balloon space usage.',
+    similar: ['Binary Search Tree', 'Hash Table'],
+    viz: null,
+    code: {
+      Python: `<span class="cm"># Trie Implementation</span>
+<span class="kw">class</span> <span class="fn">TrieNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.<span class="var">children</span> <span class="op">=</span> {}
+        <span class="var">self</span>.<span class="var">is_end</span> <span class="op">=</span> <span class="kw">False</span>
+
+<span class="kw">class</span> <span class="fn">Trie</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.<span class="var">root</span> <span class="op">=</span> <span class="fn">TrieNode</span>()
+
+    <span class="kw">def</span> <span class="fn">insert</span>(<span class="var">self</span>, <span class="var">word</span>):
+        <span class="var">node</span> <span class="op">=</span> <span class="var">self</span>.<span class="var">root</span>
+        <span class="kw">for</span> <span class="var">char</span> <span class="kw">in</span> <span class="var">word</span>:
+            <span class="kw">if</span> <span class="var">char</span> <span class="kw">not in</span> <span class="var">node</span>.<span class="var">children</span>:
+                <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>] <span class="op">=</span> <span class="fn">TrieNode</span>()
+            <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>]
+        <span class="var">node</span>.<span class="var">is_end</span> <span class="op">=</span> <span class="kw">True</span>
+
+    <span class="kw">def</span> <span class="fn">search</span>(<span class="var">self</span>, <span class="var">word</span>):
+        <span class="var">node</span> <span class="op">=</span> <span class="var">self</span>.<span class="var">root</span>
+        <span class="kw">for</span> <span class="var">char</span> <span class="kw">in</span> <span class="var">word</span>:
+            <span class="kw">if</span> <span class="var">char</span> <span class="kw">not in</span> <span class="var">node</span>.<span class="var">children</span>:
+                <span class="kw">return</span> <span class="kw">False</span>
+            <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>]
+        <span class="kw">return</span> <span class="var">node</span>.<span class="var">is_end</span>`,
+      JavaScript: `<span class="cm">// Trie Implementation</span>
+<span class="kw">class</span> <span class="fn">TrieNode</span> {
+  <span class="fn">constructor</span>() {
+    <span class="kw">this</span>.<span class="var">children</span> <span class="op">=</span> {};
+    <span class="kw">this</span>.<span class="var">isEnd</span> <span class="op">=</span> <span class="kw">false</span>;
+  }
+}
+
+<span class="kw">class</span> <span class="fn">Trie</span> {
+  <span class="fn">constructor</span>() { <span class="kw">this</span>.<span class="var">root</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">TrieNode</span>(); }
+
+  <span class="fn">insert</span>(<span class="var">word</span>) {
+    <span class="kw">let</span> <span class="var">node</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">root</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> <span class="var">char</span> <span class="kw">of</span> <span class="var">word</span>) {
+      <span class="kw">if</span> (<span class="op">!</span><span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>]) <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>] <span class="op">=</span> <span class="kw">new</span> <span class="fn">TrieNode</span>();
+      <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>];
+    }
+    <span class="var">node</span>.<span class="var">isEnd</span> <span class="op">=</span> <span class="kw">true</span>;
+  }
+
+  <span class="fn">search</span>(<span class="var">word</span>) {
+    <span class="kw">let</span> <span class="var">node</span> <span class="op">=</span> <span class="kw">this</span>.<span class="fn">traverse</span>(<span class="var">word</span>);
+    <span class="kw">return</span> <span class="var">node</span> <span class="op">!=</span> <span class="kw">null</span> <span class="op">&&</span> <span class="var">node</span>.<span class="var">isEnd</span>;
+  }
+
+  <span class="fn">traverse</span>(<span class="var">str</span>) {
+    <span class="kw">let</span> <span class="var">node</span> <span class="op">=</span> <span class="kw">this</span>.<span class="var">root</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> <span class="var">char</span> <span class="kw">of</span> <span class="var">str</span>) {
+      <span class="kw">if</span> (<span class="op">!</span><span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>]) <span class="kw">return</span> <span class="kw">null</span>;
+      <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">children</span>[<span class="var">char</span>];
+    }
+    <span class="kw">return</span> <span class="var">node</span>;
+  }
+}`,
+      Java: `<span class="cm">// Trie Implementation</span>
+<span class="kw">class</span> <span class="fn">TrieNode</span> {
+    <span class="var">TrieNode</span>[] <span class="var">children</span> <span class="op">=</span> <span class="kw">new</span> <span class="var">TrieNode</span>[<span class="num">26</span>];
+    <span class="kw">boolean</span> <span class="var">isEnd</span>;
+}
+
+<span class="kw">class</span> <span class="fn">Trie</span> {
+    <span class="kw">private</span> <span class="var">TrieNode</span> <span class="var">root</span>;
+    <span class="kw">public</span> <span class="fn">Trie</span>() { <span class="var">root</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">TrieNode</span>(); }
+
+    <span class="kw">public void</span> <span class="fn">insert</span>(String <span class="var">word</span>) {
+        <span class="var">TrieNode</span> <span class="var">node</span> <span class="op">=</span> <span class="var">root</span>;
+        <span class="kw">for</span> (<span class="kw">char</span> <span class="var">c</span> : <span class="var">word</span>.<span class="fn">toCharArray</span>()) {
+            <span class="kw">if</span> (<span class="var">node</span>.<span class="var">children</span>[<span class="var">c</span> <span class="op">-</span> <span class="str">'a'</span>] <span class="op">==</span> <span class="kw">null</span>) {
+                <span class="var">node</span>.<span class="var">children</span>[<span class="var">c</span> <span class="op">-</span> <span class="str">'a'</span>] <span class="op">=</span> <span class="kw">new</span> <span class="fn">TrieNode</span>();
+            }
+            <span class="var">node</span> <span class="op">=</span> <span class="var">node</span>.<span class="var">children</span>[<span class="var">c</span> <span class="op">-</span> <span class="str">'a'</span>];
+        }
+        <span class="var">node</span>.isEnd <span class="op">=</span> <span class="kw">true</span>;
+    }
+}`
+    }
   }
 ];
 
@@ -1793,6 +2093,7 @@ const catMeta = {
   'Tree':    { cls: 'cat-tree',   icon: '🌲', iconCls: 'icon-tree' },
   'Dynamic Programming': { cls: 'cat-dynamic', icon: '♻️', iconCls: 'icon-dynamic' },
   'Greedy':  { cls: 'cat-greedy', icon: '⚡', iconCls: 'icon-greedy' },
+  'Data Structure': { cls: 'cat-datastructure', icon: '🗄️', iconCls: 'icon-datastructure' }
 };
 
 // ══════════════════════════════════════════
