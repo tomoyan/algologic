@@ -483,11 +483,147 @@
   }
   .complexity-card.space .value { color: var(--accent); }
 
+  /* ─── BEGINNER EXPLAINER ─── */
+  .explain-section {
+    margin-bottom: 32px;
+  }
+
+  .explain-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .explain-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .explain-card.simple {
+    grid-column: 1 / -1;
+    border-left: 4px solid var(--accent);
+    background: linear-gradient(135deg, rgba(var(--accent-rgb),0.05) 0%, var(--card) 60%);
+  }
+
+  .explain-card.analogy {
+    border-left: 4px solid var(--accent3);
+    background: linear-gradient(135deg, rgba(var(--accent3-rgb),0.05) 0%, var(--card) 60%);
+  }
+
+  .explain-card.reallife {
+    border-left: 4px solid var(--accent2);
+    background: linear-gradient(135deg, rgba(var(--accent2-rgb),0.05) 0%, var(--card) 60%);
+  }
+
+  .explain-card-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .explain-card.simple .explain-card-label { color: var(--accent); }
+  .explain-card.analogy .explain-card-label { color: var(--accent3); }
+  .explain-card.reallife .explain-card-label { color: var(--accent2); }
+
+  .explain-card-label::before {
+    content: '';
+    width: 3px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .explain-card.simple .explain-card-label::before { background: var(--accent); }
+  .explain-card.analogy .explain-card-label::before { background: var(--accent3); }
+  .explain-card.reallife .explain-card-label::before { background: var(--accent2); }
+
+  .explain-card p {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--detail-text);
+  }
+
+  /* ─── INFO GRID (2-col: how it works + pros/cons) ─── */
   .detail-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     margin-bottom: 32px;
+  }
+
+  /* ─── IN DEPTH ─── */
+  .indepth-section {
+    margin-bottom: 32px;
+  }
+
+  .indepth-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .indepth-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+
+  .indepth-card h3 {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .indepth-card h3::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+
+  .indepth-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .indepth-paragraphs p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--detail-text);
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
+    transition: border-color 0.2s;
+  }
+
+  .indepth-paragraphs p:hover {
+    border-left-color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .explain-top { grid-template-columns: 1fr; }
+    .explain-card.simple { grid-column: 1; }
+    .detail-grid { grid-template-columns: 1fr; }
   }
 
   .detail-card {
@@ -655,9 +791,11 @@
     gap: 6px;
     flex-wrap: wrap;
     align-items: flex-end;
-    min-height: 80px;
+    min-height: 120px;
     margin-bottom: 16px;
+    overflow: hidden;
   }
+  .viz-array svg { display: block; }
 
   .viz-bar {
     display: flex;
@@ -783,6 +921,48 @@
   }
   .search-bar input::placeholder { color: var(--muted); }
   .search-icon { color: var(--muted); font-size: 0.9rem; }
+
+  /* ─── RESPONSIVE DESIGN ─── */
+  @media (max-width: 768px) {
+    body { overflow-x: hidden; width: 100vw; }
+    header { padding: 12px 16px; flex-direction: column; height: auto; gap: 16px; align-items: flex-start; }
+    .nav-pills { flex-wrap: wrap; justify-content: flex-start; width: 100%; }
+    main { padding: 0 16px 60px; max-width: 100vw; box-sizing: border-box; }
+    
+    .hero { grid-template-columns: 1fr; gap: 24px; padding: 32px 0; text-align: left; }
+    .stats-block { text-align: left; flex-direction: row; justify-content: flex-start; gap: 24px; }
+    h1 { font-size: 2.2rem; }
+    .hero-sub { margin: 12px 0 0; }
+    .hero-tag { justify-content: flex-start; }
+    
+    .filters { margin-bottom: 20px; justify-content: flex-start; padding-top: 8px; }
+    
+    /* Table scrolling fix */
+    .table-wrapper { width: 100%; max-width: calc(100vw - 32px); overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+    table { width: 800px; } /* Fixed width so it doesn't squish, but wrapper scrolls */
+    
+    .detail-hero { grid-template-columns: 1fr; gap: 20px; text-align: left; }
+    .detail-subtitle { margin: 12px 0 0; }
+    .complexity-grid { grid-template-columns: 1fr 1fr; width: 100%; }
+    .detail-grid { grid-template-columns: 1fr; gap: 20px; width: 100%; }
+    
+    .viz-controls { justify-content: flex-start; }
+    
+    .code-section { width: 100%; max-width: calc(100vw - 32px); }
+    .code-block { padding: 16px; width: 100%; overflow-x: auto; box-sizing: border-box; }
+    .code-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 4px; width: 100%; }
+    .code-tabs::-webkit-scrollbar { height: 0; } /* hide scrollbar for tabs */
+    
+    .detail-footer { flex-direction: column; align-items: flex-start; gap: 20px; text-align: left; width: 100%; }
+    .detail-footer > div { text-align: left !important; }
+    .similar-chips { justify-content: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-block { flex-direction: column; gap: 12px; }
+    .complexity-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+  }
 </style>
 </head>
 <body>
@@ -883,6 +1063,10 @@
 
     <div class="detail-grid" id="d-info-grid"></div>
 
+    <div class="explain-section" id="d-explain-section"></div>
+
+    <div class="indepth-section" id="d-indepth-section"></div>
+
     <div class="viz-section" id="d-viz-section">
       <h3>Interactive Visualization</h3>
       <div class="viz-array" id="viz-array"></div>
@@ -929,6 +1113,10 @@ const algorithms = [
     ],
     pros: 'Extremely fast on sorted data — O(log n) vs O(n) for linear search. On 1 billion elements, takes only ~30 comparisons.',
     cons: 'Requires data to be sorted first. Not suitable for linked lists (no random access).',
+    simple: "Imagine guessing a number between 1 and 100. Instead of starting at 1 and counting up, you guess 50. Too high? Guess 25. Too low? Guess 37. Each guess cuts the remaining possibilities in half — that's binary search.",
+    analogy: '📖 Like finding a word in a dictionary — you open to the middle, see if your word comes before or after, then flip to the middle of that half. You never read every page.',
+    realLife: 'Searching a contact on your phone, looking up a price on a sorted list, or when a game says "higher / lower" — binary search is working behind the scenes.',
+    inDepth: 'Binary Search exploits the invariant of a sorted array: if arr[mid] < target, every element left of mid is also smaller and can be discarded instantly. This gives the O(log n) guarantee — each comparison halves the window, so 1,000,000 elements need at most 20 comparisons.\n\nThe algorithm maintains two pointers (left, right) defining the active window. A subtle but critical bug is integer overflow: always compute mid = left + (right − left) / 2 in Java/C++, not (left + right) / 2.\n\nBeyond exact search, binary search can locate the leftmost or rightmost occurrence of a value (lower_bound / upper_bound), essential for range queries. It can even search the answer space: "what is the minimum X such that condition Y holds?" — a powerful competitive-programming pattern.',
     similar: ['Linear Search', 'Jump Search', 'Interpolation Search'],
     viz: 'binary-search',
     code: {
@@ -1003,6 +1191,10 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Simple to understand and implement. In-place (O(1) space). Detects already-sorted arrays in O(n) with the early-stop optimization.',
     cons: 'O(n²) makes it impractical for large datasets. Far slower than Merge Sort or Quick Sort in practice.',
+    simple: "Picture a row of people sorted by height. You walk down the line and whenever two neighbours are in the wrong order, you swap them. After one full walk, the tallest person has 'bubbled' all the way to the end. Repeat until no swaps happen — done!",
+    analogy: '🫧 Like sorting a hand of playing cards by repeatedly swapping two adjacent cards that are out of order, one pair at a time.',
+    realLife: 'Rarely used in production, but bubble sort is the perfect teaching tool. It appears in embedded systems where the list is tiny (< 10 items) and simplicity matters more than speed.',
+    inDepth: 'Bubble Sort runs in O(n²) time because each of the n passes may do up to n comparisons — giving n × n total work. The early-exit optimisation (stop if a pass makes zero swaps) improves the best case to O(n) on an already-sorted list.\n\nIt is a stable sort, meaning equal elements keep their original relative order — important when sorting objects by multiple keys. It is also in-place, using only O(1) extra memory.\n\nDespite its poor reputation, bubble sort is cache-friendly (sequential memory access) and trivial to implement correctly, making it useful when correctness and readability outweigh performance. Its main educational value is teaching the concept of invariants: after pass i, the last i elements are guaranteed to be in their final sorted positions.',
     similar: ['Selection Sort', 'Insertion Sort', 'Merge Sort'],
     viz: 'bubble-sort',
     code: {
@@ -1070,6 +1262,10 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Stable sort. Guaranteed O(n log n) in all cases. Excellent for linked lists and external storage.',
     cons: 'Requires O(n) auxiliary space. Slightly slower in practice than Quick Sort due to memory allocation.',
+    simple: "Tear a messy pile of papers in half, then tear each half in half again, keep going until every piece is alone. A single piece is already 'sorted'. Now merge pairs back together in order. Merging two sorted piles is easy — just always pick the smaller top card. Keep merging until you have one sorted pile.",
+    analogy: '🃏 Like two dealers each holding a sorted hand of cards face-up. They take turns placing the lowest card on the table — the result is one perfectly sorted row.',
+    realLife: 'Merge sort is used to sort linked lists (no random access needed), to merge sorted log files on disk, and inside database engines for external sort when data is too large to fit in RAM.',
+    inDepth: 'Merge Sort is a divide-and-conquer algorithm with a guaranteed O(n log n) complexity in all cases — best, average, and worst. This predictability makes it preferable over Quick Sort when worst-case performance matters.\n\nThe recursion tree has log n levels (halving each time), and each level does O(n) total merge work, giving O(n log n) overall. The downside is O(n) auxiliary space for the temporary arrays during merging.\n\nIt is a stable sort — equal elements preserve their input order, which matters when sorting objects by multiple criteria (e.g., sort by last name, then by first name). Many standard library sorts (Python\'s Timsort, Java\'s Arrays.sort for objects) are derived from merge sort because of this stability guarantee.',
     similar: ['Quick Sort', 'Heap Sort', 'Tim Sort'],
     viz: 'bubble-sort',
     code: {
@@ -1138,6 +1334,10 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Very fast in practice — small constant factor. In-place (O(log n) stack). Cache-friendly access pattern.',
     cons: 'O(n²) worst case with bad pivot (e.g., already sorted array + last-element pivot). Not stable.',
+    simple: "Pick any item from the list — call it the 'pivot'. Put everything smaller than it to the left, everything larger to the right. Now the pivot is in its final correct spot! Repeat the same process on the left pile and the right pile independently. Keep dividing until every item is in place.",
+    analogy: '🎯 Like a librarian picking a book at random, putting all books that come before it alphabetically on the left shelf, all that come after on the right — then repeating for each shelf.',
+    realLife: 'Quick Sort (or a variant of it) is the default sort in C, C++, Java primitives, and many other languages. It is used anywhere fast in-memory sorting matters: game leaderboards, log processing, rendering pipelines.',
+    inDepth: 'Quick Sort partitions the array around a pivot so that all elements smaller are to the left and all larger are to the right. Recursion on both sides solves the subproblems. With a good pivot (random or median-of-three), the expected depth of recursion is O(log n), giving O(n log n) average time.\n\nThe worst case O(n²) occurs when the pivot is always the smallest or largest element — which happens on already-sorted input if you always pick the last element as pivot. Randomising the pivot selection or using median-of-three largely eliminates this risk in practice.\n\nQuick Sort is not stable — equal elements may reorder — but it is in-place (O(log n) stack space for recursion). Its cache performance is excellent because it accesses memory sequentially during partitioning. This is why it consistently outperforms Merge Sort on real hardware despite the same asymptotic complexity.',
     similar: ['Merge Sort', 'Heap Sort', 'Intro Sort'],
     viz: 'bubble-sort',
     code: {
@@ -1195,8 +1395,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Guarantees shortest path in unweighted graphs. Complete — will always find a solution if one exists.',
     cons: 'Memory-intensive: stores all nodes at the current level in the queue — O(V) space.',
+    simple: "Imagine you're at the centre of a city and want to find the nearest coffee shop. You check all streets one block away first. No luck? Check all streets two blocks away. Three blocks? You always explore the closest places before venturing further. That wave-like expansion is BFS.",
+    analogy: '🌊 Like dropping a stone in a pond — the ripples spread outward in perfect circles, layer by layer, reaching everything close before anything far.',
+    realLife: 'Google Maps finding the fewest-turns route, Facebook suggesting friends-of-friends, web crawlers indexing pages level by level — all use BFS at their core.',
+    inDepth: 'BFS uses a queue (FIFO) to process nodes in the order they were discovered. It visits all nodes at depth d before any node at depth d+1, which is exactly why it guarantees the shortest path in an unweighted graph.\n\nTime complexity is O(V + E) — every vertex is enqueued once and every edge is checked once. Space complexity is O(V) in the worst case (a star graph where all nodes are one hop from the centre fills the entire queue at once).\n\nBFS is the foundation for many advanced algorithms: Dijkstra\'s algorithm is a weighted BFS using a priority queue; 0-1 BFS handles edge weights of 0 or 1 using a deque; multi-source BFS starts simultaneously from several sources to find distances from any of them. It is also used to check bipartiteness (2-colourability) of a graph.',
     similar: ['Depth-First Search', "Dijkstra's Algorithm", 'A* Search'],
-    viz: null,
+    viz: 'graph-bfs',
     code: {
       Python: `<span class="cm"># Breadth-First Search — O(V + E)</span>
 <span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="var">deque</span>
@@ -1270,8 +1474,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Memory efficient — uses O(depth) stack space. Natural fit for tree traversal, topological sort, cycle detection.',
     cons: 'Does not guarantee shortest path. Can hit stack overflow on very deep graphs without iterative version.',
-    similar: ['Breadth-First Search', 'Topological Sort', 'Tarjan\'s SCC'],
-    viz: null,
+    simple: "Imagine exploring a maze. You pick a direction and keep walking forward until you hit a dead end. When you're stuck, you backtrack to the last junction and try the next unexplored path. You go as deep as possible before ever considering alternatives. That's DFS.",
+    analogy: '🗺️ Like an explorer mapping caves — always push deeper into the current tunnel before retreating to try a different one.',
+    realLife: 'Solving mazes, detecting cycles in dependency graphs, topological sorting of build tasks, finding connected components in a network — DFS is everywhere in compilers and game engines.',
+    inDepth: 'DFS uses a stack (either explicit or the call stack via recursion) to track the path from the starting node. It visits a node, marks it visited, then immediately recurses on the first unvisited neighbour — going as deep as possible before backtracking.\n\nTime and space are both O(V + E). The recursion depth can reach O(V) on a path graph, which can cause stack overflow for very large inputs — the iterative version with an explicit stack avoids this.\n\nDFS naturally produces several useful structures: the DFS tree reveals back edges (cycles), cross edges, and forward edges. Finishing times (when a node fully completes) give the reverse topological order. Tarjan\'s algorithm and Kosaraju\'s algorithm for strongly connected components are both built on DFS. It is also the basis for solving puzzles like Sudoku via backtracking.',
+    similar: ['Breadth-First Search', 'Topological Sort', "Tarjan's SCC"],
+    viz: 'graph-dfs',
     code: {
       Python: `<span class="cm"># Depth-First Search — O(V + E)</span>
 <span class="kw">def</span> <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">node</span>, <span class="var">visited</span><span class="op">=</span><span class="kw">None</span>):
@@ -1325,8 +1533,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Optimal for non-negative weights. Very efficient with a min-heap: O(E log V).',
     cons: 'Does not handle negative edge weights (use Bellman-Ford instead).',
+    simple: "You're planning a road trip and want the fastest route. You start at home with a travel time of 0. For every road you can take, you update your best-known arrival time at each destination. You always travel next to the place you can reach fastest so far. Repeat until you reach your goal — that's Dijkstra's.",
+    analogy: '🗺️ Like always boarding the next available bus going to the closest unvisited city on your journey — greedy, but provably optimal when all roads have positive travel times.',
+    realLife: "Google Maps and GPS routing, network packet routing (OSPF protocol), airline flight scheduling, and game pathfinding (NPCs navigating levels) all rely on Dijkstra's or its variants.",
+    inDepth: "Dijkstra's algorithm is a greedy BFS that uses a min-priority queue instead of a plain queue. The key insight: once a node is popped from the priority queue, its distance is finalised — no future path can be shorter (because all edge weights are non-negative).\n\nWith a binary heap, the complexity is O((V + E) log V). With a Fibonacci heap it drops to O(E + V log V), though Fibonacci heaps have high constant factors and are rarely used in practice.\n\nThe algorithm fails with negative edge weights because relaxing a shorter path through a negative edge could improve an already-settled node. Bellman-Ford handles negatives in O(VE). A* is a heuristic extension of Dijkstra's that reaches the target faster by biasing exploration toward the goal — used extensively in game AI and mapping software.",
     similar: ['Bellman-Ford', 'A* Search', 'Floyd-Warshall'],
-    viz: null,
+    viz: 'graph-dijkstra',
     code: {
       Python: `<span class="cm"># Dijkstra's Algorithm — O(E log V)</span>
 <span class="kw">import</span> <span class="var">heapq</span>
@@ -1395,8 +1607,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'O(n) time vs O(2ⁿ) for naive recursion. Demonstrates the core DP technique applicable to harder problems.',
     cons: 'O(n) space for the table (reducible to O(1) with rolling variables). Overkill for small n.',
+    simple: "To find the 10th Fibonacci number, you need the 9th and 8th. To find the 9th, you need the 8th and 7th. A naive approach recalculates the same numbers thousands of times. Dynamic programming says: just write down each answer as you go, so you never calculate the same thing twice.",
+    analogy: '📝 Like doing a maths test — instead of re-solving every sub-problem from scratch, you jot down intermediate results on your scratch paper and look them up when needed.',
+    realLife: 'DP on Fibonacci is the entry point to dynamic programming. The same memoisation idea powers autocorrect spell-checking, DNA sequence alignment in bioinformatics, and financial option pricing models.',
+    inDepth: 'The naive recursive Fibonacci has O(2ⁿ) time because the call tree branches exponentially — fib(50) makes over a trillion calls. DP solves this with two strategies: top-down memoisation (cache results in a hash map as the recursion runs) or bottom-up tabulation (fill a dp[] array from index 0 upward).\n\nTabulation is usually preferred because it avoids recursion overhead and stack depth limits. The space can be further reduced to O(1) by keeping only the last two values (rolling variables) since dp[i] only depends on dp[i-1] and dp[i-2].\n\nFibonacci DP teaches the core DP insight: overlapping subproblems + optimal substructure = dynamic programming. The same pattern recurs in problems like Longest Common Subsequence, Coin Change, Edit Distance, and the 0/1 Knapsack — all are essentially "Fibonacci with more dimensions".',
     similar: ['Knapsack Problem', 'Longest Common Subsequence', 'Coin Change'],
-    viz: null,
+    viz: 'fibonacci-dp',
     code: {
       Python: `<span class="cm"># Fibonacci — Dynamic Programming O(n)</span>
 <span class="kw">def</span> <span class="fn">fibonacci</span>(<span class="var">n</span>):
@@ -1459,8 +1675,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Exact optimal solution. Naturally handles integer weights and values.',
     cons: 'Pseudo-polynomial O(nW) — can be slow for large W. Not suitable for fractional weights (use Greedy instead).',
+    simple: "You're packing a bag for a trip with a strict weight limit. You have items worth different amounts. You can't take everything — so which combination gives you the most total value without exceeding the weight limit? DP solves this by building a table that tracks the best value possible for every sub-weight and every subset of items.",
+    analogy: '🎒 Like a thief casing a jewellery store with a small backpack — every item has a weight and value, and you need the smartest combination that fits.',
+    realLife: 'Resource allocation in cloud computing (which jobs to run given memory limits), financial portfolio optimisation, cutting stock problems in manufacturing, and cargo loading logistics all use knapsack-style DP.',
+    inDepth: 'The 0/1 Knapsack builds a 2D DP table where dp[i][w] = maximum value achievable using the first i items with capacity w. For each item, we decide: skip it (dp[i][w] = dp[i-1][w]) or take it (dp[i][w] = dp[i-1][w-weight[i]] + value[i]), choosing whichever is larger.\n\nThe complexity O(nW) is called pseudo-polynomial because it depends on the numeric value of W, not just the input size. For W = 10⁹ this becomes infeasible — approximation algorithms or branch-and-bound are used instead.\n\nThe space can be reduced to O(W) by using a 1D array and iterating weights in reverse (so we never use the same item twice). The fractional knapsack (where you can take partial items) is solvable greedily in O(n log n) — always take the highest value-per-weight item first. But 0/1 (whole items only) requires DP because greedy is not optimal.',
     similar: ['Fractional Knapsack', 'Coin Change', 'Subset Sum'],
-    viz: null,
+    viz: 'knapsack',
     code: {
       Python: `<span class="cm"># 0/1 Knapsack — O(n × W)</span>
 <span class="kw">def</span> <span class="fn">knapsack</span>(<span class="var">weights</span>, <span class="var">values</span>, <span class="var">capacity</span>):
@@ -1519,8 +1739,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Fast average-case operations. Ordered traversal in O(n). Foundation for balanced trees and databases.',
     cons: 'Degenerates to O(n) on sorted input (becomes a linked list). Balance not guaranteed without AVL/RB trees.',
+    simple: "A BST is like a filing system with a simple rule: everything smaller goes in the left drawer, everything larger goes in the right. To find something, you start at the top and follow the rule — left if your target is smaller, right if larger. You reach your file without opening every drawer.",
+    analogy: '🌳 Like a tournament bracket — each match-up eliminates half the competitors. The winner always sits in a predictable spot based on the results leading there.',
+    realLife: 'Database indexes (B-Trees are multi-level BSTs), autocomplete suggestion engines, storing sorted data with fast insert/delete, and implementing ordered sets/maps in languages all rely on BST principles.',
+    inDepth: 'A BST maintains the invariant: for any node N, all values in the left subtree are < N.val and all in the right subtree are > N.val. This makes search, insert, and delete O(log n) on average — but O(n) worst case on a degenerate (stick-shaped) tree.\n\nThe worst case occurs when you insert already-sorted data: 1, 2, 3, 4, 5 produces a linked list leaning right, with no left children at all. Self-balancing trees (AVL trees, Red-Black trees) prevent this by rotating nodes after insertions/deletions to maintain O(log n) height.\n\nIn-order traversal (left → node → right) visits all nodes in sorted ascending order in O(n) — a powerful property for range queries. BSTs are also the basis for treaps (BST + heap), splay trees (self-adjusting), and B-Trees used in file systems and relational database indexes like MySQL\'s InnoDB.',
     similar: ['AVL Tree', 'Red-Black Tree', 'B-Tree'],
-    viz: null,
+    viz: 'bst',
     code: {
       Python: `<span class="cm"># Binary Search Tree</span>
 <span class="kw">class</span> <span class="fn">Node</span>:
@@ -1615,8 +1839,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'Optimal solution in O(n log n) — significantly faster than DP or brute force. Greedy choice is provably correct.',
     cons: 'Only works for this specific problem structure. Greedy is not always correct — must prove optimality per problem.',
-    similar: ['Interval Scheduling', 'Fractional Knapsack', "Huffman Coding"],
-    viz: null,
+    simple: "You want to attend as many events as possible today, but some overlap. The trick: always pick the event that ends the soonest (not the one that starts first, not the most interesting one). By finishing early, you leave the most room for future events. Repeat until no more events fit.",
+    analogy: '📅 Like booking meeting rooms — always confirm the meeting that ends earliest so the room is free for the most future bookings.',
+    realLife: 'Scheduling operating system jobs to maximise CPU utilisation, booking TV time slots, scheduling surgeries in a hospital, and assigning gates at an airport all use this greedy interval scheduling approach.',
+    inDepth: 'The Activity Selection problem is the classic example of a greedy algorithm that is provably optimal. The greedy choice property states: there always exists an optimal solution that includes the activity with the earliest finish time. This can be proven by an exchange argument — any optimal solution that does not include it can have its first activity swapped for the earliest-finish one without reducing the total count.\n\nSorting by finish time is O(n log n). The greedy scan is O(n). Total: O(n log n).\n\nThis algorithm generalises to the Interval Scheduling Maximisation problem. A related problem, Interval Partitioning (how many rooms are needed to schedule all activities?), is also greedy but uses a different strategy: sort by start time and assign to any compatible room. The weighted variant (maximise total value, not count) requires DP — greedy fails there.',
+    similar: ['Interval Scheduling', 'Fractional Knapsack', 'Huffman Coding'],
+    viz: 'activity-selection',
     code: {
       Python: `<span class="cm"># Activity Selection — O(n log n)</span>
 <span class="kw">def</span> <span class="fn">activity_selection</span>(<span class="var">activities</span>):
@@ -1685,6 +1913,10 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'O(n) on nearly-sorted data. In-place and stable. No extra memory. Simple and cache-friendly.',
     cons: 'O(n²) on random data. Not suitable for large unsorted arrays.',
+    simple: "Think about how you sort a hand of playing cards. You pick them up one at a time. Each new card gets slid left until it's in the right spot relative to the cards you're already holding. You build a sorted hand incrementally — that's exactly insertion sort.",
+    analogy: '🃏 Like inserting each new item into its correct position in an already-sorted row, shifting others aside to make room.',
+    realLife: 'Insertion sort is used as the base case inside Timsort (Python, Java) and Introsort (C++) for small sub-arrays where its low overhead beats O(n log n) algorithms. It is also ideal for online sorting — when data arrives one element at a time.',
+    inDepth: 'Insertion Sort maintains a sorted prefix of the array. For each element at index i, it scans leftward, shifting larger elements right until the correct gap is found, then inserts the element there.\n\nBest case O(n) occurs on nearly-sorted data — each element only needs a few shifts. Worst case O(n²) occurs on reverse-sorted input — every element shifts all the way to position 0.\n\nThe number of comparisons equals the number of inversions in the array (pairs where a[i] > a[j] for i < j). This insight links insertion sort\'s performance directly to how "disordered" the input is.\n\nModern sorts like Timsort use insertion sort for runs shorter than ~64 elements, because cache locality and low constant factors make it faster than merge sort at small sizes despite the worse asymptotic complexity.',
     similar: ['Bubble Sort', 'Shell Sort', 'Tim Sort'],
     viz: 'bubble-sort',
     code: {
@@ -1737,8 +1969,12 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
     ],
     pros: 'O(1) average for all operations. Incredibly versatile. Foundation of most dictionaries and caches.',
     cons: 'O(n) worst case with many collisions. No ordering. Hash function quality is critical.',
+    simple: "Imagine a huge wall of numbered lockers. To store your item, you run its name through a 'hash function' that converts it to a locker number. To find it later, run the same function again — bam, you go straight to the right locker. No searching, no scanning — instant access.",
+    analogy: '🔐 Like a coat check at a party — you hand in your coat, get a ticket number. Later you hand back the number and get your coat instantly, without the attendant searching through every coat.',
+    realLife: "Python dicts, JavaScript objects, Java HashMaps, database indexes, browser caches, password storage (with salted hashes), counting word frequencies in text, and Redis — all are hash tables at their core.",
+    inDepth: 'A hash table maps keys to array indices via a hash function. A good hash function distributes keys uniformly to minimise collisions (two keys mapping to the same slot). Collisions are handled via chaining (each slot holds a linked list) or open addressing (probe to the next empty slot).\n\nThe load factor α = n/m (items / slots) controls performance. When α exceeds ~0.75, the table is resized (typically doubled) and all entries are rehashed — an O(n) operation, but amortised O(1) per insert over all insertions.\n\nThe worst case O(n) happens when all keys hash to the same bucket — easily triggered by adversarial input. Modern implementations use randomised or cryptographic hash functions (SipHash in Python, Robin Hood hashing) to prevent this. Consistent hashing, a variant, distributes keys across multiple servers and is fundamental to distributed caching systems like Memcached and DynamoDB.',
     similar: ['Binary Search', 'Trie', 'Skip List'],
-    viz: null,
+    viz: 'hash-table',
     code: {
       Python: `<span class="cm"># Hash Table — Python dict is a hash table!</span>
 <span class="kw">class</span> <span class="fn">HashTable</span>:
@@ -1810,8 +2046,12 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
     ],
     pros: 'Extremely efficient compared to Dijkstra due to the heuristic, massively reducing the search space.',
     cons: 'Memory intensive, and requires a well-designed admissible heuristic to guarantee optimal results.',
+    simple: "A* is like Dijkstra's with a cheat sheet. When exploring the next node, it asks two questions: how far have I already travelled, AND roughly how far is the goal from here? It always explores the node with the best combined answer first — so it heads toward the goal intelligently instead of spreading out in all directions.",
+    analogy: '🧭 Like a hiker who always picks the trail that looks closest to the mountain peak ahead — they still track the distance walked, but they also use their eyes to aim.',
+    realLife: 'Video game character pathfinding (every NPC navigating around obstacles), Google Maps finding routes through a city grid, robotics motion planning, and puzzle solvers (15-tile puzzle, Rubik\'s Cube) all use A*.',
+    inDepth: 'A* maintains a priority queue ordered by f(n) = g(n) + h(n), where g(n) is the exact cost from start to node n, and h(n) is a heuristic estimate of cost from n to the goal. If h(n) is admissible (never overestimates the true remaining cost), A* is guaranteed to find the optimal path.\n\nCommon heuristics: Manhattan distance (grid movement without diagonals), Euclidean distance (free movement), or Chebyshev distance (with diagonals). Choosing h = 0 reduces A* to Dijkstra\'s. Choosing h = true remaining cost makes it perfectly efficient but usually impossible to compute.\n\nThe trade-off between optimality and speed: a larger (inadmissible) h finds a path faster but it may not be optimal — useful in games where near-optimal is good enough. A* with a consistent (monotone) heuristic guarantees that once a node is settled, it never needs to be re-examined, making it as efficient as Dijkstra\'s while exploring far fewer nodes in practice.',
     similar: ['Breadth-First Search', 'Dijkstra\'s Algorithm'],
-    viz: null,
+    viz: 'astar',
     code: {
       Python: `<span class="cm"># A* Search — Graph Pathfinding</span>
 <span class="kw">import</span> <span class="var">heapq</span>
@@ -1902,8 +2142,12 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
     ],
     pros: 'Extremely fast O(1) data retrieval and updates. Perfect for real-world memory management scenarios.',
     cons: 'Requires additional O(N) memory overhead for storing the hash map and doubly linked list pointers.',
+    simple: "Your brain can only hold so many things at once. When you learn something new, the thing you haven't used in the longest time gets forgotten to make room. That's LRU — a fixed-size cache that evicts the Least Recently Used item whenever it's full. Most-used things stay, stale things go.",
+    analogy: '📺 Like a DVR with limited storage — when it fills up, the oldest recording you haven\'t watched gets automatically deleted to make room for the new one.',
+    realLife: 'CPU L1/L2 cache memory, browser cache (which web pages to keep loaded), CDN edge caches, database buffer pools (PostgreSQL, MySQL), and Redis\'s maxmemory eviction policy all implement LRU or a variant of it.',
+    inDepth: 'An LRU Cache needs two operations in O(1): get(key) and put(key, value). A hash map alone gives O(1) lookup but cannot efficiently track access order. A doubly linked list alone tracks order but lookup is O(n). Combining both gives O(1) for everything.\n\nThe list keeps nodes ordered from most-recently-used (head) to least-recently-used (tail). The hash map stores key → list node pointers. On get: look up the node, move it to the head in O(1) via pointer manipulation. On put: insert at head; if over capacity, remove tail and delete from the map.\n\nVariants include LFU (Least Frequently Used — evicts the item accessed fewest times, better for temporal locality), CLOCK (approximation of LRU with a circular buffer and reference bits), and ARC (Adaptive Replacement Cache — used in ZFS). Python\'s functools.lru_cache decorator implements this pattern for memoising function calls.',
     similar: ['Hash Table'],
-    viz: null,
+    viz: 'lru-cache',
     code: {
       Python: `<span class="cm"># LRU Cache using Python's OrderedDict</span>
 <span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="var">OrderedDict</span>
@@ -1996,8 +2240,12 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
     ],
     pros: 'Extremely fast O(M) lookup times where M is the word length. Perfectly solves prefix-based matches.',
     cons: 'Highly memory intensive. Storing lots of similar strings can balloon space usage.',
+    simple: "A Trie is a tree where each step down spells out one letter of a word. To store 'cat', you follow c → a → t and mark t as a word ending. To find 'car', you follow c → a → r. All words sharing a prefix share the same path — so you can suggest every word starting with 'ca' just by walking to that node and listing everything below.",
+    analogy: '📱 Like a phone keyboard\'s autocomplete — as you type each letter, the keyboard narrows down suggestions by following a tree of all known words, one character at a time.',
+    realLife: 'Search engine autocomplete, spell checkers, T9 phone input, IP address routing tables (longest prefix match), and contact search on your phone all rely on Trie structures.',
+    inDepth: 'A Trie (from re-TRIE-val) stores strings character by character in a tree where each edge represents one character. Each node has up to 26 children (for lowercase English) or a hashmap of children for arbitrary alphabets. A boolean isEnd flag marks complete words.\n\nLookup, insert, and prefix search all run in O(M) where M is the word length — independent of how many words are stored. This beats hash tables for prefix queries: a hash table can find an exact word in O(M) but cannot list all words with a given prefix without scanning all keys.\n\nThe memory cost is significant: a node with an array of 26 children uses 26 × pointer_size bytes regardless of how many children actually exist. A compressed Trie (Patricia tree / Radix tree) merges nodes with single children, drastically reducing space. This is what most production implementations (IP routing, suffix arrays in bioinformatics) actually use.',
     similar: ['Binary Search Tree', 'Hash Table'],
-    viz: null,
+    viz: 'trie',
     code: {
       Python: `<span class="cm"># Trie Implementation</span>
 <span class="kw">class</span> <span class="fn">TrieNode</span>:
@@ -2181,7 +2429,7 @@ function showDetail(id) {
     <div class="complexity-card space"><div class="label">Space</div><div class="value">${a.complexity.space}</div></div>
   `;
 
-  // Info grid
+  // Info grid — How It Works + Pros/Cons
   document.getElementById('d-info-grid').innerHTML = `
     <div class="detail-card">
       <h3>How It Works</h3>
@@ -2199,6 +2447,35 @@ function showDetail(id) {
       <p>${a.cons}</p>
     </div>
   `;
+
+  // Beginner Explainer — Simple + Analogy + Real Life
+  document.getElementById('d-explain-section').innerHTML = `
+    <div class="explain-top">
+      <div class="explain-card simple">
+        <div class="explain-card-label">💡 Simple Explanation</div>
+        <p>${a.simple || a.description}</p>
+      </div>
+      <div class="explain-card analogy">
+        <div class="explain-card-label">🔗 Analogy</div>
+        <p>${a.analogy || '—'}</p>
+      </div>
+      <div class="explain-card reallife">
+        <div class="explain-card-label">🌍 Real-Life Use</div>
+        <p>${a.realLife || a.usecase}</p>
+      </div>
+    </div>
+  `;
+
+  // In Depth — multi-paragraph technical breakdown
+  const inDepthParas = (a.inDepth || '').split('\n\n').filter(Boolean);
+  document.getElementById('d-indepth-section').innerHTML = inDepthParas.length ? `
+    <div class="indepth-card">
+      <h3>In Depth</h3>
+      <div class="indepth-paragraphs">
+        ${inDepthParas.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    </div>
+  ` : '';
 
   // Viz section
   const vizSection = document.getElementById('d-viz-section');
@@ -2252,12 +2529,636 @@ function showHome() {
 }
 
 // ══════════════════════════════════════════
-//  VISUALIZATION
+//  VISUALIZATION ENGINE
 // ══════════════════════════════════════════
 let vizData = [];
 let vizSteps = [];
 let vizStepIdx = 0;
 
+// ── Shared SVG graph helper ──────────────
+const GRAPH_NODES = {
+  A: {x:200, y:60},  B: {x:80,  y:180}, C: {x:320, y:180},
+  D: {x:40,  y:300}, E: {x:160, y:300}, F: {x:280, y:300}, G: {x:400, y:300}
+};
+const GRAPH_EDGES = [
+  ['A','B'],['A','C'],['B','D'],['B','E'],['C','F'],['C','G']
+];
+const DIJKSTRA_NODES = {
+  S: {x:60,  y:180}, A: {x:200, y:60},  B: {x:200, y:300},
+  C: {x:360, y:60},  D: {x:360, y:300}, T: {x:500, y:180}
+};
+const DIJKSTRA_EDGES = [
+  ['S','A',4],['S','B',2],['A','C',3],['A','B',1],
+  ['B','D',5],['C','T',2],['D','T',7],['C','D',1]
+];
+
+function buildGraphSVG(nodes, edges, visited=[], current='', queue=[], weights=false, dist={}) {
+  const W = 560, H = 380;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:560px;height:auto;display:block;margin:0 auto">`;
+  // edges
+  for (const e of edges) {
+    const [a, b, w] = e;
+    const n1 = nodes[a], n2 = nodes[b];
+    const isActive = (visited.includes(a) && visited.includes(b));
+    svg += `<line x1="${n1.x}" y1="${n1.y}" x2="${n2.x}" y2="${n2.y}"
+      stroke="${isActive ? 'var(--accent3)' : 'var(--border)'}" stroke-width="${isActive?2.5:1.5}" opacity="0.8"/>`;
+    if (weights && w !== undefined) {
+      const mx = (n1.x+n2.x)/2, my = (n1.y+n2.y)/2;
+      svg += `<rect x="${mx-10}" y="${my-9}" width="20" height="16" rx="3" fill="var(--card)"/>
+        <text x="${mx}" y="${my+3}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--muted)">${w}</text>`;
+    }
+  }
+  // nodes
+  for (const [id, pos] of Object.entries(nodes)) {
+    const isCurrent = id === current;
+    const isVisited = visited.includes(id);
+    const isQueued  = queue.includes(id);
+    const fill = isCurrent ? 'var(--accent2)' : isVisited ? 'var(--accent3)' : isQueued ? 'var(--accent)' : 'var(--surface)';
+    const stroke = isCurrent ? 'var(--accent2)' : isVisited ? 'var(--accent3)' : 'var(--border)';
+    svg += `<circle cx="${pos.x}" cy="${pos.y}" r="22" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+      <text x="${pos.x}" y="${pos.y+5}" text-anchor="middle" font-family="Syne,sans-serif" font-size="13" font-weight="700" fill="${isVisited||isCurrent ? 'white' : 'var(--text)'}">${id}</text>`;
+    if (weights && dist[id] !== undefined) {
+      const d = dist[id] === Infinity ? '∞' : dist[id];
+      svg += `<text x="${pos.x}" y="${pos.y+36}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--accent)">${d}</text>`;
+    }
+  }
+  svg += `</svg>`;
+  return svg;
+}
+
+// ── BFS steps ───────────────────────────
+function buildBFSSteps() {
+  const steps = [];
+  const visited = [], queue = ['A'];
+  steps.push({ visited: [], current: '', queue: ['A'], status: 'Start: enqueue A' });
+  const adj = { A:['B','C'], B:['D','E'], C:['F','G'], D:[], E:[], F:[], G:[] };
+  while (queue.length) {
+    const node = queue.shift();
+    visited.push(node);
+    steps.push({ visited: [...visited], current: node, queue: [...queue], status: `Visit ${node}, explore neighbors` });
+    for (const nb of adj[node]) {
+      if (!visited.includes(nb) && !queue.includes(nb)) {
+        queue.push(nb);
+        steps.push({ visited: [...visited], current: node, queue: [...queue], status: `Enqueue neighbor ${nb}` });
+      }
+    }
+  }
+  steps.push({ visited: [...visited], current: '', queue: [], status: '✓ BFS complete! All nodes visited layer by layer.' });
+  return steps;
+}
+
+// ── DFS steps ───────────────────────────
+function buildDFSSteps() {
+  const steps = [];
+  const visited = [], stack = ['A'];
+  const adj = { A:['B','C'], B:['D','E'], C:['F','G'], D:[], E:[], F:[], G:[] };
+  steps.push({ visited: [], current: '', stack: ['A'], status: 'Start: push A onto stack' });
+  function dfs(node) {
+    if (visited.includes(node)) return;
+    visited.push(node);
+    steps.push({ visited: [...visited], current: node, stack: [], status: `Visit ${node}, explore deep first` });
+    for (const nb of adj[node]) {
+      if (!visited.includes(nb)) {
+        steps.push({ visited: [...visited], current: node, stack: [nb], status: `Go deeper → ${nb}` });
+        dfs(nb);
+      }
+    }
+    steps.push({ visited: [...visited], current: node, stack: [], status: `Backtrack from ${node}` });
+  }
+  dfs('A');
+  steps.push({ visited: [...visited], current: '', stack: [], status: '✓ DFS complete! Explored all branches depth-first.' });
+  return steps;
+}
+
+// ── Dijkstra steps ──────────────────────
+function buildDijkstraSteps() {
+  const steps = [];
+  const nodes = DIJKSTRA_NODES;
+  const edges = DIJKSTRA_EDGES;
+  const adj = {};
+  for (const id of Object.keys(nodes)) adj[id] = [];
+  for (const [a,b,w] of edges) { adj[a].push([b,w]); adj[b].push([a,w]); }
+  const dist = {};
+  for (const id of Object.keys(nodes)) dist[id] = Infinity;
+  dist['S'] = 0;
+  const visited = [], queue = Object.keys(nodes);
+  steps.push({ visited: [], current: '', dist: {...dist}, status: 'Initialize: dist[S]=0, all others=∞' });
+  while (queue.length) {
+    queue.sort((a,b) => dist[a]-dist[b]);
+    const u = queue.shift();
+    if (dist[u] === Infinity) break;
+    visited.push(u);
+    steps.push({ visited: [...visited], current: u, dist: {...dist}, status: `Pick closest unvisited: ${u} (dist=${dist[u]})` });
+    for (const [v,w] of adj[u]) {
+      if (dist[u]+w < dist[v]) {
+        dist[v] = dist[u]+w;
+        steps.push({ visited: [...visited], current: u, dist: {...dist}, status: `Update dist[${v}] = ${dist[v]} via ${u}` });
+      }
+    }
+  }
+  steps.push({ visited: [...visited], current: '', dist: {...dist}, status: '✓ Shortest paths from S found!' });
+  return steps;
+}
+
+// ── Fibonacci DP ─────────────────────────
+function buildFibSteps(n=10) {
+  const steps = [];
+  const dp = new Array(n+1).fill(null);
+  dp[0]=0; dp[1]=1;
+  steps.push({ dp:[...dp], cur:0, status:'Initialize dp[0]=0, dp[1]=1' });
+  for (let i=2; i<=n; i++) {
+    dp[i] = dp[i-1]+dp[i-2];
+    steps.push({ dp:[...dp], cur:i, status:`dp[${i}] = dp[${i-1}](${dp[i-1]}) + dp[${i-2}](${dp[i-2]}) = ${dp[i]}` });
+  }
+  steps.push({ dp:[...dp], cur:-1, status:`✓ Fibonacci(${n}) = ${dp[n]}` });
+  return steps;
+}
+
+function renderFibViz(step) {
+  const { dp, cur } = step;
+  const n = dp.length;
+  const maxVal = Math.max(...dp.filter(x=>x!==null), 1);
+  document.getElementById('viz-array').innerHTML = dp.map((v,i) => {
+    if (v === null) return `<div class="viz-bar"><div class="bar-body" style="height:20px;opacity:0.2"></div><div class="bar-label">dp[${i}]</div></div>`;
+    const h = Math.max(20, Math.round((v/maxVal)*90));
+    const cls = i===cur ? 'active' : cur===-1 ? 'sorted' : i<cur ? 'found' : '';
+    return `<div class="viz-bar ${cls}"><div class="bar-body" style="height:${h}px"></div><div class="bar-label">${v}</div></div>`;
+  }).join('');
+}
+
+// ── Knapsack DP ──────────────────────────
+const KS_ITEMS = [{name:'Gem',w:2,v:6},{name:'Ring',w:2,v:10},{name:'Book',w:3,v:12},{name:'Vase',w:5,v:15}];
+const KS_CAP = 7;
+function buildKnapsackSteps() {
+  const items = KS_ITEMS, W = KS_CAP, n = items.length;
+  const dp = Array.from({length:n+1},()=>new Array(W+1).fill(0));
+  const steps = [{ dp:dp.map(r=>[...r]), i:0, w:0, status:'Initialize dp table with all zeros' }];
+  for (let i=1;i<=n;i++) {
+    for (let w=0;w<=W;w++) {
+      if (items[i-1].w > w) {
+        dp[i][w] = dp[i-1][w];
+        steps.push({ dp:dp.map(r=>[...r]), i, w, status:`Item ${i} (${items[i-1].name}) weight ${items[i-1].w} > ${w}, skip → dp[${i}][${w}]=${dp[i][w]}` });
+      } else {
+        const take = dp[i-1][w-items[i-1].w]+items[i-1].v;
+        const skip = dp[i-1][w];
+        dp[i][w] = Math.max(skip, take);
+        steps.push({ dp:dp.map(r=>[...r]), i, w, status:`Item ${i} (${items[i-1].name}): take=${take}, skip=${skip} → dp[${i}][${w}]=${dp[i][w]}` });
+      }
+    }
+  }
+  steps.push({ dp:dp.map(r=>[...r]), i:-1, w:-1, status:`✓ Max value = ${dp[n][W]} with capacity ${W}` });
+  return steps;
+}
+
+function renderKnapsackViz(step) {
+  const { dp, i: ci, w: cw } = step;
+  const items = KS_ITEMS, W = KS_CAP, n = items.length;
+  const cellW = 44, cellH = 36;
+  const offX = 72, offY = 40;
+  const svgW = offX + (W+1)*cellW + 20, svgH = offY + (n+1)*cellH + 10;
+  let svg = `<svg viewBox="0 0 ${svgW} ${svgH}" style="width:100%;max-width:${svgW}px;height:auto;display:block;margin:0 auto;font-family:JetBrains Mono,monospace">`;
+  // col headers
+  for (let w=0;w<=W;w++) {
+    svg += `<text x="${offX+w*cellW+cellW/2}" y="26" text-anchor="middle" font-size="11" fill="var(--muted)">w=${w}</text>`;
+  }
+  for (let r=0;r<=n;r++) {
+    const label = r===0 ? 'none' : items[r-1].name;
+    svg += `<text x="${offX-6}" y="${offY+r*cellH+cellH/2+4}" text-anchor="end" font-size="10" fill="var(--muted)">${label}</text>`;
+    for (let w=0;w<=W;w++) {
+      const x = offX+w*cellW, y = offY+r*cellH;
+      const isActive = r===ci && w===cw;
+      const isDone = r<ci || (r===ci && w<cw) || ci===-1;
+      const fill = isActive ? 'var(--accent)' : isDone && dp[r][w]>0 ? 'rgba(0,212,170,0.15)' : 'var(--surface)';
+      const stroke = isActive ? 'var(--accent)' : 'var(--border)';
+      svg += `<rect x="${x+1}" y="${y+1}" width="${cellW-2}" height="${cellH-2}" rx="3" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
+      svg += `<text x="${x+cellW/2}" y="${y+cellH/2+4}" text-anchor="middle" font-size="12" fill="${isActive?'white':'var(--text)'}">${dp[r][w]}</text>`;
+    }
+  }
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── BST ──────────────────────────────────
+const BST_INSERT_SEQ = [8,3,10,1,6,14,4,7];
+function buildBSTSteps() {
+  const steps = [];
+  const nodes = [], edges = [];
+  function getPos(val, nodes) {
+    // Simple positional layout
+    let node = nodes.find(n=>n.val===val);
+    return node ? {x:node.x, y:node.y} : null;
+  }
+  function insertNode(val, nodes, edges) {
+    const W=560, startX=280, startY=50, dy=70;
+    if (nodes.length===0) { nodes.push({val,x:startX,y:startY}); return; }
+    let cur = nodes[0], parentX=startX, direction=0, depth=1;
+    while (true) {
+      if (val < cur.val) {
+        const next = nodes.find(n=>n===edges.find(e=>e.parent===cur&&e.dir==='L')?.child);
+        const childEdge = edges.find(e=>e.parent===cur&&e.dir==='L');
+        if (childEdge) { cur=childEdge.child; depth++; }
+        else {
+          const x = cur.x - Math.max(20, 130/Math.pow(1.8,depth-1));
+          const y = cur.y + dy;
+          const newNode = {val,x:Math.max(20,Math.min(W-20,x)),y};
+          nodes.push(newNode);
+          edges.push({parent:cur,child:newNode,dir:'L'});
+          return;
+        }
+      } else {
+        const childEdge = edges.find(e=>e.parent===cur&&e.dir==='R');
+        if (childEdge) { cur=childEdge.child; depth++; }
+        else {
+          const x = cur.x + Math.max(20, 130/Math.pow(1.8,depth-1));
+          const y = cur.y + dy;
+          const newNode = {val,x:Math.max(20,Math.min(W-20,x)),y};
+          nodes.push(newNode);
+          edges.push({parent:cur,child:newNode,dir:'R'});
+          return;
+        }
+      }
+    }
+  }
+  steps.push({ nodes:[], edges:[], highlight:-1, status:'Empty BST. Start inserting values...' });
+  for (const val of BST_INSERT_SEQ) {
+    insertNode(val, nodes, edges);
+    steps.push({ nodes:JSON.parse(JSON.stringify(nodes)), edges:JSON.parse(JSON.stringify(edges)), highlight:val, status:`Insert ${val}: placed in correct BST position` });
+  }
+  // search step
+  steps.push({ nodes:JSON.parse(JSON.stringify(nodes)), edges:JSON.parse(JSON.stringify(edges)), highlight:6, search:6, status:'Search for 6: start at root 8 → go left → 3 → go right → ✓ Found 6!' });
+  return steps;
+}
+
+function renderBSTViz(step) {
+  const W=560, H=330;
+  const {nodes, edges, highlight, search} = step;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto">`;
+  for (const e of edges) {
+    svg += `<line x1="${e.parent.x}" y1="${e.parent.y}" x2="${e.child.x}" y2="${e.child.y}" stroke="var(--border)" stroke-width="1.5"/>`;
+  }
+  for (const n of nodes) {
+    const isHighlight = n.val===highlight;
+    const isSearch = n.val===search;
+    const fill = isSearch ? 'var(--accent3)' : isHighlight ? 'var(--accent)' : 'var(--surface)';
+    const stroke = isSearch ? 'var(--accent3)' : isHighlight ? 'var(--accent)' : 'var(--border)';
+    svg += `<circle cx="${n.x}" cy="${n.y}" r="20" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
+    svg += `<text x="${n.x}" y="${n.y+5}" text-anchor="middle" font-family="Syne,sans-serif" font-size="13" font-weight="700" fill="${isHighlight||isSearch?'white':'var(--text)'}">${n.val}</text>`;
+  }
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── Trie ─────────────────────────────────
+const TRIE_WORDS = ['cat','car','card','care','dog'];
+function buildTrieSteps() {
+  const steps = [];
+  // Build trie node structure
+  const root = {char:'', children:{}, isEnd:false, x:280, y:30};
+  steps.push({ root: JSON.parse(JSON.stringify(root)), word:'', highlight:'', status:'Empty Trie. Root node created.' });
+  const positions = [
+    {char:'c',x:140,y:110},{char:'d',x:420,y:110},
+    {char:'a',x:140,y:190},{char:'o',x:420,y:190},
+    {char:'t',x:80,y:270},{char:'r',x:200,y:270},{char:'g',x:420,y:270},
+    {char:'d',x:160,y:350},{char:'e',x:240,y:350},
+  ];
+  for (const word of TRIE_WORDS) {
+    steps.push({ word, highlight: word[0], status: `Insert "${word}": traverse character by character` });
+    for (let i=1; i<=word.length; i++) {
+      steps.push({ word, highlight: word.slice(0,i), status: `"${word}" — at prefix "${word.slice(0,i)}"${i===word.length?' → mark as word end':''}` });
+    }
+  }
+  // Search
+  steps.push({ word:'care', highlight:'care', search:true, status:'Search "care": c→a→r→e → ✓ Found!' });
+  steps.push({ word:'cat', highlight:'cat', search:true, status:'Search "cat": c→a→t → ✓ Found!' });
+  steps.push({ word:'cap', highlight:'ca', search:false, status:'Search "cap": c→a→p → ✗ "p" node not found!' });
+  return steps;
+}
+
+function renderTrieViz(step) {
+  const W=560, H=380;
+  const { word, highlight, search } = step;
+  // Static trie structure visualization
+  const trieLayout = [
+    { id:'root', label:'*', x:280, y:30, parent:null },
+    { id:'c', label:'c', x:160, y:110, parent:'root' },
+    { id:'d', label:'d', x:400, y:110, parent:'root' },
+    { id:'ca', label:'a', x:160, y:190, parent:'c' },
+    { id:'do', label:'o', x:400, y:190, parent:'d' },
+    { id:'cat', label:'t', x:100, y:270, parent:'ca', isEnd:true },
+    { id:'car', label:'r', x:220, y:270, parent:'ca' },
+    { id:'dog', label:'g', x:400, y:270, parent:'do', isEnd:true },
+    { id:'card', label:'d', x:175, y:350, parent:'car', isEnd:true },
+    { id:'care', label:'e', x:265, y:350, parent:'car', isEnd:true },
+  ];
+  const byId = Object.fromEntries(trieLayout.map(n=>[n.id,n]));
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto">`;
+  // edges
+  for (const n of trieLayout) {
+    if (!n.parent) continue;
+    const p = byId[n.parent];
+    svg += `<line x1="${p.x}" y1="${p.y}" x2="${n.x}" y2="${n.y}" stroke="var(--border)" stroke-width="1.5" opacity="0.7"/>`;
+  }
+  // nodes
+  for (const n of trieLayout) {
+    const pathId = n.id === 'root' ? '' : n.id;
+    const isOnPath = highlight && (pathId === highlight || highlight.startsWith(pathId) || (pathId !== 'root' && pathId !== '' && highlight.startsWith(n.id)));
+    const isEnd = n.isEnd;
+    const isActive = search !== undefined && n.id === highlight;
+    const fill = isActive ? (search ? 'var(--accent3)' : 'var(--accent2)') : isOnPath ? 'var(--accent)' : 'var(--surface)';
+    const stroke = isEnd ? 'var(--accent2)' : isOnPath ? 'var(--accent)' : 'var(--border)';
+    svg += `<circle cx="${n.x}" cy="${n.y}" r="18" fill="${fill}" stroke="${stroke}" stroke-width="${isEnd?2.5:1.5}"/>`;
+    svg += `<text x="${n.x}" y="${n.y+5}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" font-weight="600" fill="${isOnPath||isActive?'white':'var(--text)'}">${n.label}</text>`;
+    if (isEnd) svg += `<circle cx="${n.x+13}" cy="${n.y-13}" r="5" fill="var(--accent2)"/>`;
+  }
+  // legend
+  svg += `<circle cx="20" cy="${H-20}" r="5" fill="var(--accent2)"/>
+    <text x="30" y="${H-15}" font-size="10" fill="var(--muted)" font-family="Syne,sans-serif">= word end</text>`;
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── Activity Selection ───────────────────
+const ACTIVITIES = [
+  {name:'A1',start:1,end:4},{name:'A2',start:3,end:5},{name:'A3',start:0,end:6},
+  {name:'A4',start:5,end:7},{name:'A5',start:8,end:9},{name:'A6',start:5,end:9}
+];
+function buildActivitySteps() {
+  const sorted = [...ACTIVITIES].sort((a,b)=>a.end-b.end);
+  const steps = [{acts:sorted, selected:[], current:-1, status:'Sort activities by finish time'}];
+  const selected = [];
+  let lastEnd = -Infinity;
+  for (let i=0; i<sorted.length; i++) {
+    const a = sorted[i];
+    steps.push({ acts:sorted, selected:[...selected], current:i, status:`Consider ${a.name}: start=${a.start}, end=${a.end}` });
+    if (a.start >= lastEnd) {
+      selected.push(i);
+      lastEnd = a.end;
+      steps.push({ acts:sorted, selected:[...selected], current:i, status:`✓ Select ${a.name}! No conflict. Last end = ${lastEnd}` });
+    } else {
+      steps.push({ acts:sorted, selected:[...selected], current:i, status:`✗ Skip ${a.name}: overlaps (start ${a.start} < last end ${lastEnd})` });
+    }
+  }
+  steps.push({ acts:sorted, selected:[...selected], current:-1, status:`✓ Done! Selected ${selected.length} non-overlapping activities` });
+  return steps;
+}
+
+function renderActivityViz(step) {
+  const { acts, selected, current } = step;
+  const W=560, H=220, offX=60, offY=20, timeScale=42, barH=22, gap=8;
+  const maxTime = 10;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto;font-family:Syne,sans-serif">`;
+  // time axis
+  for (let t=0; t<=maxTime; t++) {
+    const x = offX + t*timeScale;
+    svg += `<line x1="${x}" y1="${offY-5}" x2="${x}" y2="${offY + acts.length*(barH+gap)+5}" stroke="var(--border)" stroke-width="1" opacity="0.5"/>`;
+    svg += `<text x="${x}" y="${offY-8}" text-anchor="middle" font-size="10" fill="var(--muted)">${t}</text>`;
+  }
+  acts.forEach((a,i) => {
+    const x = offX + a.start*timeScale;
+    const w = (a.end - a.start)*timeScale - 2;
+    const y = offY + i*(barH+gap);
+    const isSel = selected.includes(i);
+    const isCur = current === i;
+    const fill = isSel ? 'var(--accent3)' : isCur ? 'var(--accent2)' : 'rgba(var(--accent-rgb),0.2)';
+    const stroke = isSel ? 'var(--accent3)' : isCur ? 'var(--accent2)' : 'var(--border)';
+    svg += `<rect x="${x}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+    svg += `<text x="${x + w/2}" y="${y+barH/2+4}" text-anchor="middle" font-size="11" font-weight="700" fill="${isSel||isCur?'white':'var(--text)'}">${a.name}</text>`;
+    svg += `<text x="${offX - 6}" y="${y+barH/2+4}" text-anchor="end" font-size="10" fill="var(--muted)">${a.name}</text>`;
+  });
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── Hash Table ───────────────────────────
+const HT_OPS = [
+  {op:'set',key:'alice',val:42},{op:'set',key:'bob',val:17},
+  {op:'set',key:'carol',val:88},{op:'get',key:'bob',val:17},
+  {op:'set',key:'dave',val:5},{op:'get',key:'alice',val:42},
+  {op:'delete',key:'bob',val:null}
+];
+function simpleHash(key, size=8) {
+  let h=0;
+  for (const c of key) h=(h*31+c.charCodeAt(0))%size;
+  return h;
+}
+function buildHashTableSteps() {
+  const SIZE=8;
+  const steps=[];
+  const buckets=Array.from({length:SIZE},()=>[]);
+  steps.push({ buckets:buckets.map(b=>[...b]), active:-1, op:null, status:'Empty Hash Table — 8 buckets, collision via chaining' });
+  for (const {op,key,val} of HT_OPS) {
+    const h = simpleHash(key, SIZE);
+    if (op==='set') {
+      steps.push({ buckets:buckets.map(b=>[...b]), active:h, op:'set', key, val, status:`set("${key}", ${val}) → hash=${h}` });
+      const existing = buckets[h].findIndex(p=>p[0]===key);
+      if (existing>=0) buckets[h][existing][1]=val;
+      else buckets[h].push([key,val]);
+      steps.push({ buckets:buckets.map(b=>b.map(p=>[...p])), active:h, op:'set', key, val, status:`✓ Stored "${key}"=${val} in bucket ${h}` });
+    } else if (op==='get') {
+      steps.push({ buckets:buckets.map(b=>b.map(p=>[...p])), active:h, op:'get', key, val, status:`get("${key}") → hash=${h} → found ${val}` });
+    } else if (op==='delete') {
+      steps.push({ buckets:buckets.map(b=>b.map(p=>[...p])), active:h, op:'delete', key, status:`delete("${key}") → hash=${h}` });
+      const idx = buckets[h].findIndex(p=>p[0]===key);
+      if (idx>=0) buckets[h].splice(idx,1);
+      steps.push({ buckets:buckets.map(b=>b.map(p=>[...p])), active:h, op:'delete', key, status:`✓ Removed "${key}" from bucket ${h}` });
+    }
+  }
+  return steps;
+}
+
+function renderHashTableViz(step) {
+  const { buckets, active, op, key } = step;
+  const W=560, cellH=34, offX=90, offY=10, bucketW=440;
+  const H = offY + buckets.length*cellH + 20;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto;font-family:JetBrains Mono,monospace">`;
+  buckets.forEach((bucket, i) => {
+    const y = offY + i*cellH;
+    const isActive = i === active;
+    const fill = isActive ? (op==='get'?'rgba(0,212,170,0.15)':op==='delete'?'rgba(255,107,157,0.15)':'rgba(124,107,255,0.15)') : 'var(--surface)';
+    const stroke = isActive ? (op==='get'?'var(--accent3)':op==='delete'?'var(--accent2)':'var(--accent)') : 'var(--border)';
+    svg += `<rect x="${offX}" y="${y+1}" width="${bucketW}" height="${cellH-2}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${isActive?2:1}"/>`;
+    svg += `<text x="${offX-8}" y="${y+cellH/2+4}" text-anchor="end" font-size="11" fill="var(--muted)">[${i}]</text>`;
+    if (bucket.length === 0) {
+      svg += `<text x="${offX+12}" y="${y+cellH/2+4}" font-size="11" fill="var(--muted)" opacity="0.5">empty</text>`;
+    } else {
+      let cx = offX + 10;
+      for (const [k,v] of bucket) {
+        const isKey = k === key && isActive;
+        const label = `"${k}": ${v}`;
+        const bw = label.length*7+16;
+        svg += `<rect x="${cx}" y="${y+5}" width="${bw}" height="${cellH-10}" rx="3" fill="${isKey?'var(--accent)':'var(--card)'}" stroke="${isKey?'var(--accent)':'var(--border)'}"/>`;
+        svg += `<text x="${cx+bw/2}" y="${y+cellH/2+4}" text-anchor="middle" font-size="10" fill="${isKey?'white':'var(--text)'}">${label}</text>`;
+        cx += bw + 6;
+        if (cx < offX+bucketW-10) { svg += `<text x="${cx+2}" y="${y+cellH/2+4}" font-size="14" fill="var(--muted)">→</text>`; cx += 18; }
+      }
+    }
+  });
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── A* Search ────────────────────────────
+function buildAStarSteps() {
+  // 5x5 grid, S=(0,2), G=(4,2), wall at col 2 rows 0-3
+  const ROWS=5, COLS=5, START='0,2', GOAL='4,2';
+  const walls = new Set(['2,0','2,1','2,2','2,3']);
+  function h(node) {
+    const [r,c] = node.split(',').map(Number);
+    const [gr,gc] = GOAL.split(',').map(Number);
+    return Math.abs(r-gr)+Math.abs(c-gc);
+  }
+  function neighbors(node) {
+    const [r,c] = node.split(',').map(Number);
+    return [[r-1,c],[r+1,c],[r,c-1],[r,c+1]]
+      .filter(([nr,nc])=>nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&!walls.has(`${nr},${nc}`))
+      .map(([nr,nc])=>`${nr},${nc}`);
+  }
+  const steps = [];
+  const openSet = new Set([START]);
+  const gScore = {[START]:0};
+  const fScore = {[START]:h(START)};
+  const cameFrom = {};
+  const closed = new Set();
+  steps.push({ open:[START], closed:[], current:'', path:[], status:`Start A*: S at (0,2), Goal at (4,2). Wall blocks center column.` });
+  let iter = 0;
+  while (openSet.size && iter++ < 30) {
+    const current = [...openSet].sort((a,b)=>(fScore[a]||99)-(fScore[b]||99))[0];
+    if (current === GOAL) {
+      const path = [];
+      let n = current;
+      while (n) { path.unshift(n); n=cameFrom[n]; }
+      steps.push({ open:[...openSet], closed:[...closed], current, path, status:`✓ Goal reached! Path length = ${path.length-1} steps` });
+      break;
+    }
+    openSet.delete(current);
+    closed.add(current);
+    steps.push({ open:[...openSet], closed:[...closed], current, path:[], status:`Explore (${current}): g=${gScore[current]}, f=${fScore[current]||'?'}` });
+    for (const nb of neighbors(current)) {
+      if (closed.has(nb)) continue;
+      const tentG = (gScore[current]||0)+1;
+      if (tentG < (gScore[nb]||Infinity)) {
+        cameFrom[nb] = current;
+        gScore[nb] = tentG;
+        fScore[nb] = tentG + h(nb);
+        openSet.add(nb);
+        steps.push({ open:[...openSet], closed:[...closed], current, path:[], status:`Add neighbor (${nb}): g=${tentG}, h=${h(nb)}, f=${fScore[nb]}` });
+      }
+    }
+  }
+  return steps;
+}
+
+function renderAStarViz(step) {
+  const { open, closed, current, path } = step;
+  const ROWS=5, COLS=5, CELL=64, PAD=20;
+  const walls = new Set(['2,0','2,1','2,2','2,3']);
+  const W = PAD*2+COLS*CELL, H = PAD*2+ROWS*CELL+30;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto;font-family:JetBrains Mono,monospace">`;
+  for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
+    const id = `${r},${c}`;
+    const x = PAD+c*CELL, y = PAD+r*CELL;
+    const isWall = walls.has(id);
+    const isStart = id==='0,2', isGoal = id==='4,2';
+    const isCurrent = id===current;
+    const isPath = path.includes(id);
+    const isOpen = open.includes(id);
+    const isClosed = closed.includes(id);
+    let fill = 'var(--surface)';
+    if (isWall) fill = 'var(--border)';
+    else if (isPath) fill = 'var(--accent3)';
+    else if (isCurrent) fill = 'var(--accent2)';
+    else if (isOpen) fill = 'rgba(124,107,255,0.3)';
+    else if (isClosed) fill = 'rgba(0,212,170,0.15)';
+    svg += `<rect x="${x+1}" y="${y+1}" width="${CELL-2}" height="${CELL-2}" rx="5" fill="${fill}" stroke="${isCurrent||isPath?'none':'var(--border)'}" stroke-width="1"/>`;
+    if (isStart) svg += `<text x="${x+CELL/2}" y="${y+CELL/2+5}" text-anchor="middle" font-size="14" font-weight="700" fill="white">S</text>`;
+    else if (isGoal) svg += `<text x="${x+CELL/2}" y="${y+CELL/2+5}" text-anchor="middle" font-size="14" font-weight="700" fill="white">G</text>`;
+    else if (!isWall) {
+      svg += `<text x="${x+CELL/2}" y="${y+CELL/2+4}" text-anchor="middle" font-size="10" fill="var(--muted)" opacity="0.6">${r},${c}</text>`;
+    }
+  }
+  // legend
+  const leg = [['var(--accent2)','Current'],['rgba(124,107,255,0.3)','Open'],['rgba(0,212,170,0.15)','Closed'],['var(--accent3)','Path']];
+  let lx = PAD;
+  for (const [fill, label] of leg) {
+    svg += `<rect x="${lx}" y="${H-22}" width="12" height="12" rx="2" fill="${fill}"/>`;
+    svg += `<text x="${lx+16}" y="${H-12}" font-size="10" fill="var(--muted)">${label}</text>`;
+    lx += label.length*6+26;
+  }
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── LRU Cache ────────────────────────────
+function buildLRUSteps() {
+  const CAP = 4;
+  const ops = [
+    {op:'put',key:1,val:'A'},{op:'put',key:2,val:'B'},{op:'put',key:3,val:'C'},
+    {op:'get',key:1},{op:'put',key:4,val:'D'},{op:'put',key:5,val:'E'},
+    {op:'get',key:3},{op:'put',key:6,val:'F'}
+  ];
+  const steps = [];
+  const cache = []; // [{key,val}] head=MRU, tail=LRU
+  steps.push({ cache:[], cap:CAP, op:null, status:`Empty LRU Cache (capacity=${CAP}). MRU at left, LRU at right.` });
+  for (const {op,key,val} of ops) {
+    if (op==='put') {
+      const idx = cache.findIndex(e=>e.key===key);
+      if (idx>=0) cache.splice(idx,1);
+      cache.unshift({key,val});
+      if (cache.length>CAP) {
+        const evicted = cache.pop();
+        steps.push({ cache:[...cache.map(e=>({...e}))], cap:CAP, op:'evict', key, val, evicted:evicted.key, status:`put(${key},"${val}") → evict LRU key=${evicted.key}, add to front` });
+      } else {
+        steps.push({ cache:[...cache.map(e=>({...e}))], cap:CAP, op:'put', key, val, status:`put(${key},"${val}") → add to front (MRU)` });
+      }
+    } else {
+      const idx = cache.findIndex(e=>e.key===key);
+      if (idx>=0) {
+        const entry = cache.splice(idx,1)[0];
+        cache.unshift(entry);
+        steps.push({ cache:[...cache.map(e=>({...e}))], cap:CAP, op:'get', key, found:true, status:`get(${key}) → hit! Move key=${key} to front (MRU)` });
+      } else {
+        steps.push({ cache:[...cache.map(e=>({...e}))], cap:CAP, op:'get', key, found:false, status:`get(${key}) → miss! Key not in cache.` });
+      }
+    }
+  }
+  return steps;
+}
+
+function renderLRUViz(step) {
+  const { cache, cap, op, key, evicted } = step;
+  const W=560, cellW=100, cellH=60, gap=8, offX=30, offY=60;
+  const H = offY+cellH+80;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto;display:block;margin:0 auto;font-family:Syne,sans-serif">`;
+  // labels
+  svg += `<text x="${offX}" y="25" font-size="11" font-weight="700" fill="var(--accent3)">◀ MRU (Most Recent)</text>`;
+  svg += `<text x="${W-offX}" y="25" text-anchor="end" font-size="11" font-weight="700" fill="var(--accent2)">LRU (Least Recent) ▶</text>`;
+  // empty slots
+  for (let i=0;i<cap;i++) {
+    const x = offX + i*(cellW+gap);
+    svg += `<rect x="${x}" y="${offY}" width="${cellW}" height="${cellH}" rx="6" fill="var(--surface)" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,2"/>`;
+  }
+  // filled entries
+  cache.forEach((e,i) => {
+    const x = offX + i*(cellW+gap);
+    const isActive = e.key===key;
+    const isEvict = evicted===e.key;
+    const isMRU = i===0;
+    const fill = isActive&&op==='get' ? 'var(--accent3)' : isActive ? 'var(--accent)' : isMRU&&op==='put' ? 'rgba(124,107,255,0.3)' : 'var(--card)';
+    const stroke = isActive ? (op==='get'?'var(--accent3)':'var(--accent)') : 'var(--border)';
+    svg += `<rect x="${x}" y="${offY}" width="${cellW}" height="${cellH}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
+    svg += `<text x="${x+cellW/2}" y="${offY+22}" text-anchor="middle" font-size="10" fill="var(--muted)">key=${e.key}</text>`;
+    svg += `<text x="${x+cellW/2}" y="${offY+42}" text-anchor="middle" font-size="16" font-weight="700" fill="${isActive?'white':'var(--text)'}">"${e.val}"</text>`;
+    if (i < cache.length-1) {
+      const arrowX = x+cellW+gap/2;
+      svg += `<text x="${arrowX}" y="${offY+cellH/2+5}" text-anchor="middle" font-size="14" fill="var(--muted)">↔</text>`;
+    }
+  });
+  if (evicted) svg += `<text x="${offX}" y="${offY+cellH+28}" font-size="12" fill="var(--accent2)">⚠ Evicted key=${evicted} (was LRU)</text>`;
+  svg += '</svg>';
+  document.getElementById('viz-array').innerHTML = svg;
+}
+
+// ── Bubble Sort (existing) ────────────────
 function buildBubbleSortSteps(arr) {
   const a = [...arr];
   const steps = [{ arr: [...a], active: [], sorted: new Set(), status: 'Starting bubble sort...' }];
@@ -2302,25 +3203,6 @@ function buildBinarySearchSteps(arr, target) {
   return steps;
 }
 
-function resetViz() {
-  if (vizTimer) { clearTimeout(vizTimer); vizTimer = null; }
-  vizStepIdx = 0;
-  document.getElementById('viz-run-btn').textContent = '▶ Run';
-
-  if (!currentAlgo) return;
-
-  if (currentAlgo.viz === 'bubble-sort') {
-    vizData = [38, 27, 43, 3, 9, 82, 10];
-    vizSteps = buildBubbleSortSteps(vizData);
-    renderBars(vizData, [], new Set());
-  } else if (currentAlgo.viz === 'binary-search') {
-    vizData = [2, 5, 8, 12, 16, 23, 38, 56];
-    vizSteps = buildBinarySearchSteps(vizData, 23);
-    renderBinaryBars(vizData, -1, 0, vizData.length-1, -1);
-  }
-  document.getElementById('viz-status').textContent = 'Press Run to see the algorithm in action';
-}
-
 function renderBars(arr, active, sorted) {
   const max = Math.max(...arr);
   document.getElementById('viz-array').innerHTML = arr.map((v, i) => `
@@ -2345,27 +3227,90 @@ function renderBinaryBars(arr, mid, left, right, found) {
   }).join('');
 }
 
+// ── Reset / Run dispatcher ───────────────
+function resetViz() {
+  if (vizTimer) { clearTimeout(vizTimer); vizTimer = null; }
+  vizStepIdx = 0;
+  const btn = document.getElementById('viz-run-btn');
+  if (btn) btn.textContent = '▶ Run';
+  if (!currentAlgo) return;
+  const v = currentAlgo.viz;
+  if (v === 'bubble-sort') {
+    vizData = [38, 27, 43, 3, 9, 82, 10];
+    vizSteps = buildBubbleSortSteps(vizData);
+    renderBars(vizData, [], new Set());
+  } else if (v === 'binary-search') {
+    vizData = [2, 5, 8, 12, 16, 23, 38, 56];
+    vizSteps = buildBinarySearchSteps(vizData, 23);
+    renderBinaryBars(vizData, -1, 0, vizData.length-1, -1);
+  } else if (v === 'graph-bfs') {
+    vizSteps = buildBFSSteps();
+    document.getElementById('viz-array').innerHTML = buildGraphSVG(GRAPH_NODES, GRAPH_EDGES, [], '', []);
+  } else if (v === 'graph-dfs') {
+    vizSteps = buildDFSSteps();
+    document.getElementById('viz-array').innerHTML = buildGraphSVG(GRAPH_NODES, GRAPH_EDGES, [], '', []);
+  } else if (v === 'graph-dijkstra') {
+    vizSteps = buildDijkstraSteps();
+    const d0 = {}; Object.keys(DIJKSTRA_NODES).forEach(k=>d0[k]=Infinity); d0['S']=0;
+    document.getElementById('viz-array').innerHTML = buildGraphSVG(DIJKSTRA_NODES, DIJKSTRA_EDGES, [], '', [], true, d0);
+  } else if (v === 'fibonacci-dp') {
+    vizSteps = buildFibSteps(10);
+    renderFibViz(vizSteps[0]);
+  } else if (v === 'knapsack') {
+    vizSteps = buildKnapsackSteps();
+    renderKnapsackViz(vizSteps[0]);
+  } else if (v === 'bst') {
+    vizSteps = buildBSTSteps();
+    renderBSTViz(vizSteps[0]);
+  } else if (v === 'trie') {
+    vizSteps = buildTrieSteps();
+    renderTrieViz(vizSteps[0]);
+  } else if (v === 'activity-selection') {
+    vizSteps = buildActivitySteps();
+    renderActivityViz(vizSteps[0]);
+  } else if (v === 'hash-table') {
+    vizSteps = buildHashTableSteps();
+    renderHashTableViz(vizSteps[0]);
+  } else if (v === 'astar') {
+    vizSteps = buildAStarSteps();
+    renderAStarViz(vizSteps[0]);
+  } else if (v === 'lru-cache') {
+    vizSteps = buildLRUSteps();
+    renderLRUViz(vizSteps[0]);
+  }
+  const statusEl = document.getElementById('viz-status');
+  if (statusEl) statusEl.textContent = vizSteps[0]?.status || 'Press Run to see the algorithm in action';
+}
+
+function renderStep(s) {
+  const v = currentAlgo.viz;
+  if (v === 'bubble-sort') renderBars(s.arr, s.active || [], s.sorted || new Set());
+  else if (v === 'binary-search') renderBinaryBars(vizData, s.mid, s.left, s.right, s.found);
+  else if (v === 'graph-bfs') document.getElementById('viz-array').innerHTML = buildGraphSVG(GRAPH_NODES, GRAPH_EDGES, s.visited, s.current, s.queue);
+  else if (v === 'graph-dfs') document.getElementById('viz-array').innerHTML = buildGraphSVG(GRAPH_NODES, GRAPH_EDGES, s.visited, s.current, s.stack);
+  else if (v === 'graph-dijkstra') document.getElementById('viz-array').innerHTML = buildGraphSVG(DIJKSTRA_NODES, DIJKSTRA_EDGES, s.visited, s.current, [], true, s.dist);
+  else if (v === 'fibonacci-dp') renderFibViz(s);
+  else if (v === 'knapsack') renderKnapsackViz(s);
+  else if (v === 'bst') renderBSTViz(s);
+  else if (v === 'trie') renderTrieViz(s);
+  else if (v === 'activity-selection') renderActivityViz(s);
+  else if (v === 'hash-table') renderHashTableViz(s);
+  else if (v === 'astar') renderAStarViz(s);
+  else if (v === 'lru-cache') renderLRUViz(s);
+}
+
 function runViz() {
   if (!currentAlgo || !vizSteps.length) return;
   const btn = document.getElementById('viz-run-btn');
   if (vizStepIdx >= vizSteps.length) { resetViz(); return; }
   btn.textContent = '⏸ Running...';
-
   function step() {
-    if (vizStepIdx >= vizSteps.length) {
-      btn.textContent = '↺ Replay';
-      return;
-    }
+    if (vizStepIdx >= vizSteps.length) { btn.textContent = '↺ Replay'; return; }
     const s = vizSteps[vizStepIdx++];
     document.getElementById('viz-status').textContent = s.status;
-
-    if (currentAlgo.viz === 'bubble-sort') {
-      renderBars(s.arr, s.active || [], s.sorted || new Set());
-    } else if (currentAlgo.viz === 'binary-search') {
-      renderBinaryBars(vizData, s.mid, s.left, s.right, s.found);
-    }
-
-    vizTimer = setTimeout(step, 600);
+    renderStep(s);
+    const delay = ['knapsack','fibonacci-dp'].includes(currentAlgo.viz) ? 400 : 700;
+    vizTimer = setTimeout(step, delay);
   }
   step();
 }
