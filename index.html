@@ -937,9 +937,40 @@
     
     .filters { margin-bottom: 20px; justify-content: flex-start; padding-top: 8px; }
     
-    /* Table scrolling fix */
-    .table-wrapper { width: 100%; max-width: calc(100vw - 32px); overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-    table { width: 800px; } /* Fixed width so it doesn't squish, but wrapper scrolls */
+    /* Mobile Card List View */
+    .table-wrapper { width: 100%; overflow: visible; background: transparent; border: none; box-shadow: none; border-radius: 0; }
+    table, tbody, tr, td { display: block; width: 100%; box-sizing: border-box; }
+    thead { display: none; }
+    
+    tbody tr {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    
+    tbody td { padding: 4px 0 !important; border: none !important; text-align: left; }
+    
+    /* Title */
+    tbody td:nth-child(1) { margin-bottom: 8px; padding-right: 40px !important; }
+    tbody td:nth-child(1) .algo-name { font-size: 1.1rem; justify-content: flex-start; }
+    
+    /* Category */
+    tbody td:nth-child(2) { margin-bottom: 12px; display: inline-block; text-align: left; }
+    
+    /* Explanation */
+    tbody td:nth-child(3) { margin-bottom: 12px; color: var(--text); font-size: 0.95rem; white-space: normal; line-height: 1.5; }
+    
+    /* Usecase */
+    tbody td:nth-child(4) { margin-bottom: 12px; font-size: 0.85rem; color: var(--muted); white-space: normal; line-height: 1.5; }
+    
+    /* Complexity */
+    tbody td:nth-child(5) { display: inline-block; margin-bottom: 0px; }
+    
+    /* Arrow Button */
+    tbody td:nth-child(6) { position: absolute; top: 20px; right: 20px; padding: 0 !important; width: auto; font-size: 1.2rem; }
     
     .detail-hero { grid-template-columns: 1fr; gap: 20px; text-align: left; }
     .detail-subtitle { margin: 12px 0 0; }
