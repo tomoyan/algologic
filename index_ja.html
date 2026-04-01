@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AlgoLogic — Algorithm Explorer</title>
+<title>AlgoLogic — アルゴリズムリファレンス</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1008,16 +1008,16 @@
     AlgoLogic
   </div>
   <nav class="nav-pills">
-    <button class="nav-pill active" onclick="filterByCategory('All')">All</button>
-    <button class="nav-pill" onclick="filterByCategory('Search')">Search</button>
-    <button class="nav-pill" onclick="filterByCategory('Sort')">Sort</button>
-    <button class="nav-pill" onclick="filterByCategory('Graph')">Graph</button>
+    <button class="nav-pill active" onclick="filterByCategory('All')">すべて</button>
+    <button class="nav-pill" onclick="filterByCategory('Search')">検索</button>
+    <button class="nav-pill" onclick="filterByCategory('Sort')">ソート</button>
+    <button class="nav-pill" onclick="filterByCategory('Graph')">グラフ</button>
     <button class="nav-pill" onclick="filterByCategory('Dynamic Programming')">DP</button>
-    <button class="nav-pill" onclick="filterByCategory('Data Structure')">Data Structure</button>
+    <button class="nav-pill" onclick="filterByCategory('Data Structure')">データ構造</button>
   </nav>
   <div style="display: flex; gap: 8px;">
-    <a href="index_ja.html" class="nav-pill" title="日本語 / Japanese" style="display:flex; align-items:center; justify-content:center; padding: 6px 12px; font-size: 0.9rem; border: 1px solid var(--border); text-decoration: none;">
-      JP
+    <a href="index.html" class="nav-pill" title="English" style="display:flex; align-items:center; justify-content:center; padding: 6px 12px; font-size: 0.9rem; border: 1px solid var(--border); text-decoration: none;">
+      EN
     </a>
     <button class="nav-pill theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" style="display:flex; align-items:center; justify-content:center; padding: 6px 12px; font-size: 1.1rem; border: 1px solid var(--border);">
       ☀️
@@ -1030,48 +1030,48 @@
   <div id="home-view">
     <section class="hero">
       <div>
-        <p class="hero-tag">Algorithm Reference</p>
-        <h1>Master <em>algorithms</em><br>from first principles</h1>
-        <p class="hero-sub">Explore clear explanations, real-world use cases, and runnable implementations of essential computer science algorithms.</p>
+        <p class="hero-tag">アルゴリズムリファレンス</p>
+        <h1>第一原理から<br><em>アルゴリズム</em>をマスターする</h1>
+        <p class="hero-sub">必須のコンピュータサイエンスのアルゴリズムについての明確な解説、現実世界でのユースケース、実行用実装を探求しましょう。</p>
       </div>
       <div class="stats-block">
         <div>
           <div class="stat-num" id="algo-count">15</div>
-          <div class="stat-label">Algorithms</div>
+          <div class="stat-label">アルゴリズム</div>
         </div>
         <div>
           <div class="stat-num">7</div>
-          <div class="stat-label">Categories</div>
+          <div class="stat-label">カテゴリー</div>
         </div>
       </div>
     </section>
 
     <div class="search-bar">
       <span class="search-icon">⌕</span>
-      <input type="text" placeholder="Search algorithms..." id="search-input" oninput="filterTable()">
+      <input type="text" placeholder="アルゴリズムを検索..." id="search-input" oninput="filterTable()">
     </div>
 
     <div class="filters">
-      <span class="filter-label">Category</span>
-      <button class="filter-btn active" onclick="filterByCategoryBtn(this,'All')">All</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Search')">Search</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Sort')">Sort</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Graph')">Graph</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Tree')">Tree</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Dynamic Programming')">Dynamic Programming</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Greedy')">Greedy</button>
-      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Data Structure')">Data Structure</button>
+      <span class="filter-label">カテゴリー</span>
+      <button class="filter-btn active" onclick="filterByCategoryBtn(this,'All')">すべて</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Search')">検索</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Sort')">ソート</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Graph')">グラフ</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Tree')">木構造</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Dynamic Programming')">動的計画法</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Greedy')">貪欲法</button>
+      <button class="filter-btn" onclick="filterByCategoryBtn(this,'Data Structure')">データ構造</button>
     </div>
 
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th>Algorithm</th>
-            <th>Category</th>
-            <th>Simple Explanation</th>
-            <th>Real-Life Use Case</th>
-            <th>Time Complexity</th>
+            <th>アルゴリズム</th>
+            <th>カテゴリー</th>
+            <th>簡単な説明</th>
+            <th>実際のユースケース</th>
+            <th>時間計算量</th>
             <th></th>
           </tr>
         </thead>
@@ -1086,7 +1086,7 @@
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Back to algorithms
+      アルゴリズム一覧に戻る
     </button>
 
     <div class="detail-hero">
@@ -1105,17 +1105,17 @@
     <div class="indepth-section" id="d-indepth-section"></div>
 
     <div class="viz-section" id="d-viz-section">
-      <h3>Interactive Visualization</h3>
+      <h3>インタラクティブな可視化</h3>
       <div class="viz-array" id="viz-array"></div>
       <div class="viz-controls">
-        <button class="viz-btn primary" id="viz-run-btn" onclick="runViz()">▶ Run</button>
-        <button class="viz-btn" onclick="resetViz()">↺ Reset</button>
-        <span class="viz-status" id="viz-status">Press Run to see the algorithm in action</span>
+        <button class="viz-btn primary" id="viz-run-btn" onclick="runViz()">▶ 実行</button>
+        <button class="viz-btn" onclick="resetViz()">↺ リセット</button>
+        <span class="viz-status" id="viz-status">「実行」を押して動作を確認してください</span>
       </div>
     </div>
 
     <div class="code-section">
-      <h3>Implementation</h3>
+      <h3>実装</h3>
       <div class="code-tabs" id="code-tabs"></div>
       <div class="code-block">
         <pre id="code-display"></pre>
@@ -1133,28 +1133,28 @@
 const algorithms = [
   {
     id: 'binary-search',
-    name: 'Binary Search',
+    name: '二分探索',
     category: 'Search',
-    explanation: 'Repeatedly halves a sorted list to find a target, eliminating half the remaining items each step.',
-    usecase: 'Finding a word in a dictionary; looking up a user in a sorted database.',
+    explanation: 'ソート済みのリストを繰り返し半分に分割して目的の要素を素早く見つけるアルゴリズムです。',
+    usecase: '辞書で単語を引く時や、ソート済みデータベースからユーザーを検索する際によく使われます。',
     complexity: { best: 'O(1)', avg: 'O(log n)', worst: 'O(log n)', space: 'O(1)' },
-    subtitle: 'Divide and conquer your way to the answer — cut the search space in half with every comparison.',
-    description: 'Binary Search is a fast search algorithm that works on sorted arrays. Instead of scanning every element, it targets the middle, determines which half contains the target, and repeats — achieving logarithmic time complexity.',
+    subtitle: '分割統治法で答えを導き出す — 比較するたびに検索範囲が半分になります。',
+    description: '二分探索はソート済み配列に対して高速に機能するアルゴリズムです。全要素を見るのではなく、中央をターゲットと比較して半分に絞り込むことを繰り返し、対数時間の計算量を実現します。',
     steps: [
-      'Set left = 0, right = array.length - 1',
+      'left = 0, right = array.length - 1 をセットする',
       'While left ≤ right, calculate mid = ⌊(left + right) / 2⌋',
       'If array[mid] equals the target, return mid',
       'If target < array[mid], set right = mid - 1 (search left half)',
       'If target > array[mid], set left = mid + 1 (search right half)',
-      'Return -1 if not found'
+      '見つからなければ -1 を返す'
     ],
     pros: 'Extremely fast on sorted data — O(log n) vs O(n) for linear search. On 1 billion elements, takes only ~30 comparisons.',
     cons: 'Requires data to be sorted first. Not suitable for linked lists (no random access).',
-    simple: "Imagine guessing a number between 1 and 100. Instead of starting at 1 and counting up, you guess 50. Too high? Guess 25. Too low? Guess 37. Each guess cuts the remaining possibilities in half — that's binary search.",
-    analogy: '📖 Like finding a word in a dictionary — you open to the middle, see if your word comes before or after, then flip to the middle of that half. You never read every page.',
-    realLife: 'Searching a contact on your phone, looking up a price on a sorted list, or when a game says "higher / lower" — binary search is working behind the scenes.',
+    simple: "1から100までの数字当てを想像してください。1から順番に数えるのではなく、まず50と予想します。大きすぎたら25、小さすぎたら37。予想ごとに可能性が半分に減る、これが二分探索です。",
+    analogy: '📖 辞書で単語を探すようなものです。真ん中を開いて、前か後ろかを判断し、さらにその半分の真ん中を開く。決して全ページは読みません。',
+    realLife: "スマホの連絡先検索や価格順のリストでの検索、ゲームのハイ＆ローなどで、この仕組みが背後で働いています。",
     inDepth: 'Binary Search exploits the invariant of a sorted array: if arr[mid] < target, every element left of mid is also smaller and can be discarded instantly. This gives the O(log n) guarantee — each comparison halves the window, so 1,000,000 elements need at most 20 comparisons.\n\nThe algorithm maintains two pointers (left, right) defining the active window. A subtle but critical bug is integer overflow: always compute mid = left + (right − left) / 2 in Java/C++, not (left + right) / 2.\n\nBeyond exact search, binary search can locate the leftmost or rightmost occurrence of a value (lower_bound / upper_bound), essential for range queries. It can even search the answer space: "what is the minimum X such that condition Y holds?" — a powerful competitive-programming pattern.',
-    similar: ['Linear Search', 'Jump Search', 'Interpolation Search'],
+    similar: ['線形探索', 'ジャンプ探索', '内挿探索'],
     viz: 'binary-search',
     code: {
       Python: `<span class="cm"># Binary Search — O(log n)</span>
@@ -1212,27 +1212,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'bubble-sort',
-    name: 'Bubble Sort',
+    name: 'バブルソート',
     category: 'Sort',
-    explanation: 'Repeatedly steps through the list, comparing adjacent elements and swapping them if out of order.',
-    usecase: 'Educational purposes; sorting small nearly-sorted datasets.',
+    explanation: '隣り合う要素を比較し、順序が逆であれば入れ替えるという操作を繰り返してソートします。',
+    usecase: '教育目的や、すでにほぼ整列されている非常に小さなデータのソート。',
     complexity: { best: 'O(n)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)' },
-    subtitle: 'The simplest sort — heavy values bubble to the top like air rising through water.',
+    subtitle: '最もシンプルなソート — 重い値が水中の泡のように浮かび上がります。',
     description: 'Bubble Sort repeatedly walks through an array, comparing neighbors and swapping them when needed. While intuitive and in-place, it is inefficient on large data due to O(n²) comparisons.',
     steps: [
-      'Outer loop: repeat n-1 passes over the array',
+      '外側のループ: 配列に対して n-1 回パスを繰り返す',
       'Inner loop: for each adjacent pair (i, i+1)',
       'If arr[i] > arr[i+1], swap the two elements',
-      'After each pass, the largest unsorted element is in its final position',
-      'Optimization: if no swaps in a pass, array is sorted — break early'
+      'パスごとに、未整列の中で最大の要素が最終位置に確定する',
+      '最適化: パス中に一度も交換がなければソート完了なので終了する'
     ],
     pros: 'Simple to understand and implement. In-place (O(1) space). Detects already-sorted arrays in O(n) with the early-stop optimization.',
     cons: 'O(n²) makes it impractical for large datasets. Far slower than Merge Sort or Quick Sort in practice.',
-    simple: "Picture a row of people sorted by height. You walk down the line and whenever two neighbours are in the wrong order, you swap them. After one full walk, the tallest person has 'bubbled' all the way to the end. Repeat until no swaps happen — done!",
-    analogy: '🫧 Like sorting a hand of playing cards by repeatedly swapping two adjacent cards that are out of order, one pair at a time.',
+    simple: "身長順に並び替える列を想像してください。列を歩きながら、隣同士の順番が逆の二人を入れ替えます。一回りすると一番背の高い人が一番後ろに到達します。これを交換がなくなるまで繰り返します。",
+    analogy: '🫧 トランプの手札を整理する時、隣り合う2枚が逆なら入れ替えることを1組ずつ繰り返すイメージです。',
     realLife: 'Rarely used in production, but bubble sort is the perfect teaching tool. It appears in embedded systems where the list is tiny (< 10 items) and simplicity matters more than speed.',
     inDepth: 'Bubble Sort runs in O(n²) time because each of the n passes may do up to n comparisons — giving n × n total work. The early-exit optimisation (stop if a pass makes zero swaps) improves the best case to O(n) on an already-sorted list.\n\nIt is a stable sort, meaning equal elements keep their original relative order — important when sorting objects by multiple keys. It is also in-place, using only O(1) extra memory.\n\nDespite its poor reputation, bubble sort is cache-friendly (sequential memory access) and trivial to implement correctly, making it useful when correctness and readability outweigh performance. Its main educational value is teaching the concept of invariants: after pass i, the last i elements are guaranteed to be in their final sorted positions.',
-    similar: ['Selection Sort', 'Insertion Sort', 'Merge Sort'],
+    similar: ['選択ソート', '挿入ソート', 'マージソート'],
     viz: 'bubble-sort',
     code: {
       Python: `<span class="cm"># Bubble Sort — O(n²)</span>
@@ -1282,28 +1282,28 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'merge-sort',
-    name: 'Merge Sort',
+    name: 'マージソート',
     category: 'Sort',
-    explanation: 'Recursively splits an array in half, sorts each half, then merges them back together.',
-    usecase: 'Sorting linked lists; external sorting of large files that do not fit in memory.',
+    explanation: '配列を半分に再帰的に分割し、それぞれをソートしてから再びマージします。',
+    usecase: '連結リストのソート; メモリに収まらない巨大ファイルの外部ソート。',
     complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n log n)', space: 'O(n)' },
     subtitle: 'Divide, conquer, and merge — guaranteed O(n log n) regardless of input.',
     description: 'Merge Sort is a classic divide-and-conquer algorithm. It splits the array recursively until single elements remain, then merges pairs in sorted order. Guaranteed O(n log n) makes it reliable for production use.',
     steps: [
-      'If the array has 0 or 1 elements, it is already sorted — return',
-      'Split the array into left and right halves at the midpoint',
-      'Recursively merge_sort the left half',
-      'Recursively merge_sort the right half',
-      'Merge the two sorted halves: compare front elements, pick the smaller',
-      'Append remaining elements from whichever half has leftovers'
+      '配列要素が0か1なら既にソート済み — 何もしない',
+      '配列を中央で left と right の半分に分割する',
+      '左半分にマージソートを再帰的に適用する',
+      '右半分にマージソートを再帰的に適用する',
+      'ソート済みの2つの半分をマージする: 先頭の要素を比較し、小さい方を選ぶ',
+      '残りの要素がある場合は、すべて結果の後ろに追加する'
     ],
     pros: 'Stable sort. Guaranteed O(n log n) in all cases. Excellent for linked lists and external storage.',
     cons: 'Requires O(n) auxiliary space. Slightly slower in practice than Quick Sort due to memory allocation.',
-    simple: "Tear a messy pile of papers in half, then tear each half in half again, keep going until every piece is alone. A single piece is already 'sorted'. Now merge pairs back together in order. Merging two sorted piles is easy — just always pick the smaller top card. Keep merging until you have one sorted pile.",
-    analogy: '🃏 Like two dealers each holding a sorted hand of cards face-up. They take turns placing the lowest card on the table — the result is one perfectly sorted row.',
+    simple: "ぐちゃぐちゃの書類の山を半分に分け、さらに半分へ、1枚ずつになるまで繰り返します。1枚はすでに「ソート済み」。今度は順序正しくペアを合体させます。2つの山の一番上を比べて小さい方を取るだけで簡単に合体できます。これを1つの山に戻るまで続けます。",
+    analogy: '🃏 ソートされた手札を表向きに持っている2人のディーラーと同じです。常に一番小さなカードからテーブルに出していけば、必ず完成形もソートされています。',
     realLife: 'Merge sort is used to sort linked lists (no random access needed), to merge sorted log files on disk, and inside database engines for external sort when data is too large to fit in RAM.',
     inDepth: 'Merge Sort is a divide-and-conquer algorithm with a guaranteed O(n log n) complexity in all cases — best, average, and worst. This predictability makes it preferable over Quick Sort when worst-case performance matters.\n\nThe recursion tree has log n levels (halving each time), and each level does O(n) total merge work, giving O(n log n) overall. The downside is O(n) auxiliary space for the temporary arrays during merging.\n\nIt is a stable sort — equal elements preserve their input order, which matters when sorting objects by multiple criteria (e.g., sort by last name, then by first name). Many standard library sorts (Python\'s Timsort, Java\'s Arrays.sort for objects) are derived from merge sort because of this stability guarantee.',
-    similar: ['Quick Sort', 'Heap Sort', 'Tim Sort'],
+    similar: ['クイックソート', 'ヒープソート', 'ティムソート'],
     viz: 'bubble-sort',
     code: {
       Python: `<span class="cm"># Merge Sort — O(n log n)</span>
@@ -1354,28 +1354,28 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'quick-sort',
-    name: 'Quick Sort',
+    name: 'クイックソート',
     category: 'Sort',
-    explanation: 'Picks a pivot element, partitions the array around it, then recursively sorts each partition.',
+    explanation: '基準となるピボットを選び、それを中心に配列を分割し、各分割を再帰的にソートします。',
     usecase: 'Default sorting in most standard libraries (e.g., Java, C++); in-memory sorting of large datasets.',
     complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n²)', space: 'O(log n)' },
-    subtitle: 'The workhorse of sorting — fast in practice, lightning-quick with good pivot selection.',
-    description: 'Quick Sort selects a pivot and partitions data so elements smaller than the pivot come before it and larger ones after. Recursion on each partition yields superb average-case performance, making it the real-world king of sorting.',
+    subtitle: 'ソート界の主力 — 実用上非常に高速で、適切なピボットを選べば電光石火の速さ。',
+    description: 'ピボットを選択し、小さい要素を前、大きい要素を後ろに分割します。各分割への再帰的適用により平均計算量が非常に優れ、現実世界でのソートの王様となっています。',
     steps: [
       'Choose a pivot (e.g., last element, random, or median-of-three)',
-      'Partition: move all elements < pivot to the left, > pivot to the right',
-      'Place the pivot in its correct final position',
-      'Recursively quick sort the left partition',
-      'Recursively quick sort the right partition',
-      'Base case: array of size 0 or 1 is already sorted'
+      '分割: ピボットより小さい要素を左、大きい要素を右へ動かす',
+      'ピボットを正しい最終位置に配置する',
+      '左側の分割に再帰的にクイックソートを適用',
+      '右側の分割に再帰的にクイックソートを適用',
+      'サイズ 0 または 1 の配列はすでにソート済みなので終了'
     ],
     pros: 'Very fast in practice — small constant factor. In-place (O(log n) stack). Cache-friendly access pattern.',
     cons: 'O(n²) worst case with bad pivot (e.g., already sorted array + last-element pivot). Not stable.',
-    simple: "Pick any item from the list — call it the 'pivot'. Put everything smaller than it to the left, everything larger to the right. Now the pivot is in its final correct spot! Repeat the same process on the left pile and the right pile independently. Keep dividing until every item is in place.",
-    analogy: '🎯 Like a librarian picking a book at random, putting all books that come before it alphabetically on the left shelf, all that come after on the right — then repeating for each shelf.',
+    simple: "リストから適当な項目の「ピボット」を選びます。それより小さいものを全て左、大きいものを全て右へ移動させます。これでピボットは最終的に正しい位置に収まりました！ これを左右の山で独立に繰り返し、それぞれ最終位置を決めていきます。",
+    analogy: '🎯 図書館員がランダムに本を1冊選び、それよりアルファベット順が前の本を全て左の棚、後の本を右の棚に分け、各棚で同じ作業を繰り返すようなものです。',
     realLife: 'Quick Sort (or a variant of it) is the default sort in C, C++, Java primitives, and many other languages. It is used anywhere fast in-memory sorting matters: game leaderboards, log processing, rendering pipelines.',
     inDepth: 'Quick Sort partitions the array around a pivot so that all elements smaller are to the left and all larger are to the right. Recursion on both sides solves the subproblems. With a good pivot (random or median-of-three), the expected depth of recursion is O(log n), giving O(n log n) average time.\n\nThe worst case O(n²) occurs when the pivot is always the smallest or largest element — which happens on already-sorted input if you always pick the last element as pivot. Randomising the pivot selection or using median-of-three largely eliminates this risk in practice.\n\nQuick Sort is not stable — equal elements may reorder — but it is in-place (O(log n) stack space for recursion). Its cache performance is excellent because it accesses memory sequentially during partitioning. This is why it consistently outperforms Merge Sort on real hardware despite the same asymptotic complexity.',
-    similar: ['Merge Sort', 'Heap Sort', 'Intro Sort'],
+    similar: ['マージソート', 'ヒープソート', 'イントロソート'],
     viz: 'bubble-sort',
     code: {
       Python: `<span class="cm"># Quick Sort — avg O(n log n)</span>
@@ -1416,27 +1416,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'bfs',
-    name: 'Breadth-First Search',
+    name: '幅優先探索 (BFS)',
     category: 'Graph',
-    explanation: 'Explores a graph layer by layer, visiting all neighbors of a node before moving deeper.',
-    usecase: 'Finding shortest path in GPS/maps; social network "friends of friends"; web crawlers.',
+    explanation: 'グラフを階層ごとに探索し、ノードの全隣接ノードを訪問してからさらに奥へと進みます。',
+    usecase: 'GPS/地図の最短経路; SNSの「友達の友達」; ウェブクローラーによるインデックス作成。',
     complexity: { best: 'O(V+E)', avg: 'O(V+E)', worst: 'O(V+E)', space: 'O(V)' },
-    subtitle: 'Explore wide before deep — guarantees shortest path in unweighted graphs.',
-    description: 'BFS visits all nodes at the current depth before exploring nodes at the next depth level, using a queue. It is the go-to algorithm for shortest-path problems in unweighted graphs.',
+    subtitle: '深くよりも広く探索する — 重みのないグラフにおいて最短経路を保証します。',
+    description: 'キューを用いて、現在の深さの全ノードを訪問してから次の階層を探索します。重みのないグラフでの最短経路問題の定番アルゴリズムです。',
     steps: [
-      'Start at the source node; add it to a queue and mark as visited',
-      'Dequeue the front node; process it',
-      'Enqueue all unvisited neighbors of the current node; mark them visited',
-      'Repeat until the queue is empty',
-      'All nodes reachable from the source will have been visited'
+      '始点ノードから開始し、キューに追加して「訪問済み」とする',
+      'キューの先頭要素を取り出し処理する',
+      '現在のノードの未訪問の隣接ノードを全てキューに追加し「訪問済み」とする',
+      'キューが空になるまで繰り返す',
+      '始点から到達可能な全ノードが訪問される'
     ],
-    pros: 'Guarantees shortest path in unweighted graphs. Complete — will always find a solution if one exists.',
-    cons: 'Memory-intensive: stores all nodes at the current level in the queue — O(V) space.',
-    simple: "Imagine you're at the centre of a city and want to find the nearest coffee shop. You check all streets one block away first. No luck? Check all streets two blocks away. Three blocks? You always explore the closest places before venturing further. That wave-like expansion is BFS.",
-    analogy: '🌊 Like dropping a stone in a pond — the ripples spread outward in perfect circles, layer by layer, reaching everything close before anything far.',
-    realLife: 'Google Maps finding the fewest-turns route, Facebook suggesting friends-of-friends, web crawlers indexing pages level by level — all use BFS at their core.',
-    inDepth: 'BFS uses a queue (FIFO) to process nodes in the order they were discovered. It visits all nodes at depth d before any node at depth d+1, which is exactly why it guarantees the shortest path in an unweighted graph.\n\nTime complexity is O(V + E) — every vertex is enqueued once and every edge is checked once. Space complexity is O(V) in the worst case (a star graph where all nodes are one hop from the centre fills the entire queue at once).\n\nBFS is the foundation for many advanced algorithms: Dijkstra\'s algorithm is a weighted BFS using a priority queue; 0-1 BFS handles edge weights of 0 or 1 using a deque; multi-source BFS starts simultaneously from several sources to find distances from any of them. It is also used to check bipartiteness (2-colourability) of a graph.',
-    similar: ['Depth-First Search', "Dijkstra's Algorithm", 'A* Search'],
+    pros: '重みのないグラフでの最短経路が保証される。完全性があり、解が存在すれば必ず見つけられる。',
+    cons: 'メモリ消費大: 現在の階層の全ノードをキューに入れるため O(V) の空間が必要。',
+    simple: "街の真ん中から最も近いカフェを探すとします。まず1ブロック先の全ての道を調べます。なければ2ブロック先、3ブロック先…と、常に「近い場所から全て調べる」方法です。この波のように広がる探索がBFSです。",
+    analogy: '🌊 湖に石を投げたようなものです。水面を同心円状に波紋が広がるように、遠くではなく近くから順に全てに到達します。',
+    realLife: '曲がる回数の最も少ないルートを探す、SNSの「友達の友達」を表示する、ウェブクローラーで階層ごとにリンクをたどるなど、全て基礎としてBFSが使われています。',
+    inDepth: 'BFSはキュー(FIFO)を使用して、発見された順序でノードを処理します。深さd+1のノードの前に深さdの全ノードを処理するため、重みなしグラフでの「最短経路」が保証されます。\n\n計算量は O(V + E) です。全ての頂点が一度キューに入れられ、全てのエッジが一度チェックされるためです。空間計算量は最悪で O(V) になります（全ノードが始点の隣接ノードであるような場合、キューが一気に溢れます）。\n\nダイクストラ法は「優先度付きキューを用いた重み付きBFS」であり、0-1 BFSはデック（Deque）を、マルチソースBFSは複数の始点からの同時探索を行うなど、多くの高度な基本となっています。二部グラフの判定などにも広く使われます。',
+    similar: ['深さ優先探索 (DFS)', 'ダイクストラ法', 'A* 探索 (A-Star)'],
     viz: 'graph-bfs',
     code: {
       Python: `<span class="cm"># Breadth-First Search — O(V + E)</span>
@@ -1495,27 +1495,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'dfs',
-    name: 'Depth-First Search',
+    name: '深さ優先探索 (DFS)',
     category: 'Graph',
-    explanation: 'Explores as far as possible along each branch before backtracking.',
-    usecase: 'Maze solving; topological sorting; cycle detection; parsing expression trees.',
+    explanation: '後戻りするまで、各分岐に沿って出来るだけ深く探索します。',
+    usecase: '迷路の解決; トポロジカルソート; 閉路(サイクル)の検出; 構文木パース。',
     complexity: { best: 'O(V+E)', avg: 'O(V+E)', worst: 'O(V+E)', space: 'O(V)' },
-    subtitle: 'Go deep before going wide — the algorithm that dives headfirst into every path.',
-    description: 'DFS explores as far as possible along each branch before backtracking. It uses a stack (or recursion) and naturally models problems with hierarchical or tree-like structure.',
+    subtitle: '広くよりも深く潜る — どの道でも最後まで全力で突き進むアルゴリズム。',
+    description: '行き止まりになるまで可能な限り深く探索し、そこから戻る手法です。スタック（または再帰コール）を使用し、階層構造やツリー状の構造を自然にモデル化します。',
     steps: [
-      'Start at the source; mark as visited',
-      'For each unvisited neighbor of the current node',
-      'Recursively call DFS on that neighbor',
-      'After all neighbors are visited, backtrack',
-      'Continue until all reachable nodes are visited'
+      '始点から開始し、「訪問済み」とする',
+      '現在のノードの未訪問の各隣接ノードに対し',
+      'その隣接ノードに対してDFSを再帰的に呼び出す',
+      'すべての隣接ノードを訪問し終えたら後戻り（バックトラック）する',
+      '到達可能な全てのノードを訪問するまで続ける'
     ],
-    pros: 'Memory efficient — uses O(depth) stack space. Natural fit for tree traversal, topological sort, cycle detection.',
-    cons: 'Does not guarantee shortest path. Can hit stack overflow on very deep graphs without iterative version.',
-    simple: "Imagine exploring a maze. You pick a direction and keep walking forward until you hit a dead end. When you're stuck, you backtrack to the last junction and try the next unexplored path. You go as deep as possible before ever considering alternatives. That's DFS.",
-    analogy: '🗺️ Like an explorer mapping caves — always push deeper into the current tunnel before retreating to try a different one.',
-    realLife: 'Solving mazes, detecting cycles in dependency graphs, topological sorting of build tasks, finding connected components in a network — DFS is everywhere in compilers and game engines.',
-    inDepth: 'DFS uses a stack (either explicit or the call stack via recursion) to track the path from the starting node. It visits a node, marks it visited, then immediately recurses on the first unvisited neighbour — going as deep as possible before backtracking.\n\nTime and space are both O(V + E). The recursion depth can reach O(V) on a path graph, which can cause stack overflow for very large inputs — the iterative version with an explicit stack avoids this.\n\nDFS naturally produces several useful structures: the DFS tree reveals back edges (cycles), cross edges, and forward edges. Finishing times (when a node fully completes) give the reverse topological order. Tarjan\'s algorithm and Kosaraju\'s algorithm for strongly connected components are both built on DFS. It is also the basis for solving puzzles like Sudoku via backtracking.',
-    similar: ['Breadth-First Search', 'Topological Sort', "Tarjan's SCC"],
+    pros: 'メモリ効率が良い — スタック空間は O(深さ) で済みます。ツリーの走査、トポロジカルソート、閉路検出に最適です。',
+    cons: '最短経路は保証されません。非常に深いグラフの場合、反復版（自作スタック利用）にしないとスタックオーバーフロー(再帰上限)が発生するリスクがあります。',
+    simple: "迷路の探索と同じです。行き止まりにぶつかるまで、とにかく前へ進みます。行き止まったら、最後の分かれ道まで戻って、別の未知の道を進みます。別の道を検討する前に、常に「限界まで深く」行くのがDFSです。",
+    analogy: '🗺️ 洞窟の地図を作る探検家のようなものです。別のトンネルに戻る前に、現在のトンネルを限界まで進み切ります。',
+    realLife: '迷路を解く、依存関係グラフのサイクルを検出する、ビルドタスクの並び替え（トポロジカルソート）、ゲームでのつながったコンポーネントの発見など、コンパイラやゲームエンジン至る所で使われます。',
+    inDepth: 'DFSは始点からのパスを追跡するためにスタック（プログラミング上は再帰呼び出し）を使用します。ノードを訪問し、状態をマークして、すぐに『最初の未訪問の隣接ノード』に対して再帰します。限界まで潜ってからバックトラックします。\n\n空間と時間はどちらも O(V + E) です。ただし、ツリーではなく長い直線状のグラフなどでは再帰の深さが O(V) になり、スタックオーバーフローを引き起こすため注意が必要です（その場合は再帰ではなく自前でStackを使う反復版にします）。\n\nDFSが完了する「終了時刻」順に並べると、逆トポロジカル順序が得られます。依存関係のグラフ解析(Tarjan法やKosarajuの強連結成分など)は全てDFSの上に構築されており、また数独などのパズルをバックトラックで解く際の基礎にもなります。',
+    similar: ['幅優先探索 (BFS)', 'トポロジカルソート', 'TarjanのSCC法'],
     viz: 'graph-dfs',
     code: {
       Python: `<span class="cm"># Depth-First Search — O(V + E)</span>
@@ -1553,28 +1553,28 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'dijkstra',
-    name: "Dijkstra's Algorithm",
+    name: 'ダイクストラ法',
     category: 'Graph',
-    explanation: 'Finds the shortest path from a source to all other nodes in a weighted graph using a priority queue.',
-    usecase: 'GPS navigation; network routing protocols (OSPF); flight path optimization.',
+    explanation: '優先度付きキューを使用し、重み付きグラフにおける特定の始点から他の全ノードへの最短経路を見つけます。',
+    usecase: 'GPSナビゲーション; ネットワークルーティング (OSPF); 飛行経路の最適化。',
     complexity: { best: 'O(E log V)', avg: 'O(E log V)', worst: 'O(E log V)', space: 'O(V)' },
-    subtitle: "The gold standard for shortest paths — Edsger's gift to every navigation app.",
-    description: "Dijkstra's algorithm greedily selects the unvisited node with the smallest known distance, updates its neighbors, and repeats. With a min-heap, it runs in O(E log V) and correctly handles all non-negative edge weights.",
+    subtitle: '最短経路のゴールドスタンダード — 全てのナビに乗っているアルゴリズム。',
+    description: 'ダイクストラ法は、既知の距離が最小となる未訪問ノードを貪欲に選択し、その隣接ノードを更新する処理を繰り返します。最小ヒープを使えば O(E log V) で動作し、重みが負でない全ケースを正しく処理します。',
     steps: [
-      'Initialize dist[source] = 0, dist[all others] = ∞',
-      'Add all nodes to a min-priority queue keyed by distance',
-      'Extract the node u with minimum distance from the queue',
-      'For each neighbor v of u: if dist[u] + weight(u,v) < dist[v], update dist[v]',
-      'Re-insert v with updated priority',
-      'Repeat until the queue is empty or the target is reached'
+      'dist[source] = 0、その他の dist = ∞ で初期化',
+      '全ノードを距離をキーとして「最小優先度付きキュー」に追加',
+      'キューから距離が最小のノード u を取り出す',
+      'u の各隣接ノード v について: dist[u] + weight(u,v) < dist[v] なら dist[v] を更新',
+      '更新された優先度(距離)でキュー内の v を並び替える',
+      'キューが空になるか、ターゲットに到達するまで繰り返す'
     ],
-    pros: 'Optimal for non-negative weights. Very efficient with a min-heap: O(E log V).',
-    cons: 'Does not handle negative edge weights (use Bellman-Ford instead).',
-    simple: "You're planning a road trip and want the fastest route. You start at home with a travel time of 0. For every road you can take, you update your best-known arrival time at each destination. You always travel next to the place you can reach fastest so far. Repeat until you reach your goal — that's Dijkstra's.",
-    analogy: '🗺️ Like always boarding the next available bus going to the closest unvisited city on your journey — greedy, but provably optimal when all roads have positive travel times.',
-    realLife: "Google Maps and GPS routing, network packet routing (OSPF protocol), airline flight scheduling, and game pathfinding (NPCs navigating levels) all rely on Dijkstra's or its variants.",
-    inDepth: "Dijkstra's algorithm is a greedy BFS that uses a min-priority queue instead of a plain queue. The key insight: once a node is popped from the priority queue, its distance is finalised — no future path can be shorter (because all edge weights are non-negative).\n\nWith a binary heap, the complexity is O((V + E) log V). With a Fibonacci heap it drops to O(E + V log V), though Fibonacci heaps have high constant factors and are rarely used in practice.\n\nThe algorithm fails with negative edge weights because relaxing a shorter path through a negative edge could improve an already-settled node. Bellman-Ford handles negatives in O(VE). A* is a heuristic extension of Dijkstra's that reaches the target faster by biasing exploration toward the goal — used extensively in game AI and mapping software.",
-    similar: ['Bellman-Ford', 'A* Search', 'Floyd-Warshall'],
+    pros: '負の重みがない場合において常に最適解。ヒープと組み合わせると非常に高速: O(E log V)。',
+    cons: 'エッジに「負の重み」が含まれる場合は機能しません（その場合はベルマンフォード法を使います）。',
+    simple: "車のドライブで最速ルートを探しているとします。自宅からの所要時間を0として、進める道の先の到着予想時間を更新していきます。常に『今までわかっている中で最も早く行ける場所』へと次の一歩を進めます。これを繰り返すのがダイクストラです。",
+    analogy: '🗺️ 最も近くの未訪問の都市へ向かうバスに乗り続けるようなものです。とても貪欲ですが、所要時間が常にプラスであれば確実に最適解になります。',
+    realLife: 'Googleマップ、OSPFネットワークルーティング、飛行機のスケジュール、ゲーム内のキャラクターのパス探索など、あらゆる場所でこのアルゴリズムと派生手法が使用されます。',
+    inDepth: 'ダイクストラ法は単なるキューではなく優先度付きキューを用いた「貪欲なBFS」です。最大のキーポイントは、「最小としてキューから取り出された時点で、そのノードまでの最短距離は確定し、それ以上短くなるパスは存在し得ない」ということです（重みが全てマイナスでないため）。\n\n二分ヒープを使用した場合の計算量は O((V + E) log V) です。フィボナッチヒープを使えば O(E + V log V) に下がりますが、実用上は定数倍が大きくあまり使用されません。\n\n負の重みを持つエッジが混ざっていると、確定済みノードに対するより短いパスが後から見つかってしまい、破綻します。その場合はベルマン・フォード法を使用します。A* (A-Star) は目標地点へバイアスをかけるためのヒューリスティック関数を追加したダイクストラ法の拡張版であり、ゲームのAIなどで広く使われています。',
+    similar: ['ベルマン・フォード法', 'A* 探索 (A-Star)', 'ワーシャル・フロイド法'],
     viz: 'graph-dijkstra',
     code: {
       Python: `<span class="cm"># Dijkstra's Algorithm — O(E log V)</span>
@@ -1629,26 +1629,26 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'fibonacci-dp',
-    name: 'Fibonacci (DP)',
+    name: 'フィボナッチ (DP)',
     category: 'Dynamic Programming',
-    explanation: 'Stores previously computed Fibonacci values to avoid redundant recursion.',
-    usecase: 'Intro to memoization; financial modeling; tiling problems; optimal substructure demos.',
+    explanation: '計算済みのフィボナッチ数を保存し、再帰による無駄な再計算を回避します。',
+    usecase: 'メモ化の入門; 金融モデル; 床タイルの敷き詰め問題; 最適部分構造のデモ。',
     complexity: { best: 'O(n)', avg: 'O(n)', worst: 'O(n)', space: 'O(n)' },
-    subtitle: 'Trade memory for speed — compute each subproblem once and never again.',
-    description: 'The naive recursive Fibonacci runs in O(2ⁿ). Dynamic programming eliminates overlapping subproblems by caching results (memoization) or building up from small cases (tabulation), achieving O(n) time.',
+    subtitle: 'メモリをスピードに変換 — 全てのサブ問題をたった一度だけ計算して記録します。',
+    description: '単純な再帰によるフィボナッチは O(2ⁿ) となり巨大な時間がかかります。動的計画法（DP）では、結果のキャッシュ（メモ化）や前からの積み上げ（テーブル化）によって O(n) に抑えます。',
     steps: [
-      'Create a table dp where dp[0]=0, dp[1]=1',
-      'For each i from 2 to n: dp[i] = dp[i-1] + dp[i-2]',
-      'Return dp[n]',
-      'Optimization: use two variables instead of a table for O(1) space'
+      'dp[0]=0, dp[1]=1 となる dp 配列（テーブル）を作成',
+      'i を 2 から n まで進め、dp[i] = dp[i-1] + dp[i-2] とする',
+      'dp[n] を返す',
+      '最適化: 配列の代わりに数値を2つの変数でお手玉すれば空間 O(1) になる'
     ],
-    pros: 'O(n) time vs O(2ⁿ) for naive recursion. Demonstrates the core DP technique applicable to harder problems.',
-    cons: 'O(n) space for the table (reducible to O(1) with rolling variables). Overkill for small n.',
-    simple: "To find the 10th Fibonacci number, you need the 9th and 8th. To find the 9th, you need the 8th and 7th. A naive approach recalculates the same numbers thousands of times. Dynamic programming says: just write down each answer as you go, so you never calculate the same thing twice.",
-    analogy: '📝 Like doing a maths test — instead of re-solving every sub-problem from scratch, you jot down intermediate results on your scratch paper and look them up when needed.',
-    realLife: 'DP on Fibonacci is the entry point to dynamic programming. The same memoisation idea powers autocorrect spell-checking, DNA sequence alignment in bioinformatics, and financial option pricing models.',
-    inDepth: 'The naive recursive Fibonacci has O(2ⁿ) time because the call tree branches exponentially — fib(50) makes over a trillion calls. DP solves this with two strategies: top-down memoisation (cache results in a hash map as the recursion runs) or bottom-up tabulation (fill a dp[] array from index 0 upward).\n\nTabulation is usually preferred because it avoids recursion overhead and stack depth limits. The space can be further reduced to O(1) by keeping only the last two values (rolling variables) since dp[i] only depends on dp[i-1] and dp[i-2].\n\nFibonacci DP teaches the core DP insight: overlapping subproblems + optimal substructure = dynamic programming. The same pattern recurs in problems like Longest Common Subsequence, Coin Change, Edit Distance, and the 0/1 Knapsack — all are essentially "Fibonacci with more dimensions".',
-    similar: ['Knapsack Problem', 'Longest Common Subsequence', 'Coin Change'],
+    pros: '単純な再帰 O(2ⁿ) を O(n) まで圧縮可能。DPの本質が理解でき、難しい問題に応用できます。',
+    cons: 'テーブルの分だけメモリ O(n) を消費します（変数の使い回しで O(1) には可能）。n が非常に小さい場合は過剰な対応となります。',
+    simple: "10番目の数字を求めるには9番目と8番目が必要です。9番目を求めるには8番目と7番目が必要。普通にやると、何度も何度も同じ数字を再計算することになります。動的計画法は「答えを毎回メモしておく」ことで、同じ計算を二度としないというアプローチです。",
+    analogy: '📝 数学のテストのようなものです。毎回ゼロから途中の計算式を解き直さず、計算用紙にメモをしておいてそれを参照します。',
+    realLife: '動的計画法の登竜門です。同じメモ化のアイデアは、スペルミス修正機能、DNAの配列アラインメント解析、金融の価格決定モデルなどで強力に活躍します。',
+    inDepth: '単純な再帰は分岐が指数関数的になるため O(2ⁿ) になります。fib(50) は1兆回以上の呼び出しを行ってしまいます。DPは２つの手法でこれを解決します。「トップダウンのメモ化」（再帰の中で結果をハッシュマップに記録する）と、「ボトムアップのテーブル化」（index=0の下から埋めていく）です。\n\n基本的には再帰のオーバーヘッドとスタックあふれを回避できるボトムアップのテーブル化が好まれます。直近の２つの情報以外は捨てていく変数の工夫をすれば空間は O(1) になります。\n\n「部分問題の重複 ＋ 最適部分構造 ＝ 動的計画法」というエッセンスが詰まっています。類似するDP問題（最長共通部分列、コインチェンジ、編集距離、ナップサック問題など）は全て「変数の多いフィボナッチ」のようなものです。',
+    similar: ['ナップサック問題', '最長共通部分列', 'コインチェンジ'],
     viz: 'fibonacci-dp',
     code: {
       Python: `<span class="cm"># Fibonacci — Dynamic Programming O(n)</span>
@@ -1695,28 +1695,28 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'knapsack',
-    name: '0/1 Knapsack',
+    name: '0-1 ナップサック問題',
     category: 'Dynamic Programming',
-    explanation: 'Find the maximum value of items that fit in a weight-limited bag, each item used at most once.',
-    usecase: 'Resource allocation; financial portfolio optimization; cargo loading problems.',
+    explanation: '重さ制限のあるバッグに入る品物の最大価値を求めます。各アイテムは最大1回しか使えません。',
+    usecase: '資源の割り当て; 金融ポートフォリオの最適化; 貨物積み込み問題。',
     complexity: { best: 'O(nW)', avg: 'O(nW)', worst: 'O(nW)', space: 'O(nW)' },
-    subtitle: 'Pack smarter, not harder — dynamic programming maximizes value under constraint.',
-    description: 'The 0/1 Knapsack problem asks: given items with weights and values, and a capacity W, what is the maximum value achievable without exceeding the weight limit? DP builds a 2D table where dp[i][w] = max value using first i items with capacity w.',
+    subtitle: '賢い荷造りを — 動的計画法が制約下で価値を最大化します。',
+    description: '0-1 ナップサック問題では、重さと価値がある品物と、容量Wのナップサックを使って、制限を超えずに最大価値をどうやって得るか？を問います。DPは 2D テーブルを作り、「最初の i 個を使って重さ w での最大価値」を保存します。',
     steps: [
-      'Create dp table of size (n+1) × (W+1) initialized to 0',
-      'For each item i (1 to n):',
-      '  For each capacity w (0 to W):',
-      '    If item i weight > w: dp[i][w] = dp[i-1][w] (skip item)',
-      '    Else: dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])',
-      'Answer is dp[n][W]'
+      'サイズ (n+1) × (W+1) の dp テーブルを 0 で初期化',
+      '各アイテム i (1 から n):',
+      '  各容量 w (0 から W) に対して:',
+      '    iの重さ > w ならば: dp[i][w] = dp[i-1][w] (スキップ)',
+      '    それ以外なら: dp[i][w] = max(dp[i-1][w], dp[i-1][w - iの重さ] + iの価値)',
+      '答えは dp[n][W] になる'
     ],
-    pros: 'Exact optimal solution. Naturally handles integer weights and values.',
-    cons: 'Pseudo-polynomial O(nW) — can be slow for large W. Not suitable for fractional weights (use Greedy instead).',
-    simple: "You're packing a bag for a trip with a strict weight limit. You have items worth different amounts. You can't take everything — so which combination gives you the most total value without exceeding the weight limit? DP solves this by building a table that tracks the best value possible for every sub-weight and every subset of items.",
-    analogy: '🎒 Like a thief casing a jewellery store with a small backpack — every item has a weight and value, and you need the smartest combination that fits.',
-    realLife: 'Resource allocation in cloud computing (which jobs to run given memory limits), financial portfolio optimisation, cutting stock problems in manufacturing, and cargo loading logistics all use knapsack-style DP.',
-    inDepth: 'The 0/1 Knapsack builds a 2D DP table where dp[i][w] = maximum value achievable using the first i items with capacity w. For each item, we decide: skip it (dp[i][w] = dp[i-1][w]) or take it (dp[i][w] = dp[i-1][w-weight[i]] + value[i]), choosing whichever is larger.\n\nThe complexity O(nW) is called pseudo-polynomial because it depends on the numeric value of W, not just the input size. For W = 10⁹ this becomes infeasible — approximation algorithms or branch-and-bound are used instead.\n\nThe space can be reduced to O(W) by using a 1D array and iterating weights in reverse (so we never use the same item twice). The fractional knapsack (where you can take partial items) is solvable greedily in O(n log n) — always take the highest value-per-weight item first. But 0/1 (whole items only) requires DP because greedy is not optimal.',
-    similar: ['Fractional Knapsack', 'Coin Change', 'Subset Sum'],
+    pros: '常に厳密な最適解が得られます。整数の重みと価値に自然に対応します。',
+    cons: '擬似多項式時間 O(nW) となり、W が極度に大きい場合は遅くなります。小数の重み（分割可能な品物）には不向きです（貪欲法を使います）。',
+    simple: "旅行の鞄に厳しい重量制限があるとして、あなたには価値がバラバラな複数の荷物があります。全部は持っていけないので、「重量を超えずに価値を最大化する組み合わせは何か？」を考える必要があります。これに対する完全な答えとなるのがナップサックのDPです。",
+    analogy: '🎒 泥棒が小さなバックパックを持って宝石店に忍び込んだようなものです。アイテムごとに重さと価値があり、彼らは最適解を知りたがります。',
+    realLife: 'クラウドコンピューティングでのメモリ・CPUの割り当て、金融ポートフォリオでの利回りの最大化、物資や貨物の効率的な積み込み問題などで「ナップサック型」が多用されます。',
+    inDepth: '0/1 ナップサックは「最初のi個を使って容量wで作れる最大価値」を保存した2DなDPテーブルで構築されます。\n\n各アイテムについて「スキップ」か「取る」を選択し、価値の大きい方を更新します。\n\nO(nW)の計算量は「擬似多項式時間」と呼ばれます。これは入力されるWの値の大きさに比例し、入力の個数のみに依存しているわけではないからです。もしW=10⁹などであれば、現実的にはDPが回らないため近似アルゴリズムなどに置き換えます。\n\n重みの内側ループを「逆向き」に更新することで、配列を1次元 O(W) に小さくすることができます（同じアイテムを2回使うのを防ぐため逆である必要があります）。ちなみにアイテムを切り刻める「分数ナップサック」の場合は貪欲法 O(n log n) で解けます。',
+    similar: ['分数ナップサック', 'コインチェンジ', '部分和問題'],
     viz: 'knapsack',
     code: {
       Python: `<span class="cm"># 0/1 Knapsack — O(n × W)</span>
@@ -1760,27 +1760,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'bst',
-    name: 'Binary Search Tree',
+    name: '二分探索木 (BST)',
     category: 'Tree',
-    explanation: 'A tree where each node has at most two children, with left < node < right.',
-    usecase: 'Database indexing; autocomplete systems; maintaining a sorted dynamic set.',
+    explanation: 'すべてのノードが最大2つの子を持ち、「左 < ノード < 右」という条件を満たすツリーです。',
+    usecase: 'データベースのインデックス作成; オートコンプリート; ソートされた動的セットの維持。',
     complexity: { best: 'O(log n)', avg: 'O(log n)', worst: 'O(n)', space: 'O(n)' },
-    subtitle: 'Order in the branches — every comparison eliminates half the remaining tree.',
-    description: 'A BST is a binary tree where for each node, all left descendants are smaller and all right descendants are larger. This ordering enables efficient search, insertion, and deletion in O(log n) average time.',
+    subtitle: '枝のなかの秩序 — 全ての比較で検索対象が半分になります。',
+    description: 'BSTは、各ノードの「左側の子孫全体は小さく、右側の子孫全体は大きい」という制約を持った二分木です。この順序付けにより平均O(log n)での効率的な検索、挿入、削除が可能になります。',
     steps: [
-      'To insert: compare value with root; go left if smaller, right if larger',
-      'Repeat until an empty spot is found; insert the new node there',
-      'To search: same comparison logic — return true if found, false if null',
-      'To delete: handle 3 cases — leaf node, one child, two children (successor)',
-      'Balanced BSTs (AVL, Red-Black) guarantee O(log n) worst case'
+      '挿入: ルートの値と比較し、小さければ左、大きければ右へ進む',
+      '空きが見つかるまで繰り返し、そこに新しいノードを挿入する',
+      '検索: 同じロジックで比較する — 見つかればtrue、nullならfalseを返す',
+      '削除: 葉ノード、子が1つ、子が2つ（後継者と入れ替え）、の3ケースを処理',
+      '平衡BST（AVL、赤黒木）なら最悪 O(log n) が保証される'
     ],
-    pros: 'Fast average-case operations. Ordered traversal in O(n). Foundation for balanced trees and databases.',
-    cons: 'Degenerates to O(n) on sorted input (becomes a linked list). Balance not guaranteed without AVL/RB trees.',
-    simple: "A BST is like a filing system with a simple rule: everything smaller goes in the left drawer, everything larger goes in the right. To find something, you start at the top and follow the rule — left if your target is smaller, right if larger. You reach your file without opening every drawer.",
-    analogy: '🌳 Like a tournament bracket — each match-up eliminates half the competitors. The winner always sits in a predictable spot based on the results leading there.',
-    realLife: 'Database indexes (B-Trees are multi-level BSTs), autocomplete suggestion engines, storing sorted data with fast insert/delete, and implementing ordered sets/maps in languages all rely on BST principles.',
-    inDepth: 'A BST maintains the invariant: for any node N, all values in the left subtree are < N.val and all in the right subtree are > N.val. This makes search, insert, and delete O(log n) on average — but O(n) worst case on a degenerate (stick-shaped) tree.\n\nThe worst case occurs when you insert already-sorted data: 1, 2, 3, 4, 5 produces a linked list leaning right, with no left children at all. Self-balancing trees (AVL trees, Red-Black trees) prevent this by rotating nodes after insertions/deletions to maintain O(log n) height.\n\nIn-order traversal (left → node → right) visits all nodes in sorted ascending order in O(n) — a powerful property for range queries. BSTs are also the basis for treaps (BST + heap), splay trees (self-adjusting), and B-Trees used in file systems and relational database indexes like MySQL\'s InnoDB.',
-    similar: ['AVL Tree', 'Red-Black Tree', 'B-Tree'],
+    pros: '平均的な操作時間が高速。O(n)で順序付き走査が可能。平衡木やデータベースの土台になります。',
+    cons: 'ソート済みの入力の際に偏ってただの連結リストとなり、O(n) に劣化します。AVL/赤黒木などでないとバランスは保証されません。',
+    simple: "シンプルなルールのファイル整理だと思ってください。「小さいものは左の引き出し、大きいものは右の引き出し」。何かを探すときはこのルールに従って進めば、全ての引き出しを見なくても必ずファイルに辿り着けます。",
+    analogy: '🌳 半分の競技者をふるい落とすトーナメント表（ブラケット）のようなものです。これまでの結果に基づいて勝者が常に予測可能な場所に座ります。',
+    realLife: 'データベースのインデックス（※B-Treesは多レベルのBST）やオートコンプリートなど、挿入と削除が超高速で頻繁に行われる「ソートされたデータ構造（Set等）」で極めてよく使われます。',
+    inDepth: 'BSTは「全ての左部分木 < 自分の値 < 全ての右部分木」の不変条件（インバリアント）を維持します。検索などは平均 O(log n) になりますが、一本の直線状の木となった場合に最悪 O(n) です。\n\n『すでにソートされたデータ』を挿入すると右側にしかノードが作成されず一直線になります。これを防ぐために自己平衡型二分木（AVL木、赤黒木等）があり、操作のたびにノードの「回転」を行なって高さのバランスを維持します。\n\n通りがけ順（左→ノード→右）で探索すれば全てのノードをO(n)で昇順ソート状態で出力でき、範囲検索にも強力です。B-TreeなどのファイルシステムやMySQLのInnoDBの根幹にもなっています。',
+    similar: ['AVL木', '赤黒木', 'B木'],
     viz: 'bst',
     code: {
       Python: `<span class="cm"># Binary Search Tree</span>
@@ -1859,28 +1859,28 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'greedy-activity',
-    name: 'Activity Selection',
+    name: '活動選択問題 (Activity Selection)',
     category: 'Greedy',
-    explanation: 'Select the maximum number of non-overlapping activities by always picking the one that ends earliest.',
-    usecase: 'Meeting room scheduling; CPU job scheduling; event management systems.',
+    explanation: '最も早く終わる予定を常にピックし続けることで、重ならないイベントを最大数選択するアルゴリズムです。',
+    usecase: '会議室の予約; CPUジョブのスケジューリング; イベント管理。',
     complexity: { best: 'O(n log n)', avg: 'O(n log n)', worst: 'O(n log n)', space: 'O(1)' },
-    subtitle: 'Greedy and globally optimal — the earliest finish always leads to the best solution.',
-    description: 'Activity Selection is a classic greedy problem. By sorting activities by finish time and always selecting the next activity that starts after the current one ends, we achieve the maximum number of compatible activities — and greedy is provably optimal here.',
+    subtitle: '貪欲で大域的最適 — 常に最速で終わるものがベストな選択になります。',
+    description: '活動選択（スケジューリング）は古典的な貪欲法の問題です。「終了時刻」の早い順にソートし、いまの活動の終了時刻以降に開始される中から最も早く終わるものを常に選ぶだけで、完全に最適解を達成します。',
     steps: [
-      'Sort all activities by their finish time',
-      'Select the first activity (earliest finish)',
-      'For each remaining activity:',
-      '  If its start time ≥ finish time of last selected activity',
-      '  Select it and update last finish time',
-      'Return all selected activities'
+      '全ての活動を終了時刻の早い順でソートする',
+      '最初の活動（一番早く終わる）を選択する',
+      '残りの活動について順番に:',
+      '  もし前回選択された終了時刻よりも、その活動の開始時刻が遅ければ（＝重なっていなければ）',
+      '  これを選択し、終了時刻を上書きで記憶する',
+      '選択された活動のリストを返す'
     ],
-    pros: 'Optimal solution in O(n log n) — significantly faster than DP or brute force. Greedy choice is provably correct.',
-    cons: 'Only works for this specific problem structure. Greedy is not always correct — must prove optimality per problem.',
-    simple: "You want to attend as many events as possible today, but some overlap. The trick: always pick the event that ends the soonest (not the one that starts first, not the most interesting one). By finishing early, you leave the most room for future events. Repeat until no more events fit.",
-    analogy: '📅 Like booking meeting rooms — always confirm the meeting that ends earliest so the room is free for the most future bookings.',
-    realLife: 'Scheduling operating system jobs to maximise CPU utilisation, booking TV time slots, scheduling surgeries in a hospital, and assigning gates at an airport all use this greedy interval scheduling approach.',
-    inDepth: 'The Activity Selection problem is the classic example of a greedy algorithm that is provably optimal. The greedy choice property states: there always exists an optimal solution that includes the activity with the earliest finish time. This can be proven by an exchange argument — any optimal solution that does not include it can have its first activity swapped for the earliest-finish one without reducing the total count.\n\nSorting by finish time is O(n log n). The greedy scan is O(n). Total: O(n log n).\n\nThis algorithm generalises to the Interval Scheduling Maximisation problem. A related problem, Interval Partitioning (how many rooms are needed to schedule all activities?), is also greedy but uses a different strategy: sort by start time and assign to any compatible room. The weighted variant (maximise total value, not count) requires DP — greedy fails there.',
-    similar: ['Interval Scheduling', 'Fractional Knapsack', 'Huffman Coding'],
+    pros: 'O(n log n) の最適解 — DPや総当りよりも圧倒的に速く、貪欲な選択が数学的に証明された正解となります。',
+    cons: 'この特定の問題構造に対してのみ機能します。貪欲法は常に正しいわけではありません（問題ごとに証明が必要）。',
+    simple: "今日、重なっているイベントたちに出来るだけたくさん参加したいとします。コツは「一番開始が早いもの」でも「一番興味があるもの」でもなく、『一番早く終わるもの』を選ぶことです。早く終わらせることで未来のイベントの余地が最も大きく残り続けます。これを繰り返して予定を埋めます。",
+    analogy: '📅 会議室の予約です。常に一番早く終わる会議を確定させることで、未来の別の予約に最も多く対応できるようになります。',
+    realLife: 'CPUの稼働率を最大化するためのジョブのスケジューリング、TVの放送枠の予約、病院の手術スケジューリング、空港の搭乗ゲートの割り当て作業などで、この貪欲なアプローチが使用されます。',
+    inDepth: '活動選択問題は、貪欲法が数学的に最適であることを証明できる代表例です。最初に終了する活動を含んだ最適解が必ず存在します（交換論法によって、もしその最速終了活動を含まない別の最適解があったとしても、その一回目の活動を最速終了のものと「交換」しても干渉し得ず、そのまま最適解として成立することから証明できます）。\n\nソートに O(n log n)、その後のループは O(n) で、全体は O(n log n) です。\n\n重み付き（参加に価値が振られており、その合計を最大化する）の場合は貪欲法では破綻し、動的計画法(DP)が必要になります。また「全ての予定をこなすのに最小でいくつの会議室が必要か？」という問題の場合は戦略が変わり、『開始時刻』でソートして処理します。',
+    similar: ['区間スケジューリング', '分数ナップサック', 'ハフマン符号'],
     viz: 'activity-selection',
     code: {
       Python: `<span class="cm"># Activity Selection — O(n log n)</span>
@@ -1934,27 +1934,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'insertion-sort',
-    name: 'Insertion Sort',
+    name: '挿入ソート',
     category: 'Sort',
-    explanation: 'Builds the sorted array one element at a time by inserting each into its correct position.',
-    usecase: 'Sorting small arrays; nearly-sorted data; used as the base case in Timsort and Introsort.',
+    explanation: '1要素ずつ正しい位置に「挿入」しながらソート済みの配列を組み上げていきます。',
+    usecase: '小さな配列のソート; ほぼソート済みのデータ; Timsort等のベースアルゴリズム。',
     complexity: { best: 'O(n)', avg: 'O(n²)', worst: 'O(n²)', space: 'O(1)' },
-    subtitle: 'Sort like you would a hand of cards — pick each element and slide it into place.',
-    description: 'Insertion Sort iterates through the array, takes each element, and inserts it into its correct position among the already-sorted portion to its left. Very efficient on small or nearly-sorted data.',
+    subtitle: '手札を並び替えるようにソートする — つまみ上げて、正しい場所に滑り込ませます。',
+    description: '配列を探索し、各要素を取り出して左側のすでにソートされている部分の一番正しい位置に「挿入」します。小規模またはほぼソート済みのデータにおいて非常に効率的です。',
     steps: [
-      'Start with the second element (index 1)',
-      'Store it as the "key"',
-      'Compare with elements to its left; shift them right if they are larger',
-      'Insert the key into its correct position',
-      'Repeat for each subsequent element'
+      '2番目の要素（index 1）から開始',
+      'この要素を基準値(key)として保持する',
+      '左側の各要素と比較; もし大きければそれらを右にシフトさせる',
+      '開いた正しい位置に基準値を挿入する',
+      '残りのすべての要素に対して繰り返す'
     ],
-    pros: 'O(n) on nearly-sorted data. In-place and stable. No extra memory. Simple and cache-friendly.',
-    cons: 'O(n²) on random data. Not suitable for large unsorted arrays.',
-    simple: "Think about how you sort a hand of playing cards. You pick them up one at a time. Each new card gets slid left until it's in the right spot relative to the cards you're already holding. You build a sorted hand incrementally — that's exactly insertion sort.",
-    analogy: '🃏 Like inserting each new item into its correct position in an already-sorted row, shifting others aside to make room.',
-    realLife: 'Insertion sort is used as the base case inside Timsort (Python, Java) and Introsort (C++) for small sub-arrays where its low overhead beats O(n log n) algorithms. It is also ideal for online sorting — when data arrives one element at a time.',
-    inDepth: 'Insertion Sort maintains a sorted prefix of the array. For each element at index i, it scans leftward, shifting larger elements right until the correct gap is found, then inserts the element there.\n\nBest case O(n) occurs on nearly-sorted data — each element only needs a few shifts. Worst case O(n²) occurs on reverse-sorted input — every element shifts all the way to position 0.\n\nThe number of comparisons equals the number of inversions in the array (pairs where a[i] > a[j] for i < j). This insight links insertion sort\'s performance directly to how "disordered" the input is.\n\nModern sorts like Timsort use insertion sort for runs shorter than ~64 elements, because cache locality and low constant factors make it faster than merge sort at small sizes despite the worse asymptotic complexity.',
-    similar: ['Bubble Sort', 'Shell Sort', 'Tim Sort'],
+    pros: 'ほぼソート済みのデータなら O(n) まで高速化。インプレースで安定ソート。追加メモリ不要。キャッシュフレンドリです。',
+    cons: 'ランダムなデータに対しては O(n²)。巨大で未ソートの配列には適しません。',
+    simple: "トランプの手札をどうやって整理するか考えてみてください。1枚ずつ手に取り、新しい1枚を「今持っている手札の正しい場所」に左へ滑り込ませるはずです。この方法で構築するのが挿入ソートです。",
+    analogy: '🃏 既に並んでいる列に対して、他の項目をスライドさせて隙間を作ってから正しい位置に挿入するようなものです。',
+    realLife: 'PythonやJavaのTimsort、C++のIntrosortの中で、要素が少ない小さな部分に使われる「ベースのソート」として稼働しています。データが1要素ずつ順番にリアルタイムで到着するような手法（オンラインソート）にも非常に強力です。',
+    inDepth: '挿入ソートは、配列の左側の「ソート済み部分」を維持・拡張します。index=iの要素を取って、正しい隙間が見つかるまで大きい要素を右へシフトし続けることでその隙間に挿入します。\n\n最良ケースはほぼソートされている時に起こり、左側がほとんど入れ替わらないため O(n) です。最悪ケースは完全な逆順で全てが毎回 index=0 までシフトされる時の O(n²) です。\n\nこの比較回数は、「反転数（i < j なのに a[i] > a[j] となるペアの数）」と等しくなります。データが「どれだけ散らかっているか」に直接パフォーマンスが直結するアルゴリズムです。\n\nTimsortのような現代の最新ソートでも、小さなサイズ（64要素程度など）の時は再帰やマージ処理のオーバーヘッドよりも、キャッシュ局所性と定数倍が小さい「挿入ソート」のほうが物理ハードウェア上で圧倒的に速いという事実を利用しています。',
+    similar: ['バブルソート', 'シェルソート', 'ティムソート'],
     viz: 'bubble-sort',
     code: {
       Python: `<span class="cm"># Insertion Sort — O(n²)</span>
@@ -1990,27 +1990,27 @@ console.<span class="fn">log</span>(<span class="fn">binarySearch</span>(<span c
   },
   {
     id: 'hash-table',
-    name: 'Hash Table',
+    name: 'ハッシュテーブル',
     category: 'Search',
-    explanation: 'Maps keys to values using a hash function, enabling near-instant lookup.',
-    usecase: 'Database indexing; caches (Redis); symbol tables in compilers; counting frequencies.',
+    explanation: 'ハッシュ関数を使用してキーを値にマッピングし、ほぼ瞬時のルックアップを可能にします。',
+    usecase: 'データベースインデックス; キャッシュ (Redis等); コンパイラのシンボルテーブル; 頻度のカウント。',
     complexity: { best: 'O(1)', avg: 'O(1)', worst: 'O(n)', space: 'O(n)' },
-    subtitle: 'The key to instant lookup — hash it, slot it, find it in O(1).',
-    description: 'A Hash Table uses a hash function to map keys to bucket indices in an array. Good hash functions distribute keys uniformly, giving O(1) average-case for get, set, and delete. Collisions are handled via chaining or open addressing.',
+    subtitle: '瞬足検索の鍵 — ハッシュ化して、格納して、O(1)で見つけ出します。',
+    description: 'ハッシュテーブルは、ハッシュ関数を使用してキーを配列のバケットインデックスにマッピングします。優れたハッシュ関数はキーを均一に分散させ、取得、設定、削除の平均ケースを O(1) にします。衝突はチェイン法やオープンアドレス法で処理されます。',
     steps: [
-      'Compute hash(key) → index in the underlying array',
-      'To insert: place (key, value) at that index (handle collisions)',
-      'To get: compute hash, go to that index, return value',
-      'To delete: compute hash, find entry, remove it',
-      'Resize and rehash when load factor exceeds threshold (~0.75)'
+      'hash(key) を計算 → 基盤となる配列のインデックスにする',
+      '挿入: (キー、値) をそのインデックスに配置（衝突を処理する）',
+      '取得: ハッシュを計算し、そのインデックスに移動して値を返す',
+      '削除: ハッシュを計算し、エントリを見つけて削除する',
+      '負荷率が閾値(~0.75)を超えたら、サイズを拡張して再ハッシュする'
     ],
-    pros: 'O(1) average for all operations. Incredibly versatile. Foundation of most dictionaries and caches.',
-    cons: 'O(n) worst case with many collisions. No ordering. Hash function quality is critical.',
-    simple: "Imagine a huge wall of numbered lockers. To store your item, you run its name through a 'hash function' that converts it to a locker number. To find it later, run the same function again — bam, you go straight to the right locker. No searching, no scanning — instant access.",
-    analogy: '🔐 Like a coat check at a party — you hand in your coat, get a ticket number. Later you hand back the number and get your coat instantly, without the attendant searching through every coat.',
-    realLife: "Python dicts, JavaScript objects, Java HashMaps, database indexes, browser caches, password storage (with salted hashes), counting word frequencies in text, and Redis — all are hash tables at their core.",
-    inDepth: 'A hash table maps keys to array indices via a hash function. A good hash function distributes keys uniformly to minimise collisions (two keys mapping to the same slot). Collisions are handled via chaining (each slot holds a linked list) or open addressing (probe to the next empty slot).\n\nThe load factor α = n/m (items / slots) controls performance. When α exceeds ~0.75, the table is resized (typically doubled) and all entries are rehashed — an O(n) operation, but amortised O(1) per insert over all insertions.\n\nThe worst case O(n) happens when all keys hash to the same bucket — easily triggered by adversarial input. Modern implementations use randomised or cryptographic hash functions (SipHash in Python, Robin Hood hashing) to prevent this. Consistent hashing, a variant, distributes keys across multiple servers and is fundamental to distributed caching systems like Memcached and DynamoDB.',
-    similar: ['Binary Search', 'Trie', 'Skip List'],
+    pros: '全ての操作が平均 O(1)。信じられないほど多用途。ほとんどの辞書クラスとキャッシュの基礎。',
+    cons: '衝突が多発すると最悪 O(n) になります。順序が保証されません。ハッシュ関数の品質が極めて重要です。',
+    simple: "番号の付いた巨大なロッカーの壁を想像してください。アイテムを保管するには、その名前を「ハッシュ関数」に通してロッカー番号に変換します。後で見つけるときも、同じ関数を実行するだけ — バーン！一直線に正しいロッカーへ向かいましょう。検索もスキャンも不要な即時アクセスです。",
+    analogy: '🔐 パーティーのクローク引き換えです。コートを預けて番号札を受け取り、後で番号を見せれば、係員が全てのコートを探し回る事なく、瞬時にコートを返してくれます。',
+    realLife: 'Pythonのdict、JavaScriptのオブジェクト、JavaのHashMap、データベースのインデックス、ブラウザキャッシュ、パスワード保存、テキストの単語頻度カウント、そしてRedis — すべて中心にあるのはハッシュテーブルです。',
+    inDepth: 'ハッシュテーブルは、ハッシュ関数を介してキーを配列インデックスにマップします。良いハッシュ関数は、キーを均一に分散させて衝突（2つのキーが同じスロットにマップされること）を最小限に抑えます。衝突は、チェイン法（各スロットが連結リストを保持）またはオープンアドレス法（次の空きスロットを探す）によって処理されます。\n\n負荷率 α = n/m（アイテム数 / スロット数）がパフォーマンスを制御します。αが約0.75を超えると、テーブルのサイズが変更され（通常は2倍）、全てのエントリが再ハッシュされます — これはO(n)の操作ですが、挿入全体でならすと(償却計算量) 1回あたり O(1) になります。\n\n最悪のケース O(n) は、すべてのキーが同じバケットにハッシュされる場合に発生します — これは悪意のある入力よって簡単に引き起こされます（Hash DoS攻撃）。現在の実装では、これを防ぐためにランダム化（またはSipHashなどの暗号学的）ハッシュ関数を使用します。また派生である「コンシステントハッシュ」はキーを複数のサーバーに分散させるためのもので、MemcachedやDynamoDBのような分散キャッシュシステムの基礎となっています。',
+    similar: ['二分探索', 'トライ木 (Trie)', 'スキップリスト'],
     viz: 'hash-table',
     code: {
       Python: `<span class="cm"># Hash Table — Python dict is a hash table!</span>
@@ -2066,28 +2066,28 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
   },
   {
     id: 'a-star',
-    name: 'A* Search',
+    name: 'A* 探索 (A-Star)',
     category: 'Graph',
-    explanation: 'Uses a heuristic to find the shortest path efficiently, guiding the search directly toward the goal.',
-    usecase: 'GPS routing, game AI pathfinding, robotics navigation.',
+    explanation: 'ヒューリスティック(推測値)を使用して目標へ直接探索を導き、効率的に最短経路を見つけます。',
+    usecase: 'GPSルーティング、ゲームのAI経路探索、ロボットの自律ナビゲーション。',
     complexity: { best: 'O(E)', avg: 'O(E)', worst: 'O(b^d)', space: 'O(V)' },
-    subtitle: 'The gold standard of pathfinding — intelligent routing using heuristics.',
-    description: 'A* (A-Star) is an informed search algorithm used in pathfinding. It combines the benefits of Dijkstra\'s Algorithm (finding shortest path) and Greedy Best-First-Search (moving quickly toward the goal) by evaluating nodes based on known distance plus an estimated distance to the target (heuristic).',
+    subtitle: '経路探索の絶対的王者 — ヒューリスティックを利用した知能ルーティングです。',
+    description: 'A* (A-Star) は経路探索で使用される情報探索アルゴリズムです。「ダイクストラ法（確実な最短経路）」と「貪欲最良優先探索（ゴールに向かって一直線）」の利点を組み合わせ、(既知の距離)＋(ターゲットまでの推定距離:ヒューリスティック) に基づいてノードを評価します。',
     steps: [
-      'Initialize an open set (priority queue) and closed set (visited).',
-      'Add the start node to the open set with an f-score = g-score (0) + h-score (heuristic distance to target).',
-      'While the open set is not empty, pop the node with the lowest f-score.',
-      'If the node is the target, reconstruct and return the path.',
-      'Mark the node as closed. For each neighbor, calculate its tentative g-score.',
-      'If the path to the neighbor is shorter than previously known, update its scores and add it to the open set.'
+      'オープンセット(優先度付きキュー)とクローズドセット(訪問済み)を初期化する',
+      '開始ノードを [fスコア = gスコア(実距離0) + hスコア(推測距離)] としてオープンセットに追加する',
+      'オープンセットが空になるまで、最も fスコア が低いノードを取り出す',
+      'そのノードが目標になれば、パスを再構築して返す',
+      'ノードを「訪問済み」にする。各隣接ノードについて、仮の gスコア(実距離) を計算する',
+      'その隣接ルートが今までより短ければ、スコアを更新してオープンセットへ追加する'
     ],
-    pros: 'Extremely efficient compared to Dijkstra due to the heuristic, massively reducing the search space.',
-    cons: 'Memory intensive, and requires a well-designed admissible heuristic to guarantee optimal results.',
-    simple: "A* is like Dijkstra's with a cheat sheet. When exploring the next node, it asks two questions: how far have I already travelled, AND roughly how far is the goal from here? It always explores the node with the best combined answer first — so it heads toward the goal intelligently instead of spreading out in all directions.",
-    analogy: '🧭 Like a hiker who always picks the trail that looks closest to the mountain peak ahead — they still track the distance walked, but they also use their eyes to aim.',
-    realLife: 'Video game character pathfinding (every NPC navigating around obstacles), Google Maps finding routes through a city grid, robotics motion planning, and puzzle solvers (15-tile puzzle, Rubik\'s Cube) all use A*.',
-    inDepth: 'A* maintains a priority queue ordered by f(n) = g(n) + h(n), where g(n) is the exact cost from start to node n, and h(n) is a heuristic estimate of cost from n to the goal. If h(n) is admissible (never overestimates the true remaining cost), A* is guaranteed to find the optimal path.\n\nCommon heuristics: Manhattan distance (grid movement without diagonals), Euclidean distance (free movement), or Chebyshev distance (with diagonals). Choosing h = 0 reduces A* to Dijkstra\'s. Choosing h = true remaining cost makes it perfectly efficient but usually impossible to compute.\n\nThe trade-off between optimality and speed: a larger (inadmissible) h finds a path faster but it may not be optimal — useful in games where near-optimal is good enough. A* with a consistent (monotone) heuristic guarantees that once a node is settled, it never needs to be re-examined, making it as efficient as Dijkstra\'s while exploring far fewer nodes in practice.',
-    similar: ['Breadth-First Search', 'Dijkstra\'s Algorithm'],
+    pros: 'ヒューリスティックによる恩恵で、探索空間が大幅に削減されるため、ダイクストラ法に比べて非常に効率的です。',
+    cons: 'メモリを大量に消費します。また、最適な結果を保証するにはよく考慮された許容的なヒューリスティックが必要です。',
+    simple: "チートシートの付いたダイクストラのようなものです。次の地点へ進むとき「すでにどれだけ歩いたか？」と「ここからゴールまで大体どれくらいか？」の2つを尋ねます。A*は両方を合わせた答えが常に一番良いものから探索するため、四方八方に広がるのではなくゴールへ向かって賢く一直線に進みます。",
+    analogy: '🧭 前方の山の頂上に一番近そうに見える道を常に選ぶハイカーと同じです。歩いた距離の記録はしますが、目標に狙いを定めるために眼も使います。',
+    realLife: 'テレビゲームのキャラクターの道探し（障害物を回避する全NPC）、Googleマップ、ロボットの動き、15パズルやルービックキューブを解くプログラムなどでA*が使われます。',
+    inDepth: 'A*は優先度付きキューで f(n) = g(n) + h(n) のスコア順に管理します。g(n)は真のコスト、h(n)は目標への推測コスト(ヒューリスティック)です。h(n) が「許容的（アドミシブル：実際のコストを絶対に過大評価しないこと）」であれば、A*は必ず最適なパスを見つけ出すことができます。\n\n一般的なヒューリスティックの例: マンハッタン距離(斜め移動不可)、ユークリッド距離(自由移動)、チェビシェフ距離(斜め移動可)。h=0を指定するとダイクストラ法と全く同じになります。真の残りコストを完璧に充てられた場合は、無駄な探索が完全に0の最高の効率になりますが、それを計算するのは通常不可能です。\n\n速度と正確性のトレードオフ：あえて条件を破る（大きなh）を設定すると、探索は速くなりますが、最適パスからは外れる可能性があります。テレビゲームのNPCなど「まぁまぁ最適なら十分」といったケースではよく使われます。',
+    similar: ['幅優先探索 (BFS)', 'Dijkstra\'s Algorithm'],
     viz: 'astar',
     code: {
       Python: `<span class="cm"># A* Search — Graph Pathfinding</span>
@@ -2163,27 +2163,27 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
   },
   {
     id: 'lru-cache',
-    name: 'LRU Cache',
+    name: 'LRU キャッシュ',
     category: 'Data Structure',
-    explanation: 'A memory cache that removes the least recently used elements when it reaches capacity.',
-    usecase: 'Browser history, database caching, Redis implementations.',
+    explanation: '容量に達したとき、最も「最近使われていない」要素から順番に削除するメモリキャッシュ構造です。',
+    usecase: 'ブラウザの履歴、データベースのキャッシュ処理、Redisの実装。',
     complexity: { best: 'O(1)', avg: 'O(1)', worst: 'O(1)', space: 'O(N)' },
-    subtitle: 'The ultimate performance booster — remembering what matters most.',
-    description: 'An LRU (Least Recently Used) Cache is an advanced data structure that efficiently caches elements until it reaches a fixed capacity. Once full, the oldest unaccessed item is evicted. To achieve O(1) performance for both reads and writes, it combines a Hash Map with a Doubly Linked List.',
+    subtitle: '究極のパフォーマンスブースター — 重要なことだけを覚えておく。',
+    description: 'LRU キャッシュは、固定容量に達するまで要素を効率的にキャッシュする高度なデータ構造です。いっぱいになると、最後にアクセスされたのが最も古いアイテムから破棄されます。読み書き両方のパフォーマンスを O(1) にするために、ハッシュマップと双方向連結リストを組み合わせます。',
     steps: [
-      'Initialize a Doubly Linked List (to track access history) and a Hash Map (for fast lookups).',
-      'GET: If the key exists in Hash Map, move the corresponding Linked List node to the HEAD and return the value.',
-      'PUT: If the key exists, update the value and move the node to the HEAD.',
-      'PUT: If the key is new, add it to the Hash Map and insert a new node at the HEAD.',
-      'If inserting a new node exceeds capacity, remove the TAIL node from the Linked List and delete it from the Hash Map.'
+      '【初期化】履歴用の「双方向連結リスト」と、検索用の「ハッシュマップ」を作成する',
+      '【取得】ハッシュマップにキーが存在する場合、対応する連結リストのノードを一番「HEAD」に直結させ、値を返す',
+      '【挿入】すでにキーが存在する場合、値を更新し、ノードを「HEAD」に動かす',
+      '【挿入】キーが新しい場合、ハッシュマップに追加し、「HEAD」に挿入する',
+      '「TAIL」にあるリストの末尾ノードを削除し、ハッシュマップからも削除する。'
     ],
-    pros: 'Extremely fast O(1) data retrieval and updates. Perfect for real-world memory management scenarios.',
-    cons: 'Requires additional O(N) memory overhead for storing the hash map and doubly linked list pointers.',
-    simple: "Your brain can only hold so many things at once. When you learn something new, the thing you haven't used in the longest time gets forgotten to make room. That's LRU — a fixed-size cache that evicts the Least Recently Used item whenever it's full. Most-used things stay, stale things go.",
-    analogy: '📺 Like a DVR with limited storage — when it fills up, the oldest recording you haven\'t watched gets automatically deleted to make room for the new one.',
-    realLife: 'CPU L1/L2 cache memory, browser cache (which web pages to keep loaded), CDN edge caches, database buffer pools (PostgreSQL, MySQL), and Redis\'s maxmemory eviction policy all implement LRU or a variant of it.',
-    inDepth: 'An LRU Cache needs two operations in O(1): get(key) and put(key, value). A hash map alone gives O(1) lookup but cannot efficiently track access order. A doubly linked list alone tracks order but lookup is O(n). Combining both gives O(1) for everything.\n\nThe list keeps nodes ordered from most-recently-used (head) to least-recently-used (tail). The hash map stores key → list node pointers. On get: look up the node, move it to the head in O(1) via pointer manipulation. On put: insert at head; if over capacity, remove tail and delete from the map.\n\nVariants include LFU (Least Frequently Used — evicts the item accessed fewest times, better for temporal locality), CLOCK (approximation of LRU with a circular buffer and reference bits), and ARC (Adaptive Replacement Cache — used in ZFS). Python\'s functools.lru_cache decorator implements this pattern for memoising function calls.',
-    similar: ['Hash Table'],
+    pros: '非常に高速な O(1) でのデータ検索と更新。現実世界のメモリやキャッシュの管理シナリオにおいて完璧に機能します。',
+    cons: 'ハッシュマップと、リストの「前」「後」のポインターを両方保存するための追加のメモリオーバーヘッド O(N) が必要になります。',
+    simple: "人間の脳の短期記憶と同じです。何か新しいことを覚えるとき、一番長い間使っていなかった考えが、空きを作るために忘れ去られます。これがLRU — 「最も最近使われなかったもの」を消去する固定サイズのキャッシュです。よく使うものは滞在し、古いものは消えます。",
+    analogy: '📺 容量の限られた録画機のようなものです。容量がいっぱいになると、新しい録画を入れる領域を開けるために「一番古い見ていない録画」が自動的に削除されます。',
+    realLife: 'CPUのL1/L2キャッシュ、ブラウザのキャッシュ（重いWebページをメモリに保持する）、CDNのエッジサーバー、DBのバッファープール、Redisのevictionポリシーの根底機能として組み込まれています。',
+    inDepth: 'LRUには取得と保存の O(1) オペレーションが必要です。ハッシュマップ単体ではO(1)ですがアクセス順序を追跡できせん。双方向連結リスト単体は順序を追跡できますが検索の O(n) です。これらを「双方向にポインターを持ったハッシュマップのリスト」に組み合わせることで全てが O(1) になります。\n\nハッシュは (キー → リストのノード) へのポインターを保存し、リストは利用順の情報を保持します。取得時はノードをポインターで参照し、ポインターをつなぎ変えてO(1)で末尾へ移動させます。はみ出た要素はO(1)で削除されます。\n\n派生形には LFU（Least Frequently Used: 利用「頻度」が一番少ないものを削除）、CLOCK構造、ARC（ZFSで使用される適応型）などがあります。Pythonの @lru_cache デコレーター等もこれの同じパターンです。',
+    similar: ['ハッシュテーブル'],
     viz: 'lru-cache',
     code: {
       Python: `<span class="cm"># LRU Cache using Python's OrderedDict</span>
@@ -2260,28 +2260,28 @@ Map&lt;String, Integer&gt; <span class="var">map</span> <span class="op">=</span
   },
   {
     id: 'trie',
-    name: 'Trie (Prefix Tree)',
+    name: 'トライ木 (Trie)',
     category: 'Tree',
-    explanation: 'A tree where each node represents a character, used for incredibly fast multi-string searching.',
-    usecase: 'Autocomplete forms, spell checkers, IP routing protocols.',
+    explanation: '文字列を1文字ずつのノードで表現したツリー構造で、超高速な文字列のプレフィックス(前方一致)検索に使用されます。',
+    usecase: 'オートコンプリート; スペルチェッカー; IPルーティングプロトコル。',
     complexity: { best: 'O(M)', avg: 'O(M)', worst: 'O(M)', space: 'O(W*M)' },
-    subtitle: 'The autocomplete enabler — fast, character-by-character storage.',
-    description: 'A Trie is an efficient information retrieval data structure used to store a massive number of strings. The traversal matches the prefix of a string character by character. If memory allows, it is much faster than hash maps for partial matching.',
+    subtitle: 'オートコンプリートの立役者 — 文字ごとに保存する超速ストレージ。',
+    description: 'トライ(Trie)は、大量の文字列を保存するために使用される効率的な情報検索データ構造です。ツリーのトラバーサルが文字ごとの前方一致(プレフィックス)の完全一致になります。メモリに余裕さえあれば、部分一致や前方一致においてはハッシュマップより圧倒的に高速です。',
     steps: [
-      'Initialize an empty root node holding a dictionary (hash map) of children.',
-      'INSERT: Start at root. For each character in the string, traverse down.',
-      'If the character node does not exist, create it.',
-      'Mark the final character node with a boolean (e.g., isEnd = true).',
-      'SEARCH: Traverse the tree matching each character.',
-      'Return true if the full string matches and ends on a valid isEnd node.'
+      '子の辞書(ハッシュマップ)を持つ空のルートノードを初期化する',
+      '挿入: ルートから開始し、挿入したい文字列の文字ごとに下に降りていく',
+      'その文字のノードが存在しない場合は、新しくノードを作成する',
+      '文字列の最後のノードに「ここで終了」の印（isEnd = trueなど）を付ける',
+      '検索: 検索したい文字ごとにトラバースして降りていく',
+      '文字列が完全に一致し、最後のノードに有効なisEndが付いていれば完了(見つかった)'
     ],
-    pros: 'Extremely fast O(M) lookup times where M is the word length. Perfectly solves prefix-based matches.',
-    cons: 'Highly memory intensive. Storing lots of similar strings can balloon space usage.',
-    simple: "A Trie is a tree where each step down spells out one letter of a word. To store 'cat', you follow c → a → t and mark t as a word ending. To find 'car', you follow c → a → r. All words sharing a prefix share the same path — so you can suggest every word starting with 'ca' just by walking to that node and listing everything below.",
-    analogy: '📱 Like a phone keyboard\'s autocomplete — as you type each letter, the keyboard narrows down suggestions by following a tree of all known words, one character at a time.',
-    realLife: 'Search engine autocomplete, spell checkers, T9 phone input, IP address routing tables (longest prefix match), and contact search on your phone all rely on Trie structures.',
-    inDepth: 'A Trie (from re-TRIE-val) stores strings character by character in a tree where each edge represents one character. Each node has up to 26 children (for lowercase English) or a hashmap of children for arbitrary alphabets. A boolean isEnd flag marks complete words.\n\nLookup, insert, and prefix search all run in O(M) where M is the word length — independent of how many words are stored. This beats hash tables for prefix queries: a hash table can find an exact word in O(M) but cannot list all words with a given prefix without scanning all keys.\n\nThe memory cost is significant: a node with an array of 26 children uses 26 × pointer_size bytes regardless of how many children actually exist. A compressed Trie (Patricia tree / Radix tree) merges nodes with single children, drastically reducing space. This is what most production implementations (IP routing, suffix arrays in bioinformatics) actually use.',
-    similar: ['Binary Search Tree', 'Hash Table'],
+    pros: '単語の長さをMとした時、検索コストが驚異的な O(M) になります。前方一致やプレフィックスの一致を完璧に解決します。',
+    cons: '非常にメモリを消費します。共通接頭辞のない大量の文字列を保存すると空間使用量が爆発します。',
+    simple: "1段降りるごとに1文字を綴っていくツリー構造です。「cat」を保存するにはルートから c → a → t と進み、t の部分に「単語の終わり」の印を付けます。「car」なら c → a → r です。プレフィックス(接頭文字)を共有する単語は同じパスを共有するため、「ca」から始まる全ての単語を提案するには、caのノードまで歩いていき、そこから下にある全ての終了印をリストアップするだけで済みます。",
+    analogy: '📱 スマホのキーボードの予測変換です。「か」と打てば、そこから枝分かれする全ての「か」で始まる予測が表示されます。文字を入力するごとにツリーを1つ降り、予測が絞り込まれます。',
+    realLife: 'Googleなどの検索エンジンのオートコンプリート欄、Wordのスペルチェッカー、ルーターのIPアドレスルーティングテーブル（ロンゲストプレフィックスマッチ）、スマホの連絡先検索などは全てこのトライ構造に依存しています。',
+    inDepth: 'トライは「re-TRIE-val（検索）」から名付けられました。各ノードは（小文字アルファベットなら）26個の配列の子、またはハッシュマップの子を持ちます。booleanのフラグで「単語の終端」を示します。\n\n検索、挿入、前方一致がいずれも「単語の長さM」だけで完結する O(M) となり、百万個の単語が保存されていようと関係ありません。「特定の文字で始まる単語のリストアップ」においては、ハッシュテーブルですら太刀打ちできません。\n\nただし、メモリコストは甚大です。アルファベット構造ならノードごとに [空っぽでも26個のポインタ × そのバイト数] を無駄に消費します。これを解決するために、子を持たない1本道のパス同士をマージして圧縮した「パトリシア木（基数木 / Radix Tite）」が使われます。実際のプロダクション（IPルーティングや生命情報科学のサフィックスアレイ）などではこの圧縮されたトライが主役です。',
+    similar: ['二分探索木 (BST)', 'ハッシュテーブル'],
     viz: 'trie',
     code: {
       Python: `<span class="cm"># Trie Implementation</span>
@@ -2460,16 +2460,16 @@ function showDetail(id) {
 
   // Complexity cards
   document.getElementById('d-complexity').innerHTML = `
-    <div class="complexity-card"><div class="label">Best</div><div class="value">${a.complexity.best}</div></div>
-    <div class="complexity-card"><div class="label">Average</div><div class="value">${a.complexity.avg}</div></div>
-    <div class="complexity-card"><div class="label">Worst</div><div class="value">${a.complexity.worst}</div></div>
-    <div class="complexity-card space"><div class="label">Space</div><div class="value">${a.complexity.space}</div></div>
+    <div class="complexity-card"><div class="label">最良</div><div class="value">${a.complexity.best}</div></div>
+    <div class="complexity-card"><div class="label">平均</div><div class="value">${a.complexity.avg}</div></div>
+    <div class="complexity-card"><div class="label">最悪</div><div class="value">${a.complexity.worst}</div></div>
+    <div class="complexity-card space"><div class="label">空間</div><div class="value">${a.complexity.space}</div></div>
   `;
 
   // Info grid — How It Works + Pros/Cons
   document.getElementById('d-info-grid').innerHTML = `
     <div class="detail-card">
-      <h3>How It Works</h3>
+      <h3>仕組み</h3>
       <p>${a.description}</p>
       <br>
       <ul class="steps-list">
@@ -2477,10 +2477,10 @@ function showDetail(id) {
       </ul>
     </div>
     <div class="detail-card">
-      <h3>Advantages</h3>
+      <h3>長所</h3>
       <p>${a.pros}</p>
       <br>
-      <h3>Trade-offs</h3>
+      <h3>トレードオフ</h3>
       <p>${a.cons}</p>
     </div>
   `;
@@ -2489,15 +2489,15 @@ function showDetail(id) {
   document.getElementById('d-explain-section').innerHTML = `
     <div class="explain-top">
       <div class="explain-card simple">
-        <div class="explain-card-label">💡 Simple Explanation</div>
+        <div class="explain-card-label">💡 簡単な説明</div>
         <p>${a.simple || a.description}</p>
       </div>
       <div class="explain-card analogy">
-        <div class="explain-card-label">🔗 Analogy</div>
+        <div class="explain-card-label">🔗 例え話</div>
         <p>${a.analogy || '—'}</p>
       </div>
       <div class="explain-card reallife">
-        <div class="explain-card-label">🌍 Real-Life Use</div>
+        <div class="explain-card-label">🌍 実際の利用例</div>
         <p>${a.realLife || a.usecase}</p>
       </div>
     </div>
@@ -2507,7 +2507,7 @@ function showDetail(id) {
   const inDepthParas = (a.inDepth || '').split('\n\n').filter(Boolean);
   document.getElementById('d-indepth-section').innerHTML = inDepthParas.length ? `
     <div class="indepth-card">
-      <h3>In Depth</h3>
+      <h3>詳細解説</h3>
       <div class="indepth-paragraphs">
         ${inDepthParas.map(p => `<p>${p}</p>`).join('')}
       </div>
@@ -2534,7 +2534,7 @@ function showDetail(id) {
   // Similar
   document.getElementById('d-footer').innerHTML = `
     <div>
-      <div class="similar-label">Related Algorithms</div>
+      <div class="similar-label">関連アルゴリズム</div>
       <div class="similar-chips">
         ${a.similar.map(s => {
           const found = algorithms.find(x => x.name === s);
@@ -2543,7 +2543,7 @@ function showDetail(id) {
       </div>
     </div>
     <div style="text-align:right">
-      <div class="similar-label">Complexity</div>
+      <div class="similar-label">計算量</div>
       <span class="complexity-badge" style="font-size:0.85rem">${a.complexity.avg}</span>
     </div>
   `;
